@@ -8,18 +8,22 @@ import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 
-const App = () => {
+const App = ({state}) => {
+
+    const createComponentProfile = () => <Profile state={state.profilePage} />
+    const createComponentDialogs = () => <Dialogs state={state.dialogPage} />
+
     return (
         <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
-                <Navbar/>
+                <Navbar state={state.sidebar}/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} component={Profile}/>
-                    <Route path={'/dialogs'} component={Dialogs}/>
-                    <Route path={'/news'} component={News}/>
-                    <Route path={'/music'} component={Music}/>
-                    <Route path={'/settings'} component={Settings}/>
+                    <Route path={'/profile'} render={createComponentProfile}/>
+                    <Route path={'/dialogs'} render={createComponentDialogs}/>
+                    <Route path={'/news'} render={News}/>
+                    <Route path={'/music'} render={Music}/>
+                    <Route path={'/settings'} render={Settings}/>
                 </div>
             </div>
         </BrowserRouter>
