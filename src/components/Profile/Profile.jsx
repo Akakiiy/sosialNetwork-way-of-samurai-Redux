@@ -2,12 +2,12 @@ import s from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = ({state}) => {
+const Profile = ({state ,addPost, changeNewPostTextarea}) => {
 
     return (
         <div className={s.content}>
             <ProfileInfo />
-            <MyPosts posts={state.posts} />
+            <MyPosts state={state} addPost={addPost} changeNewPostTextarea={changeNewPostTextarea}/>
         </div>
     )
 }

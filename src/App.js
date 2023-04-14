@@ -8,16 +8,20 @@ import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 
-const App = ({state}) => {
+const App = (props) => {
 
-    const createComponentProfile = () => <Profile state={state.profilePage} />
-    const createComponentDialogs = () => <Dialogs state={state.dialogPage} />
+    const createComponentProfile = () => <Profile state={props.state.profilePage}
+                                                  addPost={props.addPost}
+                                                  changeNewPostTextarea={props.changeNewPostTextarea} />
+    const createComponentDialogs = () => <Dialogs state={props.state.dialogPage}
+                                                  addDialogMessage={props.addDialogMessage}
+                                                  changeDialogMessage={props.changeDialogMessage} />
 
     return (
         <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
-                <Navbar state={state.sidebar}/>
+                <Navbar state={props.state.sidebar}/>
                 <div className={'app-wrapper-content'}>
                     <Route path={'/profile'} render={createComponentProfile}/>
                     <Route path={'/dialogs'} render={createComponentDialogs}/>
