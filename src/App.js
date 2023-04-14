@@ -9,7 +9,6 @@ import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 
 const App = (props) => {
-
     const createComponentProfile = () => <Profile state={props.state.profilePage}
                                                   addPost={props.addPost}
                                                   changeNewPostTextarea={props.changeNewPostTextarea} />
