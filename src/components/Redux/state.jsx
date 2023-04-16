@@ -1,8 +1,9 @@
+import reducerProfile from "./reducer-profile";
+import reducerDialogs from "./reducer-dialogs";
+import reducerSidebar from "./reducer-sidebar";
+
 let store = {
-    _callSubscriber () {
-        console.log('Если есть сообщение в консоли, значит нарушен ПАТЕРН НАБЛЮДАТЕЛЯ');
-    },
-    _state : {
+    _state: {
         profilePage: {
             posts: [
                 {id: 1, postMessage: 'Hi, how are u doing?', likesCount: 10},
@@ -33,37 +34,23 @@ let store = {
             ],
         },
     },
-    getState () {
-        return this._state;
+
+    _callSubscriber() {
+        console.log('Если есть сообщение в консоли, значит нарушен ПАТЕРН НАБЛЮДАТЕЛЯ');
     },
-    addPost (postMessage) {
-        let newPostMessage = {
-            id: 3,
-            postMessage: postMessage,
-            likesCount: 210,
-        }
-        this._state.profilePage.posts.push(newPostMessage);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state);
-    },
-    subscribe (observer) {
+
+    subscribe(observer) {
         this._callSubscriber = observer;
     },
-    changeNewPostTextarea (text) {
-        this._state.profilePage.newPostText = text;
-        this._callSubscriber(this._state);
+    getState() {
+        return this._state;
     },
-    addDialogMessage (dialogMessage) {
-        let newDialogMessage = {
-            id: 4,
-            message: dialogMessage,
-        };
-        this._state.dialogPage.messages.push(newDialogMessage);
-        this._state.dialogPage.newMessageText = '';
-        this._callSubscriber(this._state);
-    },
-    changeDialogMessage (dialogMessageText) {
-        this._state.dialogPage.newMessageText = dialogMessageText;
+
+    dispatch(action) {
+
+        reducerProfile(this._state.profilePage, action);
+        reducerDialogs(this._state.dialogPage, action);
+        reducerSidebar(this._state.sidebar, action);
         this._callSubscriber(this._state);
     },
 };

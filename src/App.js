@@ -10,17 +10,15 @@ import Settings from "./components/Settings/Settings";
 
 const App = (props) => {
     const createComponentProfile = () => <Profile state={props.state.profilePage}
-                                                  addPost={props.addPost}
-                                                  changeNewPostTextarea={props.changeNewPostTextarea} />
+                                                  dispatch={props.dispatch} />
     const createComponentDialogs = () => <Dialogs state={props.state.dialogPage}
-                                                  addDialogMessage={props.addDialogMessage}
-                                                  changeDialogMessage={props.changeDialogMessage} />
+                                                  dispatch={props.dispatch} />
 
     return (
         <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
-                <Navbar state={props.state.sidebar}/>
+                <Navbar state={props.state.sidebar}  />
                 <div className={'app-wrapper-content'}>
                     <Route path={'/profile'} render={createComponentProfile}/>
                     <Route path={'/dialogs'} render={createComponentDialogs}/>

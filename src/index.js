@@ -9,10 +9,7 @@ export const rerenderEntireTree = (state) => {
     root.render(
         <React.StrictMode>
             <App state={state}
-                 addPost={store.addPost.bind(store)}
-                 changeNewPostTextarea={store.changeNewPostTextarea.bind(store)}
-                 addDialogMessage={store.addDialogMessage.bind(store)}
-                 changeDialogMessage={store.changeDialogMessage.bind(store)} />
+                 dispatch={store.dispatch.bind(store)} />
         </React.StrictMode>
     );
 };

@@ -1,21 +1,25 @@
 import s from './MyPosts.module.css';
 import React from "react";
 import Post from "./Post/Post";
+import {
+    addPostActionCreator,
+    changeNewPostTextareaActionConstructor,
+} from "../../Redux/reducer-profile";
 
-const MyPosts = ({state, addPost, changeNewPostTextarea}) => {
+const MyPosts = ({state, dispatch}) => {
 
     const postsElements = state.posts.map((p, i) => <Post key={i} id={p.id} message={p.postMessage} likesCount={p.likesCount} />);
 
     const newPostText = React.createRef();
 
     const addNewPost = () => {
-        let text = newPostText.current.value;
-        addPost(text);
+        dispatch(addPostActionCreator());
     };
 
     const changeTextarea = () => {
         let text = newPostText.current.value;
-        changeNewPostTextarea(text);
+        // changeNewPostTextarea(text);
+        dispatch(changeNewPostTextareaActionConstructor(text));
     };
 
     return (

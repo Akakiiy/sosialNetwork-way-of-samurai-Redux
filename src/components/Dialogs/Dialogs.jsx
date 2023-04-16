@@ -2,8 +2,9 @@ import s from './Dialogs.module.css';
 import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Messages/Message";
+import {addDialogMessageActionConstructor, changeDialogMessageActionConstructor} from "../Redux/reducer-dialogs";
 
-const Dialogs = ({state, addDialogMessage, changeDialogMessage}) => {
+const Dialogs = ({state, dispatch}) => {
 
     const dialogElements = state.dialogs.map((dialog, i) => <DialogItem key={i} name={dialog.name} id={dialog.id} />);
 
@@ -12,13 +13,12 @@ const Dialogs = ({state, addDialogMessage, changeDialogMessage}) => {
     const messageText = React.createRef();
 
     const addMessageText = () => {
-        let message = messageText.current.value;
-        addDialogMessage(message);
+        dispatch(addDialogMessageActionConstructor());
     }
 
     const changeMessageText = () => {
         let message = messageText.current.value;
-        changeDialogMessage(message)
+        dispatch(changeDialogMessageActionConstructor(message));
     }
 
     return (
