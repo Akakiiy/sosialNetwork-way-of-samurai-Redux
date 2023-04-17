@@ -1,36 +1,21 @@
 import s from './MyPosts.module.css';
 import React from "react";
 import Post from "./Post/Post";
-import {
-    addPostActionCreator,
-    changeNewPostTextareaActionConstructor,
-} from "../../Redux/reducer-profile";
 
-const MyPosts = ({state, dispatch}) => {
+const MyPosts = (props) => {
 
-    const postsElements = state.posts.map((p, i) => <Post key={i} id={p.id} message={p.postMessage} likesCount={p.likesCount} />);
-
-    const newPostText = React.createRef();
-
-    const addNewPost = () => {
-        dispatch(addPostActionCreator());
-    };
-
-    const changeTextarea = () => {
-        let text = newPostText.current.value;
-        // changeNewPostTextarea(text);
-        dispatch(changeNewPostTextareaActionConstructor(text));
-    };
+    const postsElements = props.posts.map((p, i) => <Post key={i} id={p.id} message={p.postMessage} likesCount={p.likesCount} />);
 
     return (
         <div className={s.postsContainer}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea value={state.newPostText} ref={newPostText} onChange={changeTextarea}/>
+                    <textarea value={props.newPostText}
+                              onChange={props.changeTextarea} />
                 </div>
                 <div>
-                    <button onClick={addNewPost}>Добавить пост</button>
+                    <button onClick={props.addNewPost} >Добавить пост</button>
                 </div>
                 <div>
                     <button>Удалить пост</button>

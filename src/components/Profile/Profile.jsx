@@ -1,13 +1,13 @@
 import s from './Profile.module.css';
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
-const Profile = ({state , dispatch}) => {
+const Profile = (props) => {
 
     return (
         <div className={s.content}>
             <ProfileInfo />
-            <MyPosts state={state} dispatch={dispatch} />
+            <MyPostsContainer store={props.store}/>
         </div>
     )
 }

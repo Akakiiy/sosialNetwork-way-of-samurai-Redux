@@ -1,7 +1,15 @@
 const addPost = 'ADD-POST';
 const changeNewPostTextarea = 'CHANGE-NEW-POST-TEXTAREA';
 
-const reducerProfile = (state, action) => {
+let initialState = {
+    posts: [
+        {id: 1, postMessage: 'Hi, how are u doing?', likesCount: 10},
+        {id: 2, postMessage: 'It\'s my first post', likesCount: 20},
+    ],
+    newPostText: '',
+};
+
+const reducerProfile = (state = initialState, action) => {
     switch (action.type) {
         case addPost:
             let newPostMessage = {

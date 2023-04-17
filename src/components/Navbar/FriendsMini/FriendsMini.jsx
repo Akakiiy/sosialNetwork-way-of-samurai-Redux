@@ -1,8 +1,8 @@
 import s from './FriendsMini.module.css';
 import FriendMin from "./FriendMin/FriendMin";
 
-const FriendsMini = ({friends}) => {
-    let friendsElements = friends.map((friendObj, i) => <FriendMin key={i} state={friendObj}/>)
+const FriendsMini = (props) => {
+    let friendsElements = props.friends.map((friendObj, i) => <FriendMin key={i} state={friendObj}/>)
 
     return (
         <div>

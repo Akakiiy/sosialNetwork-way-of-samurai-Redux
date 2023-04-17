@@ -1,19 +1,23 @@
-import store from "./components/Redux/state";
+import store from "./components/Redux/store-redux";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-export const rerenderEntireTree = (state) => {
+export const rerenderEntireTree = () => {
     root.render(
         <React.StrictMode>
-            <App state={state}
-                 dispatch={store.dispatch.bind(store)} />
+            <App store={store}/>
         </React.StrictMode>
     );
 };
 
 rerenderEntireTree(store.getState());
 
-store.subscribe(rerenderEntireTree); //Здесь мы используем ПАТЕРН НАБЛЮДАТЕЛЯ и подписываем функцию в стейт, на наш ререндер странички.
+// store.subscribe(() => { это наша подписка на ререндер дерева
+//     let state = store.getState(); так как redux не сообщает подпищикам что в них приходит, то есть не передает стейт
+//     rerenderEntireTree(state);  мы делаем это в речную, извлекая стейт из стора и передавая вне редакса
+// }); так как я сразу переписал, на грубый проброс стора до Контейнерных компонентов перепишем по нормальному....
+
+store.subscribe(rerenderEntireTree);
