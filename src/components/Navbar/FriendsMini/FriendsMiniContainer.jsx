@@ -1,9 +1,18 @@
 import FriendsMini from "./FriendsMini";
+import {connect} from "react-redux";
 
-const FriendsMiniContainer = (props) => {
-    let state = props.store.getState();
+const mapStateToProps = (state) => {
+    return {
+        friends: state.sidebar.friends,
+    };
+};
 
-    return <FriendsMini friends={state.sidebar.friends} />
-}
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
+const FriendsMiniContainer = connect(mapStateToProps, mapDispatchToProps)(FriendsMini);
 
 export default FriendsMiniContainer;

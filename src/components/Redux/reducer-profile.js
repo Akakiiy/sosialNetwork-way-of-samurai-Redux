@@ -17,13 +17,16 @@ const reducerProfile = (state = initialState, action) => {
                 postMessage: state.newPostText,
                 likesCount: 210,
             }
-
-            state.posts.push(newPostMessage);
-            state.newPostText = '';
-            return state
+            return {
+                ...state,
+                newPostText: '',
+                posts: [...state.posts, newPostMessage],
+            }
         case changeNewPostTextarea:
-            state.newPostText = action.newPostTextareaText;
-            return state;
+            return {
+                ...state,
+                newPostText: action.newPostTextareaText,
+            }
         default :
             return state;
     }

@@ -24,13 +24,16 @@ const reducerDialogs = (state = initialState, action) => {
                 id: 4,
                 message: state.newMessageText,
             };
-
-            state.messages.push(newDialogMessage);
-            state.newMessageText = '';
-            return state;
+            return {
+                ...state,
+                newMessageText: '',
+                messages: [...state.messages, newDialogMessage],
+            }
         case changeDialogMessage:
-            state.newMessageText = action.dialogMessageText;
-            return state;
+            return {
+                ...state,
+                newMessageText: action.dialogMessageText
+            }
         default:
             return state;
     }
