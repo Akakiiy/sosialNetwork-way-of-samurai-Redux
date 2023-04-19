@@ -1,14 +1,16 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
-const UPLOAD_USERS = 'UPLOAD-USERS';
-const CHANGE_CURRENT_PAGE = 'CHANGE-CURRENT-PAGE';
-const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT';
+const UPLOAD_USERS = 'UPLOAD_USERS';
+const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
 
 let initialState = {
     users: [],
     totalUsersCount : null,
     currentPage: 1,
     uploadingUsers: 8,
+    isLoading: false,
 };
 
 const reducerUsers = (state = initialState, action) => {
@@ -48,6 +50,11 @@ const reducerUsers = (state = initialState, action) => {
                 ...state,
                 totalUsersCount: action.totalUsersCount,
             }
+        case TOGGLE_PRELOADER:
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            }
         default :
             return state;
     }
@@ -84,6 +91,13 @@ export const setTotalUsersCountAC = (totalUsersCount) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalUsersCount: totalUsersCount,
+    }
+}
+
+export const togglePreloaderAC = (isLoading) => {
+    return {
+        type: TOGGLE_PRELOADER,
+        isLoading: isLoading,
     }
 }
 
