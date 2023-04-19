@@ -2,11 +2,14 @@
     padding: 20px;
 }
 .user {
+    padding: 10px;
     display: flex;
     margin-top: 20px;
     border: 1px solid;
     width: 70%;
     border-radius: 5px;
+    background-color: rgba(45, 245, 158, 0.47);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .userImg {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -47,4 +50,28 @@
 }
 .userLocation {
     margin-top: 10px;
+}
+.pages {
+    margin: 0 auto;
+    padding: 5px;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(241, 176, 30, 0.86);
+    border-radius: 5px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+.page {
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.activePage {
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color: #ff2a2a;
+    color: gold;
+    transition: all .5s;
 }

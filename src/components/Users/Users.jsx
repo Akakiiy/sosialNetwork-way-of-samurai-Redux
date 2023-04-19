@@ -1,35 +1,39 @@
 import s from "./Users.module.css";
-import axios from 'axios';
 import profileImgPlug from '../../assets/img/ryan-gosling.jpeg';
+
 
 const Users = (props) => {
 
-    const getUsersByClick = () => {
-        if (props.users.length === 0) {
-            axios.get("https://social-network.samuraijs.com/api/1.0/users")
-                .then(response => props.setUsers(response.data.items));
-            console.log('подгружаю юзверей');
-            // props.setUsers([
-            //     {
-            //         id: 1,
-            //         userImgUrl: 'https://uncommonschools.org/wp-content/uploads/2018/02/ryan-gosling-2.jpg',
-            //         followStatus: false, userName: 'Ryan G.', userStatus: 'I\'m Ryan Gosling',
-            //         location: {country: 'USA', city: 'Los Angeles'},
-            //     },
-            // ]);
-        }
-    };
+    let totalPages = Math.ceil(props.totalUsersCount / props.uploadingUsers);
+    let pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+    }
+
+    let prevPages = (props.currentPage - 5 <= 0) ? 0 : props.currentPage - 5;
+    let nextPages = props.currentPage + 4;
+    let splicedPages = pages.slice(prevPages, nextPages);
 
     return (
         <div className={s.usersWrapper}>
-            <button onClick={getUsersByClick}>Get Users</button>
+            <div className={s.pages}>
+                {
+                    splicedPages.map(page => {
+                        return <button className={props.currentPage === +page ? s.activePage : s.page}
+                                       key={page}
+                                       onClick={() => props.changePage(page)}>{page}</button>
+                    })
+                }
+            </div>
             {
                 props.users.map(user => {
                     return (
                         <div key={user.id} className={s.user}>
                             <div>
                                 <div>
-                                    <img className={s.userImg} src={user.photos.small !== null ? user.photos.small : profileImgPlug} alt="user photo"/>
+                                    <img className={s.userImg}
+                                         src={user.photos.small !== null ? user.photos.small : profileImgPlug}
+                                         alt={user.name}/>
                                 </div>
                                 {user.followed ?
                                     <button className={s.buttonUnfollow}
@@ -50,11 +54,11 @@ const Users = (props) => {
                                 </div>
                             </div>
                         </div>
-                    )
+                    );
                 })
             }
         </div>
-    )
-};
+    );
+}
 
 export default Users;
