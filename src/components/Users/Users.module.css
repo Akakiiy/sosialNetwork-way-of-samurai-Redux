@@ -1,0 +1,50 @@
+.usersWrapper {
+    padding: 20px;
+}
+.user {
+    display: flex;
+    margin-top: 20px;
+    border: 1px solid;
+    width: 70%;
+    border-radius: 5px;
+}
+.userImg {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 100px;
+}
+.buttonFollow {
+    margin: 10px 0 10px 0;
+    width: 100px;
+    background-color: rgb(255, 248, 22);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.buttonUnfollow {
+    margin: 10px 0 10px 0;
+    width: 100px;
+    background-color: rgba(255, 0, 0, 0.68);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    color: white;
+}
+.userInfo {
+    margin-top: 10px;
+    width: 100%;
+    padding: 0 40px 0 40px;
+    color: #f5f1f1;
+}
+.userName {
+    text-align: left;
+    text-decoration: underline;
+    color: rgb(246, 214, 5);
+}
+.userStatus {
+    text-align: end;
+}
+.userLocation {
+    margin-top: 10px;
+}
