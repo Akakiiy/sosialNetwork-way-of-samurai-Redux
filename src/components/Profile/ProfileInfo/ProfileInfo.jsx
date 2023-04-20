@@ -10,7 +10,7 @@ const ProfileInfo = (props) => {
     return (
         <div>
             <div>
-                <img className={s.profileHeaderImg} src="https://www.film.ru/sites/default/files/styles/thumb_og_800x420/public/49626676-1248483.jpg" alt="GOSLING"/>
+                <img className={s.profileHeaderImg} src="https://phonoteka.org/uploads/posts/2021-07/1625336175_20-phonoteka-org-p-raian-gosling-oboi-oboi-krasivo-21.jpg" alt="GOSLING"/>
             </div>
             <div className={s.profileInfo}>
                 <img className={s.avaImg} src={props.profile.data.photos.large} alt={props.profile.data.fullName} />
