@@ -1,5 +1,7 @@
-const addPost = 'ADD-POST';
-const changeNewPostTextarea = 'CHANGE-NEW-POST-TEXTAREA';
+const ADD_POST = 'ADD-POST';
+const CHANGE_NEW_POST_TEXTAREA = 'CHANGE-NEW-POST-TEXTAREA';
+const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
+
 
 let initialState = {
     posts: [
@@ -7,11 +9,12 @@ let initialState = {
         {id: 2, postMessage: 'It\'s my first post', likesCount: 20},
     ],
     newPostText: '',
+    profile: null,
 };
 
 const reducerProfile = (state = initialState, action) => {
     switch (action.type) {
-        case addPost:
+        case ADD_POST:
             let newPostMessage = {
                 id: 3,
                 postMessage: state.newPostText,
@@ -22,24 +25,35 @@ const reducerProfile = (state = initialState, action) => {
                 newPostText: '',
                 posts: [...state.posts, newPostMessage],
             }
-        case changeNewPostTextarea:
+        case CHANGE_NEW_POST_TEXTAREA:
             return {
                 ...state,
                 newPostText: action.newPostTextareaText,
+            }
+        case UPLOAD_USER_PROFILE:
+            return {
+                ...state,
+                profile: action.profile,
             }
         default :
             return state;
     }
 };
 
-export const addPostActionCreator = () => {
-    return {type: addPost};
+export const addPostAC = () => {
+    return {type: ADD_POST};
 };
-export const changeNewPostTextareaActionConstructor = (newPostTextareaText) => {
+export const changeNewPostTextareaAC = (newPostTextareaText) => {
     return {
-        type: changeNewPostTextarea,
-        newPostTextareaText: newPostTextareaText,
+        type: CHANGE_NEW_POST_TEXTAREA,
+        newPostTextareaText
     }
 };
+export const uploadUserProfile = (profile) => {
+    return {
+        type: UPLOAD_USER_PROFILE,
+        profile,
+    }
+}
 
 export default reducerProfile;

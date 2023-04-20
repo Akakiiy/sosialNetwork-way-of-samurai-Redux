@@ -60,41 +60,38 @@ const reducerUsers = (state = initialState, action) => {
     }
 };
 
-export const userFollowAC = (userId) => {
+export const follow = (userId) => {
     return {
         type: FOLLOW,
         userId: userId,
     };
 };
-export const userUnfollowAC = (userId) => {
+export const unfollow = (userId) => {
     return {
         type: UNFOLLOW,
         userId: userId,
     }
 };
-
-export const setUsersAC = (users) => {
+export const setUsers = (users) => {
     return {
         type: UPLOAD_USERS,
         users: users,
     }
 }
-
-export const changePageToAC = (pageId) => {
+export const changePageTo = (pageId) => {
     return {
         type: CHANGE_CURRENT_PAGE,
         pageId: pageId,
     }
 }
-
-export const setTotalUsersCountAC = (totalUsersCount) => {
+export const setTotalUsersCount = (totalUsersCount) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalUsersCount: totalUsersCount,
     }
 }
 
-export const togglePreloaderAC = (isLoading) => {
+export const togglePreloader = (isLoading) => {
     return {
         type: TOGGLE_PRELOADER,
         isLoading: isLoading,

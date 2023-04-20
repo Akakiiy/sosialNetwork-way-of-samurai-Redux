@@ -1,3 +1,77 @@
 .profileInfo {
-    padding: 10px 0px 10px 10px;
+    padding: 10px;
+    display: flex;
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: rgba(45, 245, 158, 0.47);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.profileHeaderImg {
+    width: 100%;
+}
+.avaImg {
+    border-radius: 4px;
+    border: 2px gold solid;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.description {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 40px 60px 20px;
+    color: white;
+}
+.description span {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: orangered;
+}
+.fullName {
+    padding: 7px;
+    text-align: center;
+    border-radius: 7px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 200px;
+    margin: 10px 40px 60px 20px;
+    color: white;
+    font-size: 26px;
+    line-height: 26px;
+    border: 3px solid #F0B90B;
+    animation: border-color-change 2s infinite;
+}
+@keyframes border-color-change {
+    0% {
+        border-color: #F0B90B;
+    }
+    20% {
+        border-color: #F7DC6F;
+    }
+    40% {
+        border-color: #F0E68C;
+    }
+    60% {
+        border-color: #FFFACD;
+    }
+    80% {
+        border-color: #F5DEB3;
+    }
+    100% {
+        border-color: #F0B90B;
+    }
+}
+.contacts {
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px black solid;
+    border-radius: 6px;
+    color: crimson;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.link {
+    margin: 10px 0 10px 10px;
+    color: rgb(255, 255, 255);
+}
+.link span {
+    font-size: 16px;
+    color: orangered;
 }

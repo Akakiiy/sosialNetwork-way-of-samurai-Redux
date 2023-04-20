@@ -1,7 +1,7 @@
 import React from "react";
 import {
-    addPostActionCreator,
-    changeNewPostTextareaActionConstructor,
+    addPostAC,
+    changeNewPostTextareaAC,
 } from "../../Redux/reducer-profile";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
@@ -17,10 +17,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         changeTextarea: (e) => {
             let text = e.target.value;
-            dispatch(changeNewPostTextareaActionConstructor(text));
+            dispatch(changeNewPostTextareaAC(text));
         },
         addNewPost: () => {
-            dispatch(addPostActionCreator());
+            dispatch(addPostAC());
         },
     };
 };

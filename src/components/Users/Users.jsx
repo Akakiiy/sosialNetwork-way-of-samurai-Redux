@@ -1,5 +1,6 @@
 import s from "./Users.module.css";
 import profileImgPlug from '../../assets/img/ryan-gosling.jpeg';
+import {NavLink} from "react-router-dom";
 
 
 const Users = (props) => {
@@ -42,9 +43,9 @@ const Users = (props) => {
                                               onClick={() => props.follow(user.id)}>follow</button>}
                             </div>
                             <div className={s.userInfo}>
-                                <div className={s.userName}>
+                                <NavLink className={s.userName} to={`/profile/${user.id}`}>
                                     {user.name}
-                                </div>
+                                </NavLink>
                                 <div className={s.userStatus}>
                                     {user.status}
                                 </div>
