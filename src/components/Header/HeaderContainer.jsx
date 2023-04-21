@@ -1,26 +1,23 @@
 import {Component} from "react";
 import {connect} from "react-redux";
 import {getAuthResponseInState, setLoading, setUserIsLogged} from "../Redux/reducer-auth";
-import axios from "axios";
 import Header from "./Header";
+import {apiServices} from "../../api/api";
 
 class HeaderContainer extends Component {
 
     componentDidMount() {
         this.props.setLoading(true);
-        axios.get("https://social-network.samuraijs.com/api/1.0/auth/me", {
-            withCredentials: true,
-        })
-            .then(response => {
+        apiServices.axiosCheckLogin()
+            .then(data => {
                 this.props.setUserIsLogged(false);
                 this.props.setLoading(false);
-                if (response.data.resultCode === 0) {
-                    const {id, email, login} = response.data.data;
+                if (data.resultCode === 0) {
+                    const {id, email, login} = data.data;
                     this.props.getAuthResponseInState(id, email, login);
                     this.props.setUserIsLogged(true);
                 }
-
-            })
+            });
     }
 
     render() {

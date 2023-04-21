@@ -1,10 +1,17 @@
 import {connect} from "react-redux";
-import {changePageTo, follow, setTotalUsersCount, setUsers, togglePreloader, unfollow} from "../Redux/reducer-users";
-
-import axios from 'axios';
+import {
+    changePageTo,
+    follow,
+    setTotalUsersCount,
+    setUsers,
+    toggleButtonsFollowing,
+    togglePreloader,
+    unfollow
+} from "../Redux/reducer-users";
 import Users from "./Users";
 import {Component} from "react";
 import Preloader from "../common/Preloader/Preloader";
+import {apiServices} from "../../api/api";
 
 
 class UsersApiContainer extends Component {
@@ -14,21 +21,45 @@ class UsersApiContainer extends Component {
 
     componentDidMount() {
         this.props.togglePreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.uploadingUsers}`)
-            .then(response => {
+        apiServices.axiosGetUsers(this.props.currentPage, this.props.uploadingUsers)
+        .then(data => {
                 this.props.togglePreloader(false);
-                this.props.setTotalUsersCount(response.data.totalCount);
-                this.props.setUsers(response.data.items);
+                this.props.setTotalUsersCount(data.totalCount);
+                this.props.setUsers(data.items);
+            });
+    }
+
+    follow = (userId) => {
+        this.props.toggleButtonsFollowing(userId, true);
+        apiServices.axiosFollow(userId)
+            .then(resultCode => {
+                this.props.toggleButtonsFollowing(userId, false);
+                if (resultCode === 0) {
+                    this.props.follow(userId);
+                    console.log('подписка есть', resultCode);
+                }
+            });
+    }
+
+    unfollow = (userId) => {
+        this.props.toggleButtonsFollowing(userId, true);
+        apiServices.axiosUnfollow(userId)
+            .then(resultCode => {
+                this.props.toggleButtonsFollowing(userId, false);
+                if (resultCode === 0) {
+                    this.props.unfollow(userId);
+                    console.log('подписки нет', resultCode);
+                }
             });
     }
 
     changePage = (page) => {
         this.props.changePageTo(page);
         this.props.togglePreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.uploadingUsers}`)
-            .then(response => {
+        apiServices.axiosGetUsers(page, this.props.uploadingUsers)
+            .then(data => {
                 this.props.togglePreloader(false);
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(data.items);
             });
     }
 
@@ -43,9 +74,10 @@ class UsersApiContainer extends Component {
                                totalUsersCount={this.props.totalUsersCount}
                                uploadingUsers={this.props.uploadingUsers}
                                setTotalUsersCount={this.props.setTotalUsersCount}
-                               setUsers={this.props.setUsers}
-                               unfollow={this.props.unfollow}
-                               follow={this.props.follow} users={this.props.users}/>
+                               unfollow={this.unfollow}
+                               follow={this.follow}
+                               users={this.props.users}
+                               areFollowing={this.props.areFollowing}/>
                 }
             </>
         );
@@ -59,7 +91,8 @@ const mapStateToProps = (state) => {
         currentPage: state.usersPage.currentPage,
         uploadingUsers: state.usersPage.uploadingUsers,
         isLoading: state.usersPage.isLoading,
+        areFollowing: state.usersPage.areFollowing,
     };
 };
 
-export default connect(mapStateToProps, {follow, unfollow, setUsers, changePageTo, setTotalUsersCount, togglePreloader})(UsersApiContainer);
+export default connect(mapStateToProps, {follow, unfollow, setUsers, changePageTo, setTotalUsersCount, togglePreloader, toggleButtonsFollowing})(UsersApiContainer);

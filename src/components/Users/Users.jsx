@@ -1,5 +1,5 @@
 import s from "./Users.module.css";
-import profileImgPlug from '../../assets/img/ryan-gosling.jpeg';
+import profileImgPlug from '../../assets/img/ryan-gosling.jpeg'
 import {NavLink} from "react-router-dom";
 
 
@@ -37,9 +37,9 @@ const Users = (props) => {
                                          alt={user.name}/>
                                 </div>
                                 {user.followed ?
-                                    <button className={s.buttonUnfollow}
+                                    <button disabled={props.areFollowing.some(idBtn => idBtn === user.id)} className={s.buttonUnfollow}
                                             onClick={() => props.unfollow(user.id)}>unfollow</button>
-                                    : <button className={s.buttonFollow}
+                                    : <button disabled={props.areFollowing.some(idBtn => idBtn === user.id)} className={s.buttonFollow}
                                               onClick={() => props.follow(user.id)}>follow</button>}
                             </div>
                             <div className={s.userInfo}>

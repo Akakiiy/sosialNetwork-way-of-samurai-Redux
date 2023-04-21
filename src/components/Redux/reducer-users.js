@@ -4,6 +4,7 @@ const UPLOAD_USERS = 'UPLOAD_USERS';
 const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
+const TOGGLE_BUTTONS_FOLLOWING = 'TOGGLE_BUTTONS_FOLLOWING';
 
 let initialState = {
     users: [],
@@ -11,6 +12,7 @@ let initialState = {
     currentPage: 1,
     uploadingUsers: 8,
     isLoading: false,
+    areFollowing: [], //28846, 28845, 28844
 };
 
 const reducerUsers = (state = initialState, action) => {
@@ -55,6 +57,13 @@ const reducerUsers = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading,
             }
+        case TOGGLE_BUTTONS_FOLLOWING:
+            return {
+                ...state,
+                areFollowing: action.isFollowing
+                    ? [...state.areFollowing, action.id]
+                    : [state.areFollowing.filter(idBtn => action.id !== idBtn)]
+            }
         default :
             return state;
     }
@@ -77,25 +86,31 @@ export const setUsers = (users) => {
         type: UPLOAD_USERS,
         users: users,
     }
-}
+};
 export const changePageTo = (pageId) => {
     return {
         type: CHANGE_CURRENT_PAGE,
         pageId: pageId,
     }
-}
+};
 export const setTotalUsersCount = (totalUsersCount) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalUsersCount: totalUsersCount,
     }
-}
-
+};
 export const togglePreloader = (isLoading) => {
     return {
         type: TOGGLE_PRELOADER,
         isLoading: isLoading,
     }
+};
+export const toggleButtonsFollowing = (id, isFollowing) => {
+    return {
+        type: TOGGLE_BUTTONS_FOLLOWING,
+        id,
+        isFollowing,
+    };
 }
 
 export default reducerUsers;

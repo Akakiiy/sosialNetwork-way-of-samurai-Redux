@@ -1,4 +1,5 @@
 import s from './ProfileInfo.module.css';
+import profileImgPlug from '../../../assets/img/ryan-gosling.jpeg'
 import Preloader from "../../common/Preloader/Preloader";
 
 const ProfileInfo = (props) => {
@@ -13,10 +14,10 @@ const ProfileInfo = (props) => {
                 <img className={s.profileHeaderImg} src="https://phonoteka.org/uploads/posts/2021-07/1625336175_20-phonoteka-org-p-raian-gosling-oboi-oboi-krasivo-21.jpg" alt="GOSLING"/>
             </div>
             <div className={s.profileInfo}>
-                <img className={s.avaImg} src={props.profile.data.photos.large} alt={props.profile.data.fullName} />
+                <img className={s.avaImg} src={props.profile.data.photos.large || profileImgPlug} alt={props.profile.data.fullName} />
                 <div>
                     <div className={s.fullName}>{props.profile.data.fullName}</div>
-                    <div className={s.description}><span>About Me:</span> {props.profile.data.aboutMe}</div>
+                    <div className={s.description}><span>About Me:</span> {props.profile.data.aboutMe || 'Пользователь ничего не указал :с'}</div>
                 </div>
                 <div className={s.contacts}>
                     My contacts:
