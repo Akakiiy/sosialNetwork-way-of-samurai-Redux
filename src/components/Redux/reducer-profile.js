@@ -3,6 +3,7 @@ import {apiServices} from "../../api/api";
 const ADD_POST = 'ADD-POST';
 const CHANGE_NEW_POST_TEXTAREA = 'CHANGE-NEW-POST-TEXTAREA';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
+const CHANGE_STATUS = 'CHANGE_STATUS';
 
 
 let initialState = {
@@ -12,6 +13,7 @@ let initialState = {
     ],
     newPostText: '',
     profile: null,
+    statusText: 'I love Ryan Gosling :з',
 };
 
 const reducerProfile = (state = initialState, action) => {
@@ -37,6 +39,11 @@ const reducerProfile = (state = initialState, action) => {
                 ...state,
                 profile: action.profile,
             }
+        case CHANGE_STATUS:
+            return {
+                ...state,
+                statusText: action.statusText,
+            }
         default :
             return state;
     }
@@ -57,16 +64,21 @@ export const setUserProfile = (profile) => {
         profile,
     }
 };
-export const uploadUserProfile = (userId) => {
-    return (dispatch) => {
-        if (!userId) {
-            userId = 2;
-        }
-        apiServices.axiosGetUserProfile(userId)
-            .then(response => {
-                dispatch(setUserProfile(response));
-            });
+export const changeProfileStatus = (statusText) => {
+    return {
+        type: CHANGE_STATUS,
+        statusText
     }
 }
+export const uploadUserProfile = (userId) => (dispatch) => {
+    if (!userId) {
+        userId = 2;
+    }
+    apiServices.axiosGetUserProfile(userId)
+        .then(response => {
+            dispatch(setUserProfile(response));
+        });
+}
+
 
 export default reducerProfile;

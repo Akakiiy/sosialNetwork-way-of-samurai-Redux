@@ -12,7 +12,6 @@ export const WithAuthLogged = (Component) => {
     class WithAuthLoggedContainer extends React.Component {
 
         render() {
-            console.log('подгрузился компонент с редиректом на логинизацию')
             if (!this.props.isLogged) {
                 return <Redirect to={'/login'} />
             }
