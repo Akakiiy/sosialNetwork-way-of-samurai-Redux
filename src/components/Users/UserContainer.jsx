@@ -3,9 +3,9 @@ import {unfollow, follow, uploadUsers} from "../Redux/reducer-users";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {Component} from "react";
+import {compose} from "redux";
 
-
-class UsersApiContainer extends Component {
+class UsersContainer extends Component {
 
     componentDidMount() {
         this.props.uploadUsers(this.props.currentPage, this.props.uploadingUsersCount);
@@ -59,4 +59,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, {uploadUsers, follow, unfollow})(UsersApiContainer);
+export default compose(
+    connect(mapStateToProps, {uploadUsers, follow, unfollow}),
+)(UsersContainer)

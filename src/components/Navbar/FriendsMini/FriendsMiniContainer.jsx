@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 const mapStateToProps = (state) => {
     return {
         friends: state.sidebar.friends,
+        isLogged: state.auth.isLogged,
     };
 };
 
@@ -13,6 +14,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const FriendsMiniContainer = connect(mapStateToProps, mapDispatchToProps)(FriendsMini);
-
-export default FriendsMiniContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsMini);
