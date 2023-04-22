@@ -1,3 +1,5 @@
+import {apiServices} from "../../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const UPLOAD_USERS = 'UPLOAD_USERS';
@@ -10,9 +12,9 @@ let initialState = {
     users: [],
     totalUsersCount : null,
     currentPage: 1,
-    uploadingUsers: 8,
+    uploadingUsersCount: 8,
     isLoading: false,
-    areFollowing: [], //28846, 28845, 28844
+    areFollowing: [],
 };
 
 const reducerUsers = (state = initialState, action) => {
@@ -69,13 +71,13 @@ const reducerUsers = (state = initialState, action) => {
     }
 };
 
-export const follow = (userId) => {
+export const followSuccess = (userId) => {
     return {
         type: FOLLOW,
         userId: userId,
     };
 };
-export const unfollow = (userId) => {
+export const unfollowSuccess = (userId) => {
     return {
         type: UNFOLLOW,
         userId: userId,
@@ -111,6 +113,42 @@ export const toggleButtonsFollowing = (id, isFollowing) => {
         id,
         isFollowing,
     };
-}
+};
+export const uploadUsers = (currentPage, uploadingUsersCount) =>  {
+    return (dispatch) => {
+        dispatch(changePageTo(currentPage));
+        dispatch(togglePreloader(true));
+        apiServices.axiosGetUsers(currentPage, uploadingUsersCount)
+            .then(data => {
+                dispatch(togglePreloader(false));
+                dispatch(setTotalUsersCount(data.totalCount));
+                dispatch(setUsers(data.items));
+            });
+    }
+};
+export const follow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleButtonsFollowing(userId, true));
+        apiServices.axiosFollow(userId)
+            .then(resultCode => {
+                dispatch(toggleButtonsFollowing(userId, false));
+                if (resultCode === 0) {
+                    dispatch(followSuccess(userId));
+                }
+            });
+    }
+};
+export const unfollow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleButtonsFollowing(userId, true));
+        apiServices.axiosUnfollow(userId)
+            .then(resultCode => {
+                dispatch(toggleButtonsFollowing(userId, false));
+                if (resultCode === 0) {
+                    dispatch(unfollowSuccess(userId));
+                }
+            });
+    }
+};
 
 export default reducerUsers;

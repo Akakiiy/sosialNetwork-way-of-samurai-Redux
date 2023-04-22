@@ -1,3 +1,5 @@
+import {apiServices} from "../../api/api";
+
 const ADD_POST = 'ADD-POST';
 const CHANGE_NEW_POST_TEXTAREA = 'CHANGE-NEW-POST-TEXTAREA';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
@@ -49,10 +51,21 @@ export const changeNewPostTextareaAC = (newPostTextareaText) => {
         newPostTextareaText
     }
 };
-export const uploadUserProfile = (profile) => {
+export const setUserProfile = (profile) => {
     return {
         type: UPLOAD_USER_PROFILE,
         profile,
+    }
+};
+export const uploadUserProfile = (userId) => {
+    return (dispatch) => {
+        if (!userId) {
+            userId = 2;
+        }
+        apiServices.axiosGetUserProfile(userId)
+            .then(response => {
+                dispatch(setUserProfile(response));
+            });
     }
 }
 

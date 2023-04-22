@@ -1,23 +1,12 @@
 import {Component} from "react";
 import {connect} from "react-redux";
-import {getAuthResponseInState, setLoading, setUserIsLogged} from "../Redux/reducer-auth";
+import {autoLogIn,} from "../Redux/reducer-auth";
 import Header from "./Header";
-import {apiServices} from "../../api/api";
 
 class HeaderContainer extends Component {
 
     componentDidMount() {
-        this.props.setLoading(true);
-        apiServices.axiosCheckLogin()
-            .then(data => {
-                this.props.setUserIsLogged(false);
-                this.props.setLoading(false);
-                if (data.resultCode === 0) {
-                    const {id, email, login} = data.data;
-                    this.props.getAuthResponseInState(id, email, login);
-                    this.props.setUserIsLogged(true);
-                }
-            });
+        this.props.autoLogIn()
     }
 
     render() {
@@ -37,4 +26,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {getAuthResponseInState, setUserIsLogged, setLoading})(HeaderContainer);
+export default connect(mapStateToProps, {autoLogIn})(HeaderContainer);

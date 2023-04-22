@@ -1,66 +1,31 @@
 import {connect} from "react-redux";
-import {
-    changePageTo,
-    follow,
-    setTotalUsersCount,
-    setUsers,
-    toggleButtonsFollowing,
-    togglePreloader,
-    unfollow
-} from "../Redux/reducer-users";
+import {unfollow, follow, uploadUsers} from "../Redux/reducer-users";
 import Users from "./Users";
-import {Component} from "react";
 import Preloader from "../common/Preloader/Preloader";
-import {apiServices} from "../../api/api";
+import {Component} from "react";
 
 
 class UsersApiContainer extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
 
     componentDidMount() {
-        this.props.togglePreloader(true);
-        apiServices.axiosGetUsers(this.props.currentPage, this.props.uploadingUsers)
-        .then(data => {
-                this.props.togglePreloader(false);
-                this.props.setTotalUsersCount(data.totalCount);
-                this.props.setUsers(data.items);
-            });
+        this.props.uploadUsers(this.props.currentPage, this.props.uploadingUsersCount);
     }
 
-    follow = (userId) => {
-        this.props.toggleButtonsFollowing(userId, true);
-        apiServices.axiosFollow(userId)
-            .then(resultCode => {
-                this.props.toggleButtonsFollowing(userId, false);
-                if (resultCode === 0) {
-                    this.props.follow(userId);
-                    console.log('подписка есть', resultCode);
-                }
-            });
-    }
+    countAndReturnPages = () => {
+        let totalPages = Math.ceil(this.props.totalUsersCount / this.props.uploadingUsersCount),
+            pages = [],
+            prevPages = (this.props.currentPage - 5 <= 0) ? 0 : this.props.currentPage - 5,
+            nextPages = this.props.currentPage + 4;
 
-    unfollow = (userId) => {
-        this.props.toggleButtonsFollowing(userId, true);
-        apiServices.axiosUnfollow(userId)
-            .then(resultCode => {
-                this.props.toggleButtonsFollowing(userId, false);
-                if (resultCode === 0) {
-                    this.props.unfollow(userId);
-                    console.log('подписки нет', resultCode);
-                }
-            });
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(i)
+        }
+
+        return pages.slice(prevPages, nextPages);
     }
 
     changePage = (page) => {
-        this.props.changePageTo(page);
-        this.props.togglePreloader(true);
-        apiServices.axiosGetUsers(page, this.props.uploadingUsers)
-            .then(data => {
-                this.props.togglePreloader(false);
-                this.props.setUsers(data.items);
-            });
+        this.props.uploadUsers(page, this.props.uploadingUsersCount);
     }
 
     render() {
@@ -70,12 +35,12 @@ class UsersApiContainer extends Component {
                     this.props.isLoading ?
                         <Preloader/> :
                         <Users changePage={this.changePage}
+                               pages={this.countAndReturnPages()}
                                currentPage={this.props.currentPage}
                                totalUsersCount={this.props.totalUsersCount}
-                               uploadingUsers={this.props.uploadingUsers}
-                               setTotalUsersCount={this.props.setTotalUsersCount}
-                               unfollow={this.unfollow}
-                               follow={this.follow}
+                               uploadingUsersCount={this.props.uploadingUsersCount}
+                               unfollow={this.props.unfollow}
+                               follow={this.props.follow}
                                users={this.props.users}
                                areFollowing={this.props.areFollowing}/>
                 }
@@ -89,10 +54,9 @@ const mapStateToProps = (state) => {
         users: state.usersPage.users,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        uploadingUsers: state.usersPage.uploadingUsers,
-        isLoading: state.usersPage.isLoading,
+        uploadingUsersCount: state.usersPage.uploadingUsersCount,
         areFollowing: state.usersPage.areFollowing,
     };
 };
 
-export default connect(mapStateToProps, {follow, unfollow, setUsers, changePageTo, setTotalUsersCount, togglePreloader, toggleButtonsFollowing})(UsersApiContainer);
+export default connect(mapStateToProps, {uploadUsers, follow, unfollow})(UsersApiContainer);

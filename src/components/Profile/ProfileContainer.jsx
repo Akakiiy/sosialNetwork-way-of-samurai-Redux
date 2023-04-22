@@ -3,27 +3,19 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {uploadUserProfile} from "../Redux/reducer-profile";
 import {withRouter} from "react-router-dom";
-import {apiServices} from "../../api/api";
 
 class ProfileContainer extends Component {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId;
-        if (!userId) {
-            userId = 2;
-        }
-        apiServices.axiosGetUserProfile(userId)
-            .then(response => {
-                this.props.uploadUserProfile(response);
-            });
+        this.props.uploadUserProfile(this.props.match.params.userId); //вытаскиваем ID из URL
     }
 
     render () {
         return (
-            <Profile profile={this.props.profile} userId={this.props.match.params.userId}/>
+            <Profile profile={this.props.profile}/>
         )
     }
-};
+}
 
 const mapStateToProps = (state) => {
     return {
@@ -31,6 +23,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-const ProfileContainerWithUrlData = withRouter(ProfileContainer)
+const ProfileContainerWithUrlData = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps, {uploadUserProfile})(ProfileContainerWithUrlData);
