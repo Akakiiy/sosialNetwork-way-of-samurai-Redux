@@ -1,9 +1,9 @@
-import {apiServices} from "../../api/api";
+import {apiServices, statusRequests} from "../../api/api";
 
 const ADD_POST = 'ADD-POST';
 const CHANGE_NEW_POST_TEXTAREA = 'CHANGE-NEW-POST-TEXTAREA';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
-const CHANGE_STATUS = 'CHANGE_STATUS';
+const SET_STATUS = 'CHANGE_STATUS';
 
 
 let initialState = {
@@ -13,7 +13,7 @@ let initialState = {
     ],
     newPostText: '',
     profile: null,
-    statusText: 'I love Ryan Gosling :з',
+    statusText: '',
 };
 
 const reducerProfile = (state = initialState, action) => {
@@ -39,7 +39,7 @@ const reducerProfile = (state = initialState, action) => {
                 ...state,
                 profile: action.profile,
             }
-        case CHANGE_STATUS:
+        case SET_STATUS:
             return {
                 ...state,
                 statusText: action.statusText,
@@ -64,21 +64,32 @@ export const setUserProfile = (profile) => {
         profile,
     }
 };
-export const changeProfileStatus = (statusText) => {
-    return {
-        type: CHANGE_STATUS,
-        statusText
-    }
-}
 export const uploadUserProfile = (userId) => (dispatch) => {
-    if (!userId) {
-        userId = 2;
-    }
     apiServices.axiosGetUserProfile(userId)
         .then(response => {
             dispatch(setUserProfile(response));
         });
-}
+};
+export const setProfileStatus = (statusText) => {
+    return {
+        type: SET_STATUS,
+        statusText
+    }
+};
+export const getUserStatus = (userId) => (dispatch) => {
+    statusRequests.getUserStatus(userId)
+        .then(request => {
+            dispatch(setProfileStatus(request.data));
+        });
+};
+export const setUserStatus = (userStatusText) => (dispatch) => {
+    statusRequests.setUserStatus(userStatusText)
+        .then(request => {
+            if (request.data.resultCode === 0) {
+                dispatch(setProfileStatus(userStatusText));
+            }
+    });
+};
 
 
 export default reducerProfile;

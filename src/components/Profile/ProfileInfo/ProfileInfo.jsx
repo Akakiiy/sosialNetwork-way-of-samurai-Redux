@@ -4,12 +4,27 @@ import React from "react";
 import Preloader from "../../common/Preloader/Preloader";
 
 class ProfileInfo extends React.Component {
-    state = {
-        editMode: false
-    }
 
-    toggleEditMode = () => {
-        this.setState(state => state.editMode = !state.editMode);
+    state = {
+        editMode: false,
+        status: this.props.statusText,
+    };
+
+    showTextarea = () => {
+        this.setState({
+            editMode: true
+        });
+    };
+    hideTextarea = () => {
+        this.setState({
+            editMode: false
+        });
+        this.props.setUserStatus(this.state.status);
+    };
+    changeLocalStatus = (e) => {
+        this.setState({
+            status: e.target.value
+        });
     }
 
     render () {
@@ -32,11 +47,12 @@ class ProfileInfo extends React.Component {
                             <div>
                                 {
                                     this.state.editMode
-                                        ? <textarea autoFocus={true}
-                                                    value={this.props.statusText}
-                                                    onChange={this.props.changeProfileStatus}
-                                                    onBlur={this.toggleEditMode}></textarea>
-                                        : <div onClick={this.toggleEditMode}>{this.props.statusText}</div>
+                                        ? <textarea className={s.statusTextarea}
+                                                    autoFocus={true}
+                                                    value={this.state.status}
+                                                    onChange={this.changeLocalStatus}
+                                                    onBlur={this.hideTextarea}></textarea>
+                                        : <div onDoubleClick={this.showTextarea}>{this.props.statusText || '_______'}</div>
                                 }
                             </div>
                         </div>

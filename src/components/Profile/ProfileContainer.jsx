@@ -1,7 +1,7 @@
 import {Component} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {changeProfileStatus, uploadUserProfile} from "../Redux/reducer-profile";
+import {getUserStatus, setUserStatus, uploadUserProfile} from "../Redux/reducer-profile";
 import {Redirect, withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
@@ -9,7 +9,12 @@ import {compose} from "redux";
 class ProfileContainer extends Component {
 
     componentDidMount () {
-        this.props.uploadUserProfile(this.props.match.params.userId); //вытаскиваем ID из URL
+        let userId = this.props.match.params.userId     //вытаскиваем ID из URL
+        if (!userId) {
+            userId = 28835;
+        }
+        this.props.uploadUserProfile(userId);
+        this.props.getUserStatus(userId);
     }
 
     render () {
@@ -19,7 +24,7 @@ class ProfileContainer extends Component {
         return (
             <Profile profile={this.props.profile}
                      statusText={this.props.statusText}
-                     changeProfileStatus={this.props.changeProfileStatus}/>
+                     setUserStatus={this.props.setUserStatus}/>
         )
     }
 }
@@ -31,20 +36,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        uploadUserProfile: () => {
-            dispatch(uploadUserProfile());
-        },
-        changeProfileStatus: (e) => {
-            let text = e.currentTarget.value;
-            dispatch(changeProfileStatus(text))
-        }
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus}),
     withRouter,
     WithAuthLogged,
 )(ProfileContainer);

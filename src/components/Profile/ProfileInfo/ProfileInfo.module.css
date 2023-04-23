@@ -75,3 +75,7 @@
     font-size: 16px;
     color: orangered;
 }
+.statusTextarea {
+    width: 213px;
+    resize: none;
+}

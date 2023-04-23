@@ -15,7 +15,7 @@ const requestsForLogin = axios.create({
 
 const requestsForUserProfile = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/profile/',
-})
+});
 
 export const apiServices = {
     axiosGetUsers: (currentPage, uploadingUsers) => {
@@ -46,3 +46,14 @@ export const apiServices = {
         return requestsForUserProfile.get("" + userId);
     },
 }
+
+export const statusRequests = {
+    getUserStatus: (userId) => {
+        return  requestsDefault.get(`profile/status/${userId}`);
+    },
+    setUserStatus: (userStatusText) => {
+        return requestsDefault.put('profile/status',{
+            status: userStatusText,
+        });
+    },
+};
