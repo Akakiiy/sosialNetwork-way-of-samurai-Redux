@@ -10,6 +10,14 @@ class ProfileInfo extends React.Component {
         status: this.props.statusText,
     };
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.statusText !== this.props.statusText) {
+            this.setState({
+                status: this.props.statusText,
+            });
+        }
+    }
+
     showTextarea = () => {
         this.setState({
             editMode: true

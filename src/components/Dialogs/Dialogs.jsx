@@ -1,8 +1,9 @@
 import s from './Dialogs.module.css';
 import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Messages/Message";
+import Message from "./Message/Message";
 import {Redirect} from "react-router-dom";
+import NewMessageReduxForm from "./NewMessageForm/NewMessageForm";
 
 const Dialogs = (props) => {
 
@@ -22,12 +23,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className={s.messages}>
                     { messagesElements }
-                    <textarea className={s.textarea}
-                              value={props.newMessageText}
-                              onChange={props.changeMessageText} />
-                    <div>
-                        <button onClick={props.addMessageText}>Отправить</button>
-                    </div>
+                    <NewMessageReduxForm onSubmit={props.addDialogMessage}/>
                 </div>
             </div>
         </div>

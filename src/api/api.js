@@ -1,20 +1,24 @@
 import axios from "axios";
 
+const _baseUrl = 'https://social-network.samuraijs.com/api/1.0/'
+
 const requestsDefault = axios.create({
     withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    baseURL: _baseUrl,
     headers: {
         'API-KEY': '7e3596fa-e159-4992-8549-28337e60901c',
     }
 });
-
-const requestsForLogin = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/auth/',
+const requestsForCheckLogin = axios.create({
+    baseURL: _baseUrl + 'auth/me',
     withCredentials: true,
 });
-
+const requestsForLoginOrLogout = axios.create({
+    baseURL: _baseUrl + 'auth/login',
+    withCredentials: true,
+});
 const requestsForUserProfile = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/profile/',
+    baseURL: _baseUrl,
 });
 
 export const apiServices = {
@@ -37,16 +41,15 @@ export const apiServices = {
             });
     },
     axiosCheckLogin: () => {
-        return requestsForLogin.get('me')
+        return requestsForCheckLogin.get('')
             .then(response => {
                 return response.data;
             });
     },
     axiosGetUserProfile: (userId) => {
-        return requestsForUserProfile.get("" + userId);
+        return requestsForUserProfile.get("profile/" + userId);
     },
 }
-
 export const statusRequests = {
     getUserStatus: (userId) => {
         return  requestsDefault.get(`profile/status/${userId}`);
@@ -57,3 +60,11 @@ export const statusRequests = {
         });
     },
 };
+export const loginRequests = {
+    axiosLoginUser: (data) => {
+        return requestsForLoginOrLogout.post('', {...data});
+    },
+    axiosLogeOutUser: () => {
+        return requestsForLoginOrLogout.delete('');
+    }
+}

@@ -1,6 +1,7 @@
 import s from './MyPosts.module.css';
 import React from "react";
 import Post from "./Post/Post";
+import MyPostReduxForm from "./MyPostForm/MyPostForm";
 
 const MyPosts = (props) => {
 
@@ -9,18 +10,7 @@ const MyPosts = (props) => {
     return (
         <div className={s.postsContainer}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea value={props.newPostText}
-                              onChange={props.changeTextarea} />
-                </div>
-                <div>
-                    <button onClick={props.addNewPost} >Добавить пост</button>
-                </div>
-                <div>
-                    <button>Удалить пост</button>
-                </div>
-            </div>
+            <MyPostReduxForm onSubmit={props.addPost}/>
             <div className={s.posts}>
                 {postsElements}
             </div>

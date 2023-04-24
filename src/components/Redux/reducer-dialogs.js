@@ -1,5 +1,4 @@
-const addDialogMessage = 'ADD-DIALOG-MESSAGE';
-const changeDialogMessage = 'CHANGE-DIALOG-MESSAGE';
+const ADD_DIALOG_MESSAGE = 'ADD_DIALOG_MESSAGE';
 
 let initialState = {
     dialogs: [
@@ -14,39 +13,24 @@ let initialState = {
         {id: 2, message: 'How are u?'},
         {id: 3, message: 'How is your way of samurai?'},
     ],
-    newMessageText: '',
 };
 
 const reducerDialogs = (state = initialState, action) => {
     switch (action.type) {
-        case addDialogMessage:
-            let newDialogMessage = {
-                id: 4,
-                message: state.newMessageText,
-            };
+        case ADD_DIALOG_MESSAGE:
             return {
                 ...state,
-                newMessageText: '',
-                messages: [...state.messages, newDialogMessage],
-            }
-        case changeDialogMessage:
-            return {
-                ...state,
-                newMessageText: action.dialogMessageText
+                messages: [...state.messages, {id: 4, message: action.messageData.message,}],
             }
         default:
             return state;
     }
 };
 
-export const addDialogMessageActionConstructor = () => {
-    return {type: addDialogMessage}
-};
-export const changeDialogMessageActionConstructor = (dialogMessageText) => {
+export const addDialogMessage = (messageData) => {
     return {
-        type: changeDialogMessage,
-        dialogMessageText: dialogMessageText,
+        type: ADD_DIALOG_MESSAGE,
+        messageData,
     }
 };
-
 export default reducerDialogs;
