@@ -3,7 +3,7 @@ import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Redirect} from "react-router-dom";
-import NewMessageReduxForm from "./NewMessageForm/NewMessageForm";
+import NewMessageForm from "./NewMessageForm/NewMessageForm";
 
 const Dialogs = (props) => {
 
@@ -23,7 +23,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className={s.messages}>
                     { messagesElements }
-                    <NewMessageReduxForm onSubmit={props.addDialogMessage}/>
+                    <NewMessageForm addDialogMessage={props.addDialogMessage}/>
                 </div>
             </div>
         </div>

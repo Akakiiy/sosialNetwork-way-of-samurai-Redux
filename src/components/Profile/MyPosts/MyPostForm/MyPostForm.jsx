@@ -1,25 +1,38 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
-
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const MyPostForm = (props) => {
     return (
-        <form onSubmit={props.handleSubmit}>
-            <Field component={'textarea'}
-                   name={'newPostText'}
-                   placeholder={'new post'} />
-            <div>
-                <button type={'submit'}>Добавить пост</button>
-            </div>
-            <div>
-                <button onClick={props.clear}>Удалить пост</button>
-            </div>
-        </form>
-    )
+        <Formik
+            initialValues={{ newPostText: ''}}
+            onSubmit={(values, {resetForm}) => {
+                props.addPost(values.newPostText);
+                resetForm({ newPostText: ''});
+            }}
+        >
+            <Form>
+                <div>
+                    <Field type="text"
+                           name="newPostText"
+                           component={'textarea'}
+                           placeholder={'new post'} />
+                </div>
+                <ErrorMessage
+                    name="newPostText"
+                    component="div" />
+                <div>
+                    <button type="submit" >
+                        Добавить пост
+                    </button>
+                </div>
+                <div>
+                    <button>
+                        Удалить пост
+                    </button>
+                </div>
+            </Form>
+        </Formik>
+    );
 }
 
-const MyPostReduxForm = reduxForm({
-    form: 'myPost',
-})(MyPostForm);
-
-export default MyPostReduxForm;
+export default MyPostForm;

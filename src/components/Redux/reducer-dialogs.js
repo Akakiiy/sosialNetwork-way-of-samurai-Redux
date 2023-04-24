@@ -20,7 +20,7 @@ const reducerDialogs = (state = initialState, action) => {
         case ADD_DIALOG_MESSAGE:
             return {
                 ...state,
-                messages: [...state.messages, {id: 4, message: action.messageData.message,}],
+                messages: [...state.messages, {id: 4, message: action.messageData,}],
             }
         default:
             return state;

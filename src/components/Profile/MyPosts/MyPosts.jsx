@@ -10,7 +10,7 @@ const MyPosts = (props) => {
     return (
         <div className={s.postsContainer}>
             <h3>My posts</h3>
-            <MyPostReduxForm onSubmit={props.addPost}/>
+            <MyPostReduxForm addPost={props.addPost} />
             <div className={s.posts}>
                 {postsElements}
             </div>

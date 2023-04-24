@@ -19,7 +19,7 @@ const reducerProfile = (state = initialState, action) => {
         case ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, {id: 3, postMessage: action.newPostTextData.newPostText, likesCount: 210,}],
+                posts: [...state.posts, {id: 3, postMessage: action.newPostTextData, likesCount: 210,}],
             }
         case UPLOAD_USER_PROFILE:
             return {

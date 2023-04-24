@@ -1,33 +1,44 @@
-import {Field, reduxForm} from "redux-form";
-const LoginForm = (props) => {
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import React from "react";
+
+const LoginForm = () => {
 
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={'input'}
-                       name={'login'}
-                       placeholder={'Login'}/>
-            </div>
-            <div>
-                <Field
-                    component={'input'}
-                    name={'password'}
-                    placeholder={'Password'}/>
-            </div>
-            <div>
-                <Field
-                    component={'input'}
-                    type={'checkbox'}
-                    name={'rememberMe'}/>
-                запомни меня
-            </div>
-            <button>Log in</button>
-        </form>
+        <Formik
+            initialValues={{ login: '', password: '', rememberMe: false}}
+            // validate={values => {}}
+            onSubmit={values => {console.log(values)}}
+        >
+            <Form>
+                <div>
+                    <Field type="text"
+                           name="login"
+                           placeholder={'Login'} />
+                    <ErrorMessage name="login"
+                                  component="div" />
+                </div>
+                <div>
+                    <Field type="password"
+                           name="newPostText"
+                           placeholder={'Password'} />
+                    <ErrorMessage name="password"
+                                  component="div" />
+                </div>
+                <div>
+                    <Field type="checkbox"
+                           name="rememberMe"/>
+
+                    запомнить меня
+
+                    <ErrorMessage name="rememberMe"
+                                  component="div" />
+                </div>
+                <div>
+                    <button type="submit">Log IN</button>
+                </div>
+            </Form>
+        </Formik>
     );
 }
 
-const LoginFormRedux = reduxForm({
-    form: 'login',
-})(LoginForm);
-
-export default LoginFormRedux;
+export default LoginForm;
