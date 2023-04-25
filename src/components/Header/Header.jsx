@@ -13,12 +13,15 @@ const Header = (props) => {
                 {
                     props.isLoading ?
                         <div className={s.loading}>
-                            <Preloader/>
+                            <Preloader />
                         </div> : null
                 }
                 {
-                    props.isLogged ?
-                        <NavLink to={'/profile'}>{props.login}</NavLink>
+                    props.isLogged
+                        ? <>
+                            <NavLink to={'/profile'}>{props.login}</NavLink>
+                            <button onClick={props.logout}>Log Out</button>
+                        </>
                         : <NavLink to={'/login'}>Log In</NavLink>
                 }
             </div>

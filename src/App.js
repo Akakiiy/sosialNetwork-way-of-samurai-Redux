@@ -1,5 +1,4 @@
 import './App.css';
-import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import { Route } from "react-router-dom";
 import Music from "./components/Music/Music";
@@ -9,7 +8,7 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UserContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import LoginContainer from "./components/Login/LoginContainer";
 
 const App = () => {
 
@@ -24,7 +23,7 @@ const App = () => {
                 <Route path={'/news'} render={News} />
                 <Route path={'/music'} render={Music} />
                 <Route path={'/settings'} render={Settings} />
-                <Route path={'/login'} render={Login} />
+                <Route path={'/login'} render={() => <LoginContainer />} />
             </div>
         </div>
     )

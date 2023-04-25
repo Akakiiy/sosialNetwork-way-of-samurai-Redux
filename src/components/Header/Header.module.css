@@ -16,10 +16,10 @@
 }
 
 .loggingDiv {
-    width: 120px;
+    width: 200px;
     margin: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     border-radius: 4px;
     border: 2px solid black;

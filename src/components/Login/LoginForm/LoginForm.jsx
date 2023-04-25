@@ -1,25 +1,30 @@
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import React from "react";
+import * as Yup from "yup";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
 
     return (
         <Formik
-            initialValues={{ login: '', password: '', rememberMe: false}}
-            // validate={values => {}}
-            onSubmit={values => {console.log(values)}}
+            initialValues={{ email: '', password: '', rememberMe: false}}
+            validationSchema={Yup.object().shape({
+                email: Yup.string().email('Invalid email').required('Required'),
+                password: Yup.string().required('Required'),
+            })}
+            onSubmit={values => {props.login(values)}}
+            validateOnBlur={true}
         >
             <Form>
                 <div>
                     <Field type="text"
-                           name="login"
+                           name="email"
                            placeholder={'Login'} />
-                    <ErrorMessage name="login"
+                    <ErrorMessage name="email"
                                   component="div" />
                 </div>
                 <div>
                     <Field type="password"
-                           name="newPostText"
+                           name="password"
                            placeholder={'Password'} />
                     <ErrorMessage name="password"
                                   component="div" />
@@ -27,11 +32,7 @@ const LoginForm = () => {
                 <div>
                     <Field type="checkbox"
                            name="rememberMe"/>
-
-                    запомнить меня
-
-                    <ErrorMessage name="rememberMe"
-                                  component="div" />
+                    <span>запомнить меня</span>
                 </div>
                 <div>
                     <button type="submit">Log IN</button>
