@@ -13,6 +13,8 @@ const Login = (props) => {
             <h2>LOGIN</h2>
             <LoginForm isLogged={props.isLogged}
                        login={props.login}/>
+            <div className={s.loginErrorMessage}
+                 style={props.loginErrorMessage && {visibility: 'visible', opacity: '1'}}>{props.loginErrorMessage}</div>
         </div>
     );
 }

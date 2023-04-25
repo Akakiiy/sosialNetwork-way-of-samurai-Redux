@@ -6,7 +6,8 @@ import {login} from "../Redux/reducer-auth";
 const mapDispatchToProps = (state) => {
     return {
         isLogged: state.auth.isLogged,
+        loginErrorMessage: state.auth.loginErrorMessage,
     }
 }
 
-export default connect(mapDispatchToProps, {login})(Login)
+export default connect(mapDispatchToProps, {login})(Login);

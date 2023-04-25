@@ -1,3 +1,14 @@
 .login {
     padding: 20px;
 }
+.loginErrorMessage {
+    visibility: hidden;
+    opacity: 0;
+    margin: 20px 0 10px 0;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.68);
+    padding: 5px;
+    color: gold;
+    transition: all .3s;
+}

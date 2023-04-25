@@ -3,6 +3,7 @@ import {apiServices, loginRequests} from "../../api/api";
 const SET_USER_DATA_IN_STATE = 'SET_USER_DATA_IN_STATE';
 const USER_LOGGED = 'USER_LOGGED';
 const SET_LOADING = 'SET_LOADING';
+const SET_LOGIN_ERROR_MESSAGE = 'SET_LOGIN_ERROR_MESSAGE';
 
 let initialState = {
     userId: null,
@@ -10,6 +11,7 @@ let initialState = {
     login: null,
     isLogged: false,
     isLoading: false,
+    loginErrorMessage: null,
 }
 
 const reducerAuth = (state = initialState, action) => {
@@ -28,6 +30,11 @@ const reducerAuth = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: action.isLoading,
+            }
+        case SET_LOGIN_ERROR_MESSAGE:
+            return {
+                ...state,
+                loginErrorMessage: action.loginErrorMessage
             }
         default :
             return state;
@@ -57,13 +64,22 @@ export const setAuthUserData = () => (dispatch) => {
             }
         });
 };
+const setLoginMessageError = (loginErrorMessage) => {
+    return {
+        type: SET_LOGIN_ERROR_MESSAGE,
+        loginErrorMessage,
+    }
+}
 export const login = ({email, password, rememberMe}) => (dispatch) => {
     dispatch(setLoading(true));
     loginRequests.axiosLoginUser({email, password, rememberMe})
         .then(response => {
             dispatch(setLoading(false));
             if (response.data.resultCode === 0) {
+                dispatch(setLoginMessageError(null));
                 dispatch(setAuthUserData());
+            } else {
+                dispatch(setLoginMessageError(response.data.messages[0]));
             }
         });
 };

@@ -37,10 +37,6 @@ class ProfileInfo extends React.Component {
 
     render () {
 
-        if (!this.props.profile) {
-            return <Preloader />
-        }
-
         return (
             <div>
                 <div>

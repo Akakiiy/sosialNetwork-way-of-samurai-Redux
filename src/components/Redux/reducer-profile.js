@@ -35,7 +35,6 @@ const reducerProfile = (state = initialState, action) => {
             return state;
     }
 };
-
 export const addPost = (newPostTextData) => {
     return {
         type: ADD_POST,
