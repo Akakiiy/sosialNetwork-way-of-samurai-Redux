@@ -7,6 +7,7 @@ const mapDispatchToProps = (state) => {
     return {
         isLogged: state.auth.isLogged,
         loginErrorMessage: state.auth.loginErrorMessage,
+        isLoading: state.auth.isLoading,
     }
 }
 

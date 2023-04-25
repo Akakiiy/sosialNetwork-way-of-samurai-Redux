@@ -55,7 +55,7 @@ export const setLoading = (isLoading) => {
 };
 export const setAuthUserData = () => (dispatch) => {
     dispatch(setLoading(true));
-    apiServices.axiosCheckLogin()
+    return apiServices.axiosCheckLogin()
         .then(data => {
             dispatch(setLoading(false));
             if (data.resultCode === 0) {
