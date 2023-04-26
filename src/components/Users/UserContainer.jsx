@@ -4,6 +4,13 @@ import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {Component} from "react";
 import {compose} from "redux";
+import {
+    getAreFollowing,
+    getCurrentPage,
+    getTotalUsersCount,
+    getUploadingUsersCount,
+    getUsers
+} from "../Redux/selectors/users-selectors";
 
 class UsersContainer extends Component {
 
@@ -51,11 +58,11 @@ class UsersContainer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        uploadingUsersCount: state.usersPage.uploadingUsersCount,
-        areFollowing: state.usersPage.areFollowing,
+        users: getUsers(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        uploadingUsersCount: getUploadingUsersCount(state),
+        areFollowing: getAreFollowing(state),
     };
 };
 
