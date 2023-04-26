@@ -1,13 +1,18 @@
 import {connect} from "react-redux";
 import Login from "./Login";
 import {login} from "../Redux/reducer-auth";
+import {
+    getIsLoadingSelector,
+    getIsLoggedSelector,
+    getLoadingErrorMessageSelector
+} from "../Redux/selectors/auth-selectors";
 
 
 const mapDispatchToProps = (state) => {
     return {
-        isLogged: state.auth.isLogged,
-        loginErrorMessage: state.auth.loginErrorMessage,
-        isLoading: state.auth.isLoading,
+        isLogged: getIsLoggedSelector(state),
+        loginErrorMessage: getLoadingErrorMessageSelector(state),
+        isLoading: getIsLoadingSelector(state),
     }
 }
 

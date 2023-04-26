@@ -3,13 +3,15 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
+import {getDialogSelector, getMessagesSelector, GetNewMessageTextSelector} from "../Redux/selectors/dialogs-selectors";
+import {getIsLoggedSelector} from "../Redux/selectors/auth-selectors";
 
 const mapStateToProps = (state) => {
     return {
-        dialogs: state.dialogPage.dialogs,
-        messages: state.dialogPage.messages,
-        newMessageText: state.dialogPage.newMessageText,
-        isLogged: state.auth.isLogged,
+        dialogs: getDialogSelector(state),
+        messages: getMessagesSelector(state),
+        newMessageText: GetNewMessageTextSelector(state),
+        isLogged: getIsLoggedSelector(state),
     };
 };
 

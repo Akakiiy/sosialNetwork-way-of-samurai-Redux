@@ -5,14 +5,16 @@ import MyPostReduxForm from "./MyPostForm/MyPostForm";
 
 const MyPosts = (props) => {
 
-    const postsElements = props.posts.map((p, i) => <Post key={i} id={p.id} message={p.postMessage} likesCount={p.likesCount} />);
-
     return (
         <div className={s.postsContainer}>
             <h3>My posts</h3>
             <MyPostReduxForm addPost={props.addPost} />
             <div className={s.posts}>
-                {postsElements}
+                {
+                    [...props.posts]
+                        .reverse()
+                        .map((p, i) => <Post key={i} id={p.id} message={p.postMessage} likesCount={p.likesCount}/>)
+                }
             </div>
         </div>
     )

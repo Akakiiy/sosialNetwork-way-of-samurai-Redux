@@ -5,6 +5,8 @@ import {getUserStatus, setUserStatus, uploadUserProfile} from "../Redux/reducer-
 import {withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
+import {getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
+import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 
 class ProfileContainer extends Component {
 
@@ -28,9 +30,9 @@ class ProfileContainer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.profilePage.profile,
-        statusText: state.profilePage.statusText,
-        userId: state.auth.userId,
+        profile: getProfileSelector(state),
+        statusText: getStatusSelector(state),
+        userId: getUserIdSelector(state),
     }
 };
 
