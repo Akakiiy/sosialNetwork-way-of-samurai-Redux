@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import Login from "./Login";
-import {login} from "../Redux/reducer-auth";
+import {login} from "../Redux/auth-reducer";
 import {
     getIsLoadingSelector,
     getIsLoggedSelector,

@@ -14,7 +14,7 @@ let initialState = {
     loginErrorMessage: null,
 }
 
-const reducerAuth = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA_IN_STATE:
             return {
@@ -93,4 +93,4 @@ export const logout = () => (dispatch) => {
             }
         });
 };
-export default reducerAuth;
+export default authReducer;

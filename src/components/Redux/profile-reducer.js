@@ -3,6 +3,7 @@ import {apiServices, statusRequests} from "../../api/api";
 const ADD_POST = 'ADD-POST';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
 const SET_STATUS = 'CHANGE_STATUS';
+const DELETE_POST ='DELETE_POST';
 
 
 let initialState = {
@@ -14,12 +15,12 @@ let initialState = {
     statusText: '',
 };
 
-const reducerProfile = (state = initialState, action) => {
+const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, {id: 3, postMessage: action.newPostTextData, likesCount: 210,}],
+                posts: [...state.posts, {id: 3, postMessage: action.newPostText, likesCount: 210,}],
             }
         case UPLOAD_USER_PROFILE:
             return {
@@ -31,16 +32,27 @@ const reducerProfile = (state = initialState, action) => {
                 ...state,
                 statusText: action.statusText,
             }
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id !== +action.postId)
+            }
         default :
             return state;
     }
 };
-export const addPost = (newPostTextData) => {
+export const addPost = (newPostText) => {
     return {
         type: ADD_POST,
-        newPostTextData,
+        newPostText,
     };
 };
+export const deletePostByID = (postId) => {
+    return {
+        type: DELETE_POST,
+        postId,
+    }
+}
 export const setUserProfile = (profile) => {
     return {
         type: UPLOAD_USER_PROFILE,
@@ -75,4 +87,4 @@ export const setUserStatus = (userStatusText) => (dispatch) => {
 };
 
 
-export default reducerProfile;
+export default profileReducer;

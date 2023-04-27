@@ -17,7 +17,7 @@ let initialState = {
     areFollowing: [],
 };
 
-const reducerUsers = (state = initialState, action) => {
+const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -151,4 +151,4 @@ export const unfollow = (userId) => {
     }
 };
 
-export default reducerUsers;
+export default usersReducer;

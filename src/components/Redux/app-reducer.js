@@ -1,4 +1,4 @@
-import {setAuthUserData} from "./reducer-auth";
+import {setAuthUserData} from "./auth-reducer";
 
 const START_INITIALIZATION = 'START_INITIALIZATION';
 

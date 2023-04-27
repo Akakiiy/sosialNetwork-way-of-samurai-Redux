@@ -1,5 +1,5 @@
 import React from "react";
-import {addPost} from "../../Redux/reducer-profile";
+import {addPost} from "../../Redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {getNewPostTextSelector, getPostsSelector} from "../../Redux/selectors/profile-selectors";

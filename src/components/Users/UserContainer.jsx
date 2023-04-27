@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {unfollow, follow, uploadUsers} from "../Redux/reducer-users";
+import {unfollow, follow, uploadUsers} from "../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {Component} from "react";
