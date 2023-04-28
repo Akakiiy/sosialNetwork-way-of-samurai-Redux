@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React, {useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
 import {Route, withRouter} from "react-router-dom";
 import Music from "./components/Music/Music";
@@ -15,34 +15,31 @@ import {connect} from "react-redux";
 import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 
-class App extends React.Component {
+const App = (props) => {
 
-    componentDidMount() {
-        this.props.initializeApp();
+    useEffect(() => {
+        props.initializeApp()
+    });
+
+    if (!props.initialization) {
+        return <Preloader />
     }
 
-    render () {
-
-        if (!this.props.initialization) {
-            return <Preloader />
-        }
-
-        return (
-            <div className={'app-wrapper'}>
-                <HeaderContainer />
-                <Navbar />
-                <div className={'app-wrapper-content'}>
-                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer />} />
-                    <Route path={'/dialogs'} render={() => <DialogsContainer />} />
-                    <Route path={'/users'} render={() => <UsersContainer />} />
-                    <Route path={'/news'} render={News} />
-                    <Route path={'/music'} render={Music} />
-                    <Route path={'/settings'} render={Settings} />
-                    <Route path={'/login'} render={() => <LoginContainer />} />
-                </div>
+    return (
+        <div className={'app-wrapper'}>
+            <HeaderContainer />
+            <Navbar />
+            <div className={'app-wrapper-content'}>
+                <Route path={'/profile/:userId?'} render={() => <ProfileContainer />} />
+                <Route path={'/dialogs'} render={() => <DialogsContainer />} />
+                <Route path={'/users'} render={() => <UsersContainer />} />
+                <Route path={'/news'} render={News} />
+                <Route path={'/music'} render={Music} />
+                <Route path={'/settings'} render={Settings} />
+                <Route path={'/login'} render={() => <LoginContainer />} />
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const mapStateToProps = (state) => {
