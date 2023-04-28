@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
@@ -16,8 +16,13 @@ const reducers = combineReducers({
     app: reducerApp,
 });
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(
+    applyMiddleware(thunk)
+));
 
-window.store = store; //это нужно чтоб проверять стор в браузерной консоли
+// const store = createStore(reducers, applyMiddleware(thunk));
+
+window._store_ = store; //это нужно чтоб проверять стор в браузерной консоли
 
 export default store;

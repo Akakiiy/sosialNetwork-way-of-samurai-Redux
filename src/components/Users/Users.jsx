@@ -1,20 +1,17 @@
 import s from "./Users.module.css";
 import User from "./User/User";
+import UsersPagesPaginator from "./UsersPagesPaginator";
 
 
 const Users = (props) => {
 
     return (
         <div className={s.usersWrapper}>
-            <div className={s.pages}>
-                {
-                    props.pages.map(page => {
-                        return <button className={props.currentPage === +page ? s.activePage : s.page}
-                                       key={page}
-                                       onClick={() => props.changePage(page)}>{page}</button>
-                    })
-                }
-            </div>
+            <UsersPagesPaginator uploadingUsersCount={props.uploadingUsersCount}
+                                 totalUsersCount={props.totalUsersCount}
+                                 currentPage={props.currentPage}
+                                 changePage={props.changePage}
+                                 countPagesInABlock={10} />
             {
                 props.users.map(user => {
                     return (

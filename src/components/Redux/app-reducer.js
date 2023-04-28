@@ -3,7 +3,7 @@ import {setAuthUserData} from "./auth-reducer";
 const START_INITIALIZATION = 'START_INITIALIZATION';
 
 let initialState = {
-    initialize: false,
+    initialization: false,
 }
 
 const reducerApp = (state = initialState, action) => {

@@ -19,18 +19,6 @@ const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
     useEffect(() => {
         uploadUsers(currentPage, uploadingUsersCount);
     }, [currentPage]);
-    const countAndReturnPages = () => {
-        let totalPages = Math.ceil(totalUsersCount / uploadingUsersCount),
-            pages = [],
-            prevPages = (currentPage - 5 <= 0) ? 0 : currentPage - 5,
-            nextPages = currentPage + 4;
-
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(i)
-        }
-
-        return pages.slice(prevPages, nextPages);
-    }
 
     const changePage = (page) => {
         uploadUsers(page, uploadingUsersCount);
@@ -42,7 +30,6 @@ const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
                 isLoading ?
                     <Preloader/> :
                     <Users changePage={changePage}
-                           pages={countAndReturnPages()}
                            currentPage={currentPage}
                            totalUsersCount={totalUsersCount}
                            uploadingUsersCount={uploadingUsersCount}
