@@ -1,7 +1,7 @@
 import './App.css';
 import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
@@ -31,6 +31,7 @@ const App = (props) => {
             <HeaderContainer />
             <Navbar />
             <div className={'app-wrapper-content'}>
+                {/*<Route path={'/'} render={() => <Redirect to={'/profile'}/>} /> /!*заглушка пока не придумаю страницу приветствия*!/*/}
                 <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>} />
                 <Route path={'/dialogs'} render={() => <DialogsContainer />} />
                 <Route path={'/users'} render={() => {
@@ -42,7 +43,6 @@ const App = (props) => {
                 <Route path={'/news'} render={News} />
                 <Route path={'/music'} render={Music} />
                 <Route path={'/settings'} render={Settings} />
-                {/*<Route path={'/login'} render={() => <LoginContainer />} />*/}
                 <Route path={'/login'} render={() => {
                     return (
                         <Suspense fallback={<Preloader/>}>

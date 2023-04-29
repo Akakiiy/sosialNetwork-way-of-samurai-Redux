@@ -13,7 +13,8 @@ const Profile = (props) => {
                     ? <Preloader/>
                     : <ProfileInfo profile={props.profile}
                                    statusText={props.statusText}
-                                   setUserStatus={props.setUserStatus}/>
+                                   setUserStatus={props.setUserStatus}
+                                   savePhoto={props.savePhoto}/>
             }
 
             <MyPostsContainer />

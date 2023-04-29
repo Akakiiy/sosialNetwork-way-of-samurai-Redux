@@ -67,4 +67,14 @@ export const loginRequests = {
     axiosLogeOutUser: () => {
         return requestsForLoginOrLogout.delete('');
     }
-}
+};
+export const photosRequests = {
+    putPhoto: (photoFile) => {
+        let newFormData = new FormData();
+        newFormData.append('image', photoFile);
+        return requestsDefault.put('profile/photo', newFormData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }});
+    }
+};

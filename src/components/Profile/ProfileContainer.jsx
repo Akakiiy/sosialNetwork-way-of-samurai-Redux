@@ -1,31 +1,34 @@
-import {Component} from "react";
+import {useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getUserStatus, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer";
+import {getUserStatus, savePhoto, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer";
 import {withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
 import {getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
 import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 
-class ProfileContainer extends Component {
+const ProfileContainer = (props) => {
+    let userId = props.match.params.userId; //вытаскиваем ID из URL
 
-    componentDidMount () {
-        let userId = this.props.match.params.userId     //вытаскиваем ID из URL
+    const changeProfile = () => {
         if (!userId) {
-            userId = this.props.userId;
+            userId = props.userId;
         }
-        this.props.uploadUserProfile(userId);
-        this.props.getUserStatus(userId);
+        props.uploadUserProfile(userId);
+        props.getUserStatus(userId);
     }
 
-    render () {
-        return (
-            <Profile profile={this.props.profile}
-                     statusText={this.props.statusText}
-                     setUserStatus={this.props.setUserStatus}/>
-        )
-    }
+    useEffect(() => {
+        changeProfile();
+    }, [userId]);
+
+    return (
+        <Profile profile={props.profile}
+                 statusText={props.statusText}
+                 setUserStatus={props.setUserStatus}
+                 savePhoto={props.savePhoto}/>
+    )
 }
 
 const mapStateToProps = (state) => {
@@ -37,7 +40,7 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus}),
+    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus, savePhoto}),
     withRouter,
     WithAuthLogged,
 )(ProfileContainer);

@@ -1,10 +1,10 @@
-import {apiServices, statusRequests} from "../../api/api";
+import {apiServices, photosRequests, statusRequests} from "../../api/api";
 
 const ADD_POST = 'ADD-POST';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
 const SET_STATUS = 'CHANGE_STATUS';
 const DELETE_POST ='DELETE_POST';
-
+const ADD_PHOTO = 'ADD_PHOTO';
 
 let initialState = {
     posts: [
@@ -37,6 +37,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 posts: state.posts.filter(post => post.id !== +action.postId)
             }
+        case ADD_PHOTO:
+            return {
+                ...state,
+                profile: {...state.profile, photos: {...action.photos}}
+            }
         default :
             return state;
     }
@@ -52,7 +57,7 @@ export const deletePostByID = (postId) => {
         type: DELETE_POST,
         postId,
     }
-}
+};
 export const setUserProfile = (profile) => {
     return {
         type: UPLOAD_USER_PROFILE,
@@ -62,7 +67,7 @@ export const setUserProfile = (profile) => {
 export const uploadUserProfile = (userId) => (dispatch) => {
     apiServices.axiosGetUserProfile(userId)
         .then(response => {
-            dispatch(setUserProfile(response));
+            dispatch(setUserProfile(response.data));
         });
 };
 export const setProfileStatus = (statusText) => {
@@ -85,6 +90,19 @@ export const setUserStatus = (userStatusText) => (dispatch) => {
             }
     });
 };
-
+export const setUserPhoto = (photos) => {
+    return {
+        type: ADD_PHOTO,
+        photos,
+    }
+}
+export const savePhoto = (photoFile) => (dispatch) => {
+    photosRequests.putPhoto(photoFile)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setUserPhoto(response.data.data.photos));
+            }
+        });
+};
 
 export default profileReducer;
