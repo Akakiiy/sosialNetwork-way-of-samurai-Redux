@@ -25,11 +25,6 @@ const MyPostForm = (props) => {
                         Добавить пост
                     </button>
                 </div>
-                <div>
-                    <button>
-                        Удалить пост
-                    </button>
-                </div>
             </Form>
         </Formik>
     );
