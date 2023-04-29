@@ -21,7 +21,9 @@ const Users = (props) => {
                                   name={user.name}
                                   followed={user.followed}
                                   status={user.status}
-                                  areFollowing={props.areFollowing}/>
+                                  areFollowing={props.areFollowing}
+                                  unfollow={props.unfollow}
+                                  follow={props.follow}/>
                         </div>
                         )
                 })

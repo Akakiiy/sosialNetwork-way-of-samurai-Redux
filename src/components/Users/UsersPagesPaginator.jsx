@@ -2,27 +2,32 @@ import s from "./Users.module.css";
 import {useState} from "react";
 
 const UsersPagesPaginator = ({currentPage, changePage, totalUsersCount, uploadingUsersCount, countPagesInABlock}) => {
-    const [currentBlockOfPages, setCurrentBlockOfPages] = useState(5);
+    const [currentBlockOfPages, setCurrentBlockOfPages] = useState(1);
 
-    let totalPages = Math.ceil(totalUsersCount / uploadingUsersCount);
-    let pagesArr = [];
+    let totalPages = Math.ceil(totalUsersCount / uploadingUsersCount),
+        pagesArr = [];
+
     for (let i = 1; i <= totalPages; i++) {
         pagesArr.push(i)
     }
 
-    let minPageNum = (currentBlockOfPages - 1) * countPagesInABlock + 1;
-    let maxPageNum = currentBlockOfPages * countPagesInABlock;
+    let minPageNum = (currentBlockOfPages - 1) * countPagesInABlock + 1,
+        maxPageNum = currentBlockOfPages * countPagesInABlock,
+        filteredPages = pagesArr.slice(minPageNum - 1, maxPageNum);
 
-    let filteredPages = pagesArr.slice(minPageNum - 1, maxPageNum);
-
+    const prevPage = () => {
+        if (currentBlockOfPages > 1) {
+            setCurrentBlockOfPages(currentBlockOfPages - 1)
+        }
+    };
+    const nextPage = () => {
+        if ((totalPages / countPagesInABlock) > currentBlockOfPages) {
+            setCurrentBlockOfPages(currentBlockOfPages + 1)
+        }
+    };
     return (
         <div className={s.pages}>
-            {
-                currentBlockOfPages > 1
-                    ? <button className={s.prevBtn}
-                              onClick={() => setCurrentBlockOfPages(currentBlockOfPages - 1)}>Prev</button>
-                    : null
-            }
+            <button className={s.prevBtn} onClick={prevPage}>Prev</button>
             {
                 filteredPages.map(page => {
                     return <button className={currentPage === +page ? s.activePage : s.page}
@@ -30,12 +35,7 @@ const UsersPagesPaginator = ({currentPage, changePage, totalUsersCount, uploadin
                                    onClick={() => changePage(page)}>{page}</button>
                 })
             }
-            {
-                (totalPages / countPagesInABlock) > currentBlockOfPages
-                    ? <button className={s.nextBtn}
-                              onClick={() => setCurrentBlockOfPages(currentBlockOfPages + 1)}>Next</button>
-                    : null
-            }
+            <button className={s.nextBtn} onClick={nextPage}>Next</button>
         </div>
     );
 }
