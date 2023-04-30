@@ -11,7 +11,7 @@ import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 const ProfileContainer = (props) => {
     let userId = props.match.params.userId; //вытаскиваем ID из URL
 
-    const changeProfile = () => {
+    const refreshProfile = () => {
         if (!userId) {
             userId = props.userId;
         }
@@ -20,7 +20,7 @@ const ProfileContainer = (props) => {
     }
 
     useEffect(() => {
-        changeProfile();
+        refreshProfile();
     }, [userId]);
 
     return (

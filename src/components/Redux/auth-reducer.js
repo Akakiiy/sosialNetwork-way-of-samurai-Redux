@@ -53,44 +53,41 @@ export const setLoading = (isLoading) => {
         isLoading,
     }
 };
-export const setAuthUserData = () => (dispatch) => {
+export const setAuthUserData = () => async (dispatch) => {
     dispatch(setLoading(true));
-    return apiServices.axiosCheckLogin()
-        .then(data => {
-            dispatch(setLoading(false));
-            if (data.resultCode === 0) {
-                const {id, email, login} = data.data;
-                dispatch(setUserDataInState(id, email, login, true));
-            }
-        });
+    let data = await apiServices.axiosCheckLogin();
+
+    dispatch(setLoading(false));
+    if (data.resultCode === 0) {
+        const {id, email, login} = data.data;
+        dispatch(setUserDataInState(id, email, login, true));
+    }
 };
 const setLoginMessageError = (loginErrorMessage) => {
     return {
         type: SET_LOGIN_ERROR_MESSAGE,
         loginErrorMessage,
     }
-}
-export const login = ({email, password, rememberMe}) => (dispatch) => {
-    dispatch(setLoading(true));
-    loginRequests.axiosLoginUser({email, password, rememberMe})
-        .then(response => {
-            dispatch(setLoading(false));
-            if (response.data.resultCode === 0) {
-                dispatch(setLoginMessageError(null));
-                dispatch(setAuthUserData());
-            } else {
-                dispatch(setLoginMessageError(response.data.messages[0]));
-            }
-        });
 };
-export const logout = () => (dispatch) => {
+export const login = ({email, password, rememberMe}) => async (dispatch) => {
     dispatch(setLoading(true));
-    loginRequests.axiosLogeOutUser()
-        .then(response => {
-            dispatch(setLoading(false));
-            if (response.data.resultCode === 0) {
-                dispatch(setUserDataInState(null, null,null, false));
-            }
-        });
+    let response = await loginRequests.axiosLoginUser({email, password, rememberMe});
+
+    dispatch(setLoading(false));
+    if (response.data.resultCode === 0) {
+        dispatch(setLoginMessageError(null));
+        dispatch(setAuthUserData());
+    } else {
+        dispatch(setLoginMessageError(response.data.messages[0]));
+    }
+};
+export const logout = () => async (dispatch) => {
+    dispatch(setLoading(true));
+    let response = await loginRequests.axiosLogeOutUser();
+
+    dispatch(setLoading(false));
+    if (response.data.resultCode === 0) {
+        dispatch(setUserDataInState(null, null,null, false));
+    }
 };
 export default authReducer;

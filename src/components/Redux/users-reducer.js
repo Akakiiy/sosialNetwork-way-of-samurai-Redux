@@ -114,40 +114,31 @@ export const toggleButtonsFollowing = (id, isFollowing) => {
         isFollowing,
     };
 };
-export const uploadUsers = (currentPage, uploadingUsersCount) =>  {
-    return (dispatch) => {
-        dispatch(changePageTo(currentPage));
-        dispatch(togglePreloader(true));
-        apiServices.axiosGetUsers(currentPage, uploadingUsersCount)
-            .then(data => {
-                dispatch(togglePreloader(false));
-                dispatch(setTotalUsersCount(data.totalCount));
-                dispatch(setUsers(data.items));
-            });
+export const uploadUsers = (currentPage, uploadingUsersCount) =>  async (dispatch) => {
+    dispatch(changePageTo(currentPage));
+    dispatch(togglePreloader(true));
+    let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
+
+    dispatch(togglePreloader(false));
+    dispatch(setTotalUsersCount(data.totalCount));
+    dispatch(setUsers(data.items));
+};
+export const follow = (userId) => async (dispatch) => {
+    dispatch(toggleButtonsFollowing(userId, true));
+    let resultCode = await apiServices.axiosFollow(userId);
+
+    dispatch(toggleButtonsFollowing(userId, false));
+    if (resultCode === 0) {
+        dispatch(followSuccess(userId));
     }
 };
-export const follow = (userId) => {
-    return (dispatch) => {
-        dispatch(toggleButtonsFollowing(userId, true));
-        apiServices.axiosFollow(userId)
-            .then(resultCode => {
-                dispatch(toggleButtonsFollowing(userId, false));
-                if (resultCode === 0) {
-                    dispatch(followSuccess(userId));
-                }
-            });
-    }
-};
-export const unfollow = (userId) => {
-    return (dispatch) => {
-        dispatch(toggleButtonsFollowing(userId, true));
-        apiServices.axiosUnfollow(userId)
-            .then(resultCode => {
-                dispatch(toggleButtonsFollowing(userId, false));
-                if (resultCode === 0) {
-                    dispatch(unfollowSuccess(userId));
-                }
-            });
+export const unfollow = (userId) => async (dispatch) => {
+    dispatch(toggleButtonsFollowing(userId, true));
+    let resultCode = await apiServices.axiosUnfollow(userId);
+
+    dispatch(toggleButtonsFollowing(userId, false));
+    if (resultCode === 0) {
+        dispatch(unfollowSuccess(userId));
     }
 };
 

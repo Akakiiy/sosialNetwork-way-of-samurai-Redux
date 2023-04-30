@@ -64,11 +64,10 @@ export const setUserProfile = (profile) => {
         profile,
     }
 };
-export const uploadUserProfile = (userId) => (dispatch) => {
-    apiServices.axiosGetUserProfile(userId)
-        .then(response => {
-            dispatch(setUserProfile(response.data));
-        });
+export const uploadUserProfile = (userId) => async (dispatch) => {
+    let response = await apiServices.axiosGetUserProfile(userId);
+
+    dispatch(setUserProfile(response.data));
 };
 export const setProfileStatus = (statusText) => {
     return {
@@ -76,33 +75,28 @@ export const setProfileStatus = (statusText) => {
         statusText
     }
 };
-export const getUserStatus = (userId) => (dispatch) => {
-    statusRequests.getUserStatus(userId)
-        .then(request => {
-            dispatch(setProfileStatus(request.data));
-        });
+export const getUserStatus = (userId) => async (dispatch) => {
+    let request = await statusRequests.getUserStatus(userId);
+    dispatch(setProfileStatus(request.data));
 };
-export const setUserStatus = (userStatusText) => (dispatch) => {
-    statusRequests.setUserStatus(userStatusText)
-        .then(request => {
-            if (request.data.resultCode === 0) {
-                dispatch(setProfileStatus(userStatusText));
-            }
-    });
+export const setUserStatus = (userStatusText) => async (dispatch) => {
+    let request = await statusRequests.setUserStatus(userStatusText);
+    if (request.data.resultCode === 0) {
+        dispatch(setProfileStatus(userStatusText));
+    }
 };
 export const setUserPhoto = (photos) => {
     return {
         type: ADD_PHOTO,
         photos,
     }
-}
-export const savePhoto = (photoFile) => (dispatch) => {
-    photosRequests.putPhoto(photoFile)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setUserPhoto(response.data.data.photos));
-            }
-        });
+};
+export const savePhoto = (photoFile) => async (dispatch) => {
+    const response = await photosRequests.putPhoto(photoFile);
+
+    if (response.data.resultCode === 0) {
+        dispatch(setUserPhoto(response.data.data.photos));
+    }
 };
 
 export default profileReducer;

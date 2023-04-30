@@ -6,7 +6,7 @@ import {useEffect} from "react";
 import {compose} from "redux";
 import {
     getAreFollowing,
-    getCurrentPage,
+    getCurrentPage, getIsLoadingSelector,
     getTotalUsersCount,
     getUploadingUsersCount,
     getUsers
@@ -49,6 +49,7 @@ const mapStateToProps = (state) => {
         currentPage: getCurrentPage(state),
         uploadingUsersCount: getUploadingUsersCount(state),
         areFollowing: getAreFollowing(state),
+        isLoading: getIsLoadingSelector(state),
     };
 };
 

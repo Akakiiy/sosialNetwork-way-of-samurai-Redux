@@ -39,3 +39,11 @@ export const getAreFollowing = createSelector(getAreFollowingSelector,
     (areFollowing) => {
     return areFollowing;
 });
+
+const getIsLoading = (state) => {
+    return state.usersPage.isLoading;
+}
+export const getIsLoadingSelector = createSelector(getIsLoading,
+    (isLoading) => {
+    return isLoading;
+});
