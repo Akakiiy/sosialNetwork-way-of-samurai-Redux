@@ -4,6 +4,7 @@ const SET_USER_DATA_IN_STATE = 'SET_USER_DATA_IN_STATE';
 const USER_LOGGED = 'USER_LOGGED';
 const SET_LOADING = 'SET_LOADING';
 const SET_LOGIN_ERROR_MESSAGE = 'SET_LOGIN_ERROR_MESSAGE';
+const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL';
 
 let initialState = {
     userId: null,
@@ -12,6 +13,7 @@ let initialState = {
     isLogged: false,
     isLoading: false,
     loginErrorMessage: null,
+    captchaUrl: '',
 }
 
 const authReducer = (state = initialState, action) => {
@@ -35,6 +37,11 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginErrorMessage: action.loginErrorMessage
+            }
+        case SET_CAPTCHA_URL:
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl
             }
         default :
             return state;
@@ -69,16 +76,23 @@ const setLoginMessageError = (loginErrorMessage) => {
         loginErrorMessage,
     }
 };
-export const login = ({email, password, rememberMe}) => async (dispatch) => {
+export const login = ({email, password, rememberMe, captcha}) => async (dispatch) => {
     dispatch(setLoading(true));
-    let response = await loginRequests.axiosLoginUser({email, password, rememberMe});
+    let response = await loginRequests.axiosLoginUser({email, password, rememberMe, captcha});
 
     dispatch(setLoading(false));
-    if (response.data.resultCode === 0) {
-        dispatch(setLoginMessageError(null));
-        dispatch(setAuthUserData());
-    } else {
-        dispatch(setLoginMessageError(response.data.messages[0]));
+    switch (response.data.resultCode) {
+        case 0:
+            dispatch(setLoginMessageError(null));
+            dispatch(setCaptcha(''));
+            dispatch(setAuthUserData());
+            return;
+        case 10:
+            dispatch(getCaptchaUrlFromSelver());
+            return;
+        default:
+            dispatch(setLoginMessageError(response.data.messages[0]));
+            return
     }
 };
 export const logout = () => async (dispatch) => {
@@ -89,5 +103,15 @@ export const logout = () => async (dispatch) => {
     if (response.data.resultCode === 0) {
         dispatch(setUserDataInState(null, null,null, false));
     }
+};
+export const setCaptcha = (captchaUrl) => {
+    return {
+        type: SET_CAPTCHA_URL,
+        captchaUrl,
+    }
+};
+export const getCaptchaUrlFromSelver = () => async (dispatch) => {
+    let response = await loginRequests.getLoginCaptcha();
+    dispatch(setCaptcha(response.data.url));
 };
 export default authReducer;

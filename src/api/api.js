@@ -66,7 +66,10 @@ export const loginRequests = {
     },
     axiosLogeOutUser: () => {
         return requestsForLoginOrLogout.delete('');
-    }
+    },
+    getLoginCaptcha: () => {
+        return requestsDefault.get('security/get-captcha-url');
+    },
 };
 export const photosRequests = {
     putPhoto: (photoFile) => {

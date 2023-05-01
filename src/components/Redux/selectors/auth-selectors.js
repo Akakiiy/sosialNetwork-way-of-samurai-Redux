@@ -30,3 +30,11 @@ export const getIsLoadingSelector = createSelector(getIsLoading,
     (isLoading) => {
     return isLoading;
 });
+
+const getCaptchaUrl = (state) => {
+    return state.auth.captchaUrl;
+};
+export const getCaptchaUrlSelector = createSelector(getCaptchaUrl,
+    (captchaUrl) => {
+    return captchaUrl;
+});

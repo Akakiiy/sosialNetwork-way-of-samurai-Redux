@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import Login from "./Login";
 import {login} from "../Redux/auth-reducer";
 import {
+    getCaptchaUrlSelector,
     getIsLoadingSelector,
     getIsLoggedSelector,
     getLoadingErrorMessageSelector
@@ -13,6 +14,7 @@ const mapDispatchToProps = (state) => {
         isLogged: getIsLoggedSelector(state),
         loginErrorMessage: getLoadingErrorMessageSelector(state),
         isLoading: getIsLoadingSelector(state),
+        captchaUrl: getCaptchaUrlSelector(state),
     }
 }
 
