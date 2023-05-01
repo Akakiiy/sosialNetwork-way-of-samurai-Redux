@@ -45,7 +45,6 @@ const profileReducer = (state = initialState, action) => {
                 profile: {...state.profile, photos: {...action.photos}}
             }
         case SET_IS_OWNER:
-            console.log(action.isOwner)
             return {
                 ...state,
                 isOwner: action.isOwner,

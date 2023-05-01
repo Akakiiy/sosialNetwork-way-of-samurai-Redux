@@ -1,30 +1,26 @@
 import s from './ProfileInfoContacts.module.css';
-import React from "react";
+import React, {useState} from "react";
+import ProfileInfoForm from "../ProfileInfoForm/ProfileInfoForm";
+import ProfileTextInfo from "./ProfileTextInfo";
+
 const haveNoInfo = 'ничего не указано';
 const ProfileInfoContacts = ({contacts, lookingForAJob, lookingForAJobDescription, isOwner}) => {
+    const [changeMode, setChangeMode] = useState(false);
+
     return (
         <div className={s.profileInfo}>
-            <div className={s.jubHunting}>
-                <div className={s.professionalSkills}>
-                    <span>My professional skills</span> -> {lookingForAJobDescription || haveNoInfo}
-                </div>
-                <div className={s.professionalSkills}>
-                    <span>Looking for a job</span> -> {lookingForAJob || haveNoInfo}
-                </div>
-            </div>
-            <div className={s.contacts}>
-                My contacts:
-                {
-                    Object.keys(contacts).map(key => {
-                        return (
-                            <div key={key} className={s.link}>
-                                <span>{key}</span> -> {contacts[key] || haveNoInfo}
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            {isOwner && <button className={s.toggleChangeMode}>Редактировать данные</button>}
+            {
+                changeMode
+                    ? <ProfileInfoForm contacts={contacts}
+                                       haveNoInfo={haveNoInfo}
+                                       lookingForAJobDescription={lookingForAJobDescription} />
+                    : <ProfileTextInfo contacts={contacts}
+                                       haveNoInfo={haveNoInfo}
+                                       lookingForAJobDescription={lookingForAJobDescription}
+                                       lookingForAJob={lookingForAJob} />
+            }
+            {isOwner && <button onClick={() => setChangeMode(!changeMode)}
+                                className={s.toggleChangeMode}>{changeMode ? 'Отменить изменения' : 'Редактировать данные'}</button>}
         </div>
     );
 };

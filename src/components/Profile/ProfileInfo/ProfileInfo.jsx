@@ -25,7 +25,6 @@ const ProfileInfo = (props) => {
     const changeLocalStatus = (e) => {
         setStatus(e.target.value);
     }
-
     const changeUserPhoto = (event) => {
         if (event.target.files.length > 0) {
             props.savePhoto(event.target.files[0]);
@@ -69,8 +68,6 @@ const ProfileInfo = (props) => {
                                      lookingForAJobDescription={props.profile.lookingForAJobDescription}
                                      isOwner={props.isOwner}/>
             </div>
-            <hr/>
-            {/*!!! внимание тут стоит рандомная черта, чтоб визуально видеть конец дива, можно убрать в любой момент !!!*/}
         </div>
     );
 }
