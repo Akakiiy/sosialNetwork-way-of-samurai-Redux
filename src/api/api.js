@@ -78,3 +78,8 @@ export const photosRequests = {
             }});
     }
 };
+export const profileInfoRequests = {
+    setUserProfileInfo: (profileInfoData) => {
+        return requestsDefault.put('profile', {...profileInfoData});
+    }
+}

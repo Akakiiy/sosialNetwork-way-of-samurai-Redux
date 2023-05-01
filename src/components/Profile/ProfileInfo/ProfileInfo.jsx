@@ -63,9 +63,7 @@ const ProfileInfo = (props) => {
                         </div>
                     </div>
                 </div>
-                <ProfileInfoContacts contacts={props.profile.contacts}
-                                     lookingForAJob={props.profile.lookingForAJob}
-                                     lookingForAJobDescription={props.profile.lookingForAJobDescription}
+                <ProfileInfoContacts profile={props.profile}
                                      isOwner={props.isOwner}/>
             </div>
         </div>

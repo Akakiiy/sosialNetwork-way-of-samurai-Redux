@@ -1,4 +1,4 @@
-import {apiServices, photosRequests, statusRequests} from "../../api/api";
+import {apiServices, photosRequests, profileInfoRequests, statusRequests} from "../../api/api";
 
 const ADD_POST = 'ADD-POST';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
@@ -6,6 +6,7 @@ const SET_STATUS = 'CHANGE_STATUS';
 const DELETE_POST ='DELETE_POST';
 const ADD_PHOTO = 'ADD_PHOTO';
 const SET_IS_OWNER = 'SET_IS_OWNER';
+const SET_USER_PROFILE_INFO = 'SET_USER_PROFILE_INFO';
 
 let initialState = {
     posts: [
@@ -48,6 +49,11 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isOwner: action.isOwner,
+            };
+        case SET_USER_PROFILE_INFO:
+            return {
+                ...state,
+                profile: {...state.profile, ...action.profileInfoData},
             }
         default :
             return state;
@@ -110,6 +116,21 @@ export const setIsOwner = (isOwner) => {
         type: SET_IS_OWNER,
         isOwner,
     }
-}
+};
+export const setUserProfileInfo = (profileInfoData) => {
+    return {
+        type: SET_USER_PROFILE_INFO,
+        profileInfoData,
+    }
+};
+export const putUserProfileInfo = (profileInfoData) => async (dispatch) => {
+
+    const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
+    if (response.data.resultCode === 0) {
+        dispatch(setUserProfileInfo(profileInfoData));
+    } else {
+        console.log(response.data.messages[0]);
+    }
+};
 
 export default profileReducer;

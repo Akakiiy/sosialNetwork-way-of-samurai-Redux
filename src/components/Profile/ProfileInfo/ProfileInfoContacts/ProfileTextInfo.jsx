@@ -1,7 +1,7 @@
 import s from "./ProfileInfoContacts.module.css";
 import React from "react";
 
-const ProfileTextInfo = ({lookingForAJobDescription, haveNoInfo, lookingForAJob, contacts}) => {
+const ProfileInfoText = ({lookingForAJobDescription, haveNoInfo, lookingForAJob, contacts, aboutMe}) => {
     return (
         <>
             <div className={s.jubHunting}>
@@ -9,7 +9,10 @@ const ProfileTextInfo = ({lookingForAJobDescription, haveNoInfo, lookingForAJob,
                     <span>My professional skills</span> {lookingForAJobDescription || haveNoInfo}
                 </div>
                 <div className={s.professionalSkills}>
-                    <span>Looking for a job</span> {lookingForAJob || haveNoInfo}
+                    <span>Looking for a job</span> {lookingForAJob ? 'да' : 'нет'}
+                </div>
+                <div className={s.professionalSkills}>
+                    <span>About Me</span> {aboutMe || haveNoInfo}
                 </div>
             </div>
             <div className={s.contacts}>
@@ -28,4 +31,4 @@ const ProfileTextInfo = ({lookingForAJobDescription, haveNoInfo, lookingForAJob,
     )
 }
 
-export default ProfileTextInfo;
+export default ProfileInfoText;
