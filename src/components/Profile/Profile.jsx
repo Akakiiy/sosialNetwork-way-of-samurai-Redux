@@ -12,6 +12,7 @@ const Profile = (props) => {
                 !props.profile
                     ? <Preloader/>
                     : <ProfileInfo profile={props.profile}
+                                   isOwner={props.isOwner}
                                    statusText={props.statusText}
                                    setUserStatus={props.setUserStatus}
                                    savePhoto={props.savePhoto}/>

@@ -32,5 +32,12 @@ export const getStatusSelector = createSelector(getStatusPage,
     return selector;
 });
 
+const getIsOwner = (state) => {
+    return state.profilePage.isOwner;
+};
 
+export const getIsOwnerSelector = createSelector(getIsOwner,
+    (isOwner) => {
+    return isOwner;
+});
 

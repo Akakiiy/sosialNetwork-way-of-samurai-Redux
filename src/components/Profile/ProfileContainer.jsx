@@ -1,11 +1,11 @@
 import {useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getUserStatus, savePhoto, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer";
+import {getUserStatus, savePhoto, setIsOwner, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer";
 import {withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
-import {getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
+import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
 import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 
 const ProfileContainer = (props) => {
@@ -14,6 +14,9 @@ const ProfileContainer = (props) => {
     const refreshProfile = () => {
         if (!userId) {
             userId = props.userId;
+            props.setIsOwner(true);
+        } else {
+            props.setIsOwner(false);
         }
         props.uploadUserProfile(userId);
         props.getUserStatus(userId);
@@ -27,7 +30,8 @@ const ProfileContainer = (props) => {
         <Profile profile={props.profile}
                  statusText={props.statusText}
                  setUserStatus={props.setUserStatus}
-                 savePhoto={props.savePhoto}/>
+                 savePhoto={props.savePhoto}
+                 isOwner={props.isOwner}/>
     )
 }
 
@@ -36,11 +40,12 @@ const mapStateToProps = (state) => {
         profile: getProfileSelector(state),
         statusText: getStatusSelector(state),
         userId: getUserIdSelector(state),
+        isOwner: getIsOwnerSelector(state),
     }
 };
 
 export default compose(
-    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus, savePhoto}),
+    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus, savePhoto, setIsOwner}),
     withRouter,
     WithAuthLogged,
 )(ProfileContainer);

@@ -5,6 +5,7 @@ const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
 const SET_STATUS = 'CHANGE_STATUS';
 const DELETE_POST ='DELETE_POST';
 const ADD_PHOTO = 'ADD_PHOTO';
+const SET_IS_OWNER = 'SET_IS_OWNER';
 
 let initialState = {
     posts: [
@@ -13,6 +14,7 @@ let initialState = {
     ],
     profile: null,
     statusText: '',
+    isOwner: false,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -41,6 +43,12 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 profile: {...state.profile, photos: {...action.photos}}
+            }
+        case SET_IS_OWNER:
+            console.log(action.isOwner)
+            return {
+                ...state,
+                isOwner: action.isOwner,
             }
         default :
             return state;
@@ -98,5 +106,11 @@ export const savePhoto = (photoFile) => async (dispatch) => {
         dispatch(setUserPhoto(response.data.data.photos));
     }
 };
+export const setIsOwner = (isOwner) => {
+    return {
+        type: SET_IS_OWNER,
+        isOwner,
+    }
+}
 
 export default profileReducer;
