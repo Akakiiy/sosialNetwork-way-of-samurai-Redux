@@ -1,8 +1,6 @@
 import s from "./Users.module.css";
-import {useState} from "react";
 
-const UsersPagesPaginator = ({currentPage, changePage, totalUsersCount, uploadingUsersCount, countPagesInABlock}) => {
-    const [currentBlockOfPages, setCurrentBlockOfPages] = useState(1);
+const UsersPagesPaginator = ({currentPage, changePage, totalUsersCount, uploadingUsersCount, countPagesInABlock, setBlockOfPages, blockOfPages}) => {
 
     let totalPages = Math.ceil(totalUsersCount / uploadingUsersCount),
         pagesArr = [];
@@ -11,18 +9,18 @@ const UsersPagesPaginator = ({currentPage, changePage, totalUsersCount, uploadin
         pagesArr.push(i)
     }
 
-    let minPageNum = (currentBlockOfPages - 1) * countPagesInABlock + 1,
-        maxPageNum = currentBlockOfPages * countPagesInABlock,
+    let minPageNum = (blockOfPages - 1) * countPagesInABlock + 1,
+        maxPageNum = blockOfPages * countPagesInABlock,
         filteredPages = pagesArr.slice(minPageNum - 1, maxPageNum);
 
     const prevPage = () => {
-        if (currentBlockOfPages > 1) {
-            setCurrentBlockOfPages(currentBlockOfPages - 1)
+        if (blockOfPages > 1) {
+            setBlockOfPages(blockOfPages - 1)
         }
     };
     const nextPage = () => {
-        if ((totalPages / countPagesInABlock) > currentBlockOfPages) {
-            setCurrentBlockOfPages(currentBlockOfPages + 1)
+        if ((totalPages / countPagesInABlock) > blockOfPages) {
+            setBlockOfPages(blockOfPages + 1)
         }
     };
     return (

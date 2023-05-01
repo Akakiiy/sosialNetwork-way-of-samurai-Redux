@@ -43,8 +43,8 @@ const ProfileInfo = (props) => {
                                                                      type={'file'}
                                                                      onChange={changeUserPhoto}/>)
                     }
-                    <button className={s.changePhoto}
-                            onClick={() => setImgInputEditMode(!imgInputEditMode)}>{imgInputEditMode ? 'закрыть' : 'сменить фото'}</button>
+                    {props.isOwner && <button className={s.changePhoto}
+                                              onClick={() => setImgInputEditMode(!imgInputEditMode)}>{imgInputEditMode ? 'закрыть' : 'сменить фото'}</button>}
                 </div>
                 <div>
                     <div className={s.fullName}>{props.profile.fullName}</div>

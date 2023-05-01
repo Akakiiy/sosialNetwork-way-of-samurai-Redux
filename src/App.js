@@ -1,7 +1,7 @@
 import './App.css';
 import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import Music from "./components/Music/Music";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
@@ -49,6 +49,7 @@ const App = (props) => {
                         </Suspense>
                     )
                 }}/>
+                <Route path={'/'}><Redirect to={'/profile'}/></Route> {/*временная заглушка на стартовую стриницу, пока не не придумаю приветствие*/}
             </div>
         </div>
     );

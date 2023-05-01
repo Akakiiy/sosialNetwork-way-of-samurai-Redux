@@ -7,6 +7,7 @@ const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
 const TOGGLE_BUTTONS_FOLLOWING = 'TOGGLE_BUTTONS_FOLLOWING';
+const SET_CURRENT_BLOCK_OF_PAGES = 'SET_CURRENT_BLOCK_OF_PAGES';
 
 let initialState = {
     users: [],
@@ -15,6 +16,7 @@ let initialState = {
     uploadingUsersCount: 8,
     isLoading: false,
     areFollowing: [],
+    blockOfPages: 1,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -65,6 +67,11 @@ const usersReducer = (state = initialState, action) => {
                 areFollowing: action.isFollowing
                     ? [...state.areFollowing, action.id]
                     : [state.areFollowing.filter(idBtn => action.id !== idBtn)]
+            }
+        case SET_CURRENT_BLOCK_OF_PAGES:
+            return {
+                ...state,
+                blockOfPages: action.blockOfPages,
             }
         default :
             return state;
@@ -141,5 +148,11 @@ export const unfollow = (userId) => async (dispatch) => {
         dispatch(unfollowSuccess(userId));
     }
 };
+export const setBlockOfPages = (blockOfPages) => {
+    return {
+        type: SET_CURRENT_BLOCK_OF_PAGES,
+        blockOfPages,
+    }
+}
 
 export default usersReducer;

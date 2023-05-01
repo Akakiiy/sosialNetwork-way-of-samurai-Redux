@@ -1,11 +1,11 @@
 import {connect} from "react-redux";
-import {unfollow, follow, uploadUsers} from "../Redux/users-reducer";
+import {unfollow, follow, uploadUsers, setBlockOfPages} from "../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {useEffect} from "react";
 import {compose} from "redux";
 import {
-    getAreFollowing,
+    getAreFollowing, getBlockOfPagesSelector,
     getCurrentPage, getIsLoadingSelector,
     getTotalUsersCount,
     getUploadingUsersCount,
@@ -14,7 +14,8 @@ import {
 
 const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
                             isLoading, uploadUsers, users,
-                            areFollowing,unfollow, follow}) => {
+                            areFollowing,unfollow, follow,
+                            setBlockOfPages, blockOfPages}) => {
 
     useEffect(() => {
         uploadUsers(currentPage, uploadingUsersCount);
@@ -36,7 +37,9 @@ const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
                            unfollow={unfollow}
                            follow={follow}
                            users={users}
-                           areFollowing={areFollowing}/>
+                           areFollowing={areFollowing}
+                           blockOfPages={blockOfPages}
+                           setBlockOfPages={setBlockOfPages}/>
             }
         </>
     );
@@ -50,9 +53,10 @@ const mapStateToProps = (state) => {
         uploadingUsersCount: getUploadingUsersCount(state),
         areFollowing: getAreFollowing(state),
         isLoading: getIsLoadingSelector(state),
+        blockOfPages: getBlockOfPagesSelector(state),
     };
 };
 
 export default compose(
-    connect(mapStateToProps, {uploadUsers, follow, unfollow}),
+    connect(mapStateToProps, {uploadUsers, follow, unfollow, setBlockOfPages}),
 )(UsersContainer);

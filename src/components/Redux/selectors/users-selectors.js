@@ -47,3 +47,11 @@ export const getIsLoadingSelector = createSelector(getIsLoading,
     (isLoading) => {
     return isLoading;
 });
+
+const getBlockOfPages = (state) => {
+    return state.usersPage.blockOfPages;
+};
+export const getBlockOfPagesSelector = createSelector(getBlockOfPages,
+    (blockOfPages) => {
+    return blockOfPages;
+});

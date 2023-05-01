@@ -2,7 +2,6 @@ import s from "./Users.module.css";
 import User from "./User/User";
 import UsersPagesPaginator from "./UsersPagesPaginator";
 
-
 const Users = (props) => {
 
     return (
@@ -11,7 +10,9 @@ const Users = (props) => {
                                  totalUsersCount={props.totalUsersCount}
                                  currentPage={props.currentPage}
                                  changePage={props.changePage}
-                                 countPagesInABlock={10} />
+                                 countPagesInABlock={10}
+                                 blockOfPages={props.blockOfPages}
+                                 setBlockOfPages={props.setBlockOfPages}/>
             {
                 props.users.map(user => {
                     return (
