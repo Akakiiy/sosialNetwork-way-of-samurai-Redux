@@ -1,5 +1,5 @@
 # Вы можете зарегистрироваться
-spinsib@gmail.com
+№ spinsib@gmail.com
 NERyanGosling
 
 важно отметить, что проект сугубо направлен на изучение и освоение react и redux.
