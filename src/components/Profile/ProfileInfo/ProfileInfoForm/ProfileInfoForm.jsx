@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import React from "react";
 import FieldForProfileForm from "./FieldForProfileForm";
 import {connect} from "react-redux";
-import {putUserProfileInfo} from "../../../Redux/profile-reducer";
+import {putUserProfileInfo} from "../../../Redux/profile-reducer.ts";
 import {getUserIdSelector} from "../../../Redux/selectors/auth-selectors";
 import {getProfileSelector} from "../../../Redux/selectors/profile-selectors";
 

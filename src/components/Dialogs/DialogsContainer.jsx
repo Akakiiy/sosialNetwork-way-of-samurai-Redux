@@ -1,4 +1,4 @@
-import {addDialogMessage} from "../Redux/dialogs-reducer";
+import {addDialogMessage} from "../Redux/dialogs-reducer.ts";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {WithAuthLogged} from "../hoc/withAuthLogged";

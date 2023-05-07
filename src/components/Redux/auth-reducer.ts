@@ -1,32 +1,28 @@
 import {apiServices, loginRequests} from "../../api/api";
 
 const SET_USER_DATA_IN_STATE = 'SET_USER_DATA_IN_STATE';
-const USER_LOGGED = 'USER_LOGGED';
 const SET_LOADING = 'SET_LOADING';
 const SET_LOGIN_ERROR_MESSAGE = 'SET_LOGIN_ERROR_MESSAGE';
 const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL';
 
 let initialState = {
-    userId: null,
-    email: null,
-    login: null,
+    userId: null as number | null,
+    email: null as string | null,
+    login: null as string | null,
     isLogged: false,
     isLoading: false,
-    loginErrorMessage: null,
+    loginErrorMessage: null as string | null,
     captchaUrl: '',
 }
 
-const authReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState;
+
+const authReducer = (state: InitialStateType = initialState, action): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA_IN_STATE:
             return {
                 ...state,
                 ...action.data
-            }
-        case USER_LOGGED:
-            return {
-                ...state,
-                isLogged: action.isLogged,
             }
         case SET_LOADING:
             return {
@@ -48,13 +44,30 @@ const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setUserDataInState = (userId, email, login, isLogged) => {
+type SetUserDataInStateType = {
+    type: typeof SET_USER_DATA_IN_STATE
+    data: SetUserDataInStateDataType
+}
+type SetUserDataInStateDataType = {
+    userId: number
+    email: string
+    login: string
+    isLogged: boolean
+}
+
+export const setUserDataInState = (userId: number, email: string, login: string, isLogged: boolean): SetUserDataInStateType => {
     return {
         type: SET_USER_DATA_IN_STATE,
         data: { userId, email, login, isLogged },
     }
 };
-export const setLoading = (isLoading) => {
+
+type SetLoadingType = {
+    type: typeof SET_LOADING
+    isLoading: boolean
+}
+
+export const setLoading = (isLoading: boolean): SetLoadingType => {
     return {
         type: SET_LOADING,
         isLoading,
@@ -70,7 +83,13 @@ export const setAuthUserData = () => async (dispatch) => {
         dispatch(setUserDataInState(id, email, login, true));
     }
 };
-const setLoginMessageError = (loginErrorMessage) => {
+
+type SetLoginMessageError = {
+    type: typeof SET_LOGIN_ERROR_MESSAGE
+    loginErrorMessage: string
+}
+
+const setLoginMessageError = (loginErrorMessage: string): SetLoginMessageError => {
     return {
         type: SET_LOGIN_ERROR_MESSAGE,
         loginErrorMessage,
@@ -104,7 +123,13 @@ export const logout = () => async (dispatch) => {
         dispatch(setUserDataInState(null, null,null, false));
     }
 };
-export const setCaptcha = (captchaUrl) => {
+
+type SetCaptcha = {
+    type: typeof SET_CAPTCHA_URL
+    captchaUrl: string
+}
+
+export const setCaptcha = (captchaUrl: string): SetCaptcha => {
     return {
         type: SET_CAPTCHA_URL,
         captchaUrl,

@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import Login from "./Login";
-import {login} from "../Redux/auth-reducer";
+import {login} from "../Redux/auth-reducer.ts";
 import {
     getCaptchaUrlSelector,
     getIsLoadingSelector,

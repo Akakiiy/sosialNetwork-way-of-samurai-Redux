@@ -9,6 +9,27 @@ const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
 const TOGGLE_BUTTONS_FOLLOWING = 'TOGGLE_BUTTONS_FOLLOWING';
 const SET_CURRENT_BLOCK_OF_PAGES = 'SET_CURRENT_BLOCK_OF_PAGES';
 
+type InitialStateType = {
+    users: Array<UserType>
+    totalUsersCount: number
+    currentPage: number
+    uploadingUsersCount: number
+    isLoading: boolean
+    areFollowing: Array<number>
+    blockOfPages: number
+}
+type UserType = {
+    name: string
+    id: number
+    photos: PhotoType
+    status: string | null
+    followed: boolean
+}
+type PhotoType = {
+    small: string | null
+    large: string | null
+}
+
 let initialState = {
     users: [],
     totalUsersCount : null,
@@ -19,7 +40,7 @@ let initialState = {
     blockOfPages: 1,
 };
 
-const usersReducer = (state = initialState, action) => {
+const usersReducer = (state: InitialStateType = initialState, action): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -78,50 +99,92 @@ const usersReducer = (state = initialState, action) => {
     }
 };
 
-export const followSuccess = (userId) => {
+type FollowSuccessType = {
+    type: typeof FOLLOW
+    userId: number
+}
+
+export const followSuccess = (userId: number): FollowSuccessType => {
     return {
         type: FOLLOW,
-        userId: userId,
+        userId,
     };
 };
-export const unfollowSuccess = (userId) => {
+
+type UnfollowSuccessType = {
+    type: typeof UNFOLLOW
+    userId: number
+}
+
+export const unfollowSuccess = (userId: number): UnfollowSuccessType => {
     return {
         type: UNFOLLOW,
-        userId: userId,
+        userId,
     }
 };
-export const setUsers = (users) => {
+
+type SetUsersType = {
+    type: typeof UPLOAD_USERS,
+    users: UserType
+}
+
+export const setUsers = (users: UserType): SetUsersType => {
     return {
         type: UPLOAD_USERS,
-        users: users,
+        users,
     }
 };
-export const changePageTo = (pageId) => {
+
+type ChangePageToType = {
+    type: typeof CHANGE_CURRENT_PAGE
+    pageId: number
+}
+
+export const changePageTo = (pageId: number): ChangePageToType => {
     return {
         type: CHANGE_CURRENT_PAGE,
-        pageId: pageId,
+        pageId,
     }
 };
-export const setTotalUsersCount = (totalUsersCount) => {
+
+type SetTotalUsersCountType = {
+    type: typeof SET_TOTAL_USERS_COUNT
+    totalUsersCount: number
+}
+
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountType => {
     return {
         type: SET_TOTAL_USERS_COUNT,
-        totalUsersCount: totalUsersCount,
+        totalUsersCount,
     }
 };
-export const togglePreloader = (isLoading) => {
+
+type TogglePreloaderType = {
+    type: typeof TOGGLE_PRELOADER
+    isLoading: boolean
+}
+
+export const togglePreloader = (isLoading: boolean): TogglePreloaderType => {
     return {
         type: TOGGLE_PRELOADER,
-        isLoading: isLoading,
+        isLoading,
     }
 };
-export const toggleButtonsFollowing = (id, isFollowing) => {
+
+type ToggleButtonsFollowingType = {
+    type: typeof TOGGLE_BUTTONS_FOLLOWING
+    id: number
+    isFollowing: boolean
+}
+
+export const toggleButtonsFollowing = (id: number, isFollowing: boolean): ToggleButtonsFollowingType => {
     return {
         type: TOGGLE_BUTTONS_FOLLOWING,
         id,
         isFollowing,
     };
 };
-export const uploadUsers = (currentPage, uploadingUsersCount) =>  async (dispatch) => {
+export const uploadUsers = (currentPage: number, uploadingUsersCount: number) =>  async (dispatch) => {
     dispatch(changePageTo(currentPage));
     dispatch(togglePreloader(true));
     let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
@@ -130,7 +193,7 @@ export const uploadUsers = (currentPage, uploadingUsersCount) =>  async (dispatc
     dispatch(setTotalUsersCount(data.totalCount));
     dispatch(setUsers(data.items));
 };
-export const follow = (userId) => async (dispatch) => {
+export const follow = (userId: number) => async (dispatch) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosFollow(userId);
 
@@ -139,7 +202,7 @@ export const follow = (userId) => async (dispatch) => {
         dispatch(followSuccess(userId));
     }
 };
-export const unfollow = (userId) => async (dispatch) => {
+export const unfollow = (userId: number) => async (dispatch) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosUnfollow(userId);
 
@@ -148,7 +211,13 @@ export const unfollow = (userId) => async (dispatch) => {
         dispatch(unfollowSuccess(userId));
     }
 };
-export const setBlockOfPages = (blockOfPages) => {
+
+type SetBlockOfPagesType = {
+    type: typeof SET_CURRENT_BLOCK_OF_PAGES
+    blockOfPages: number
+}
+
+export const setBlockOfPages = (blockOfPages: number): SetBlockOfPagesType => {
     return {
         type: SET_CURRENT_BLOCK_OF_PAGES,
         blockOfPages,
@@ -156,3 +225,5 @@ export const setBlockOfPages = (blockOfPages) => {
 }
 
 export default usersReducer;
+
+// 160

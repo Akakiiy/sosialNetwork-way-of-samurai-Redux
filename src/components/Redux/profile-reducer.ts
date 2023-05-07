@@ -8,6 +8,41 @@ const ADD_PHOTO = 'ADD_PHOTO';
 const SET_IS_OWNER = 'SET_IS_OWNER';
 const SET_USER_PROFILE_INFO = 'SET_USER_PROFILE_INFO';
 
+type InitialStateType = {
+    posts: PostsType
+    profile: null | ProfileType,
+    statusText: string,
+    isOwner: boolean,
+}
+type PostsType = Array<PostType>
+type PostType = {
+    id: number
+    postMessage: string
+    likesCount: number
+}
+type ProfileType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+}
+type PhotosType = {
+    small: string | null
+    large: string | null
+}
+
 let initialState = {
     posts: [
         {id: 1, postMessage: 'Hi, how are u doing?', likesCount: 10},
@@ -18,7 +53,7 @@ let initialState = {
     isOwner: false,
 };
 
-const profileReducer = (state = initialState, action) => {
+const profileReducer = (state: InitialStateType = initialState, action): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
             return {
@@ -43,7 +78,7 @@ const profileReducer = (state = initialState, action) => {
         case ADD_PHOTO:
             return {
                 ...state,
-                profile: {...state.profile, photos: {...action.photos}}
+                profile: {...state.profile, photos: {...action.photos}},
             }
         case SET_IS_OWNER:
             return {
@@ -59,19 +94,37 @@ const profileReducer = (state = initialState, action) => {
             return state;
     }
 };
-export const addPost = (newPostText) => {
+
+type AddPostType = {
+    type: typeof ADD_POST
+    newPostText: string
+}
+
+export const addPost = (newPostText: string): AddPostType => {
     return {
         type: ADD_POST,
         newPostText,
     };
 };
-export const deletePostByID = (postId) => {
+
+type DeletePostByIDType = {
+    type: typeof DELETE_POST
+    postId: number
+}
+
+export const deletePostByID = (postId: number): DeletePostByIDType => {
     return {
         type: DELETE_POST,
         postId,
     }
 };
-export const setUserProfile = (profile) => {
+
+type SetUserProfileType = {
+    type: typeof UPLOAD_USER_PROFILE
+    profile: ProfileType
+}
+
+export const setUserProfile = (profile: ProfileType) :SetUserProfileType => {
     return {
         type: UPLOAD_USER_PROFILE,
         profile,
@@ -82,48 +135,72 @@ export const uploadUserProfile = (userId) => async (dispatch) => {
 
     dispatch(setUserProfile(response.data));
 };
-export const setProfileStatus = (statusText) => {
+
+type SetProfileStatus = {
+    type: typeof SET_STATUS
+    statusText: string
+}
+
+export const setProfileStatus = (statusText: string): SetProfileStatus => {
     return {
         type: SET_STATUS,
         statusText
     }
 };
-export const getUserStatus = (userId) => async (dispatch) => {
+export const getUserStatus = (userId: number) => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
     dispatch(setProfileStatus(request.data));
 };
-export const setUserStatus = (userStatusText) => async (dispatch) => {
+export const setUserStatus = (userStatusText: string) => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);
     if (request.data.resultCode === 0) {
         dispatch(setProfileStatus(userStatusText));
     }
 };
-export const setUserPhoto = (photos) => {
+
+type SetUserPhoto = {
+    type: typeof ADD_PHOTO
+    photos: PhotosType
+}
+
+export const setUserPhoto = (photos: PhotosType): SetUserPhoto => {
     return {
         type: ADD_PHOTO,
         photos,
     }
 };
-export const savePhoto = (photoFile) => async (dispatch) => {
+export const savePhoto = (photoFile: string) => async (dispatch) => {
     const response = await photosRequests.putPhoto(photoFile);
 
     if (response.data.resultCode === 0) {
         dispatch(setUserPhoto(response.data.data.photos));
     }
 };
-export const setIsOwner = (isOwner) => {
+
+type SetIsOwner = {
+    type: typeof SET_IS_OWNER
+    isOwner: boolean
+}
+
+export const setIsOwner = (isOwner: boolean): SetIsOwner => {
     return {
         type: SET_IS_OWNER,
         isOwner,
     }
 };
-export const setUserProfileInfo = (profileInfoData) => {
+
+type SetUserProfileInfoType = {
+    type: typeof SET_USER_PROFILE_INFO
+    profileInfoData: ProfileType
+}
+
+export const setUserProfileInfo = (profileInfoData: ProfileType): SetUserProfileInfoType => {
     return {
         type: SET_USER_PROFILE_INFO,
         profileInfoData,
     }
 };
-export const putUserProfileInfo = (profileInfoData) => async (dispatch) => {
+export const putUserProfileInfo = (profileInfoData: ProfileType) => async (dispatch) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
     if (response.data.resultCode === 0) {

@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getUserStatus, savePhoto, setIsOwner, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer";
+import {getUserStatus, savePhoto, setIsOwner, setUserStatus, uploadUserProfile} from "../Redux/profile-reducer.ts";
 import {withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";

@@ -9,7 +9,7 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {initializeApp} from "./components/Redux/app-reducer";
+import {initializeApp} from "./components/Redux/app-reducer.ts";
 import Preloader from "./components/common/Preloader/Preloader";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 

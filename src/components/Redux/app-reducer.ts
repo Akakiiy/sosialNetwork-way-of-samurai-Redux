@@ -1,12 +1,16 @@
-import {setAuthUserData} from "./auth-reducer";
+// @ts-ignore
+import {setAuthUserData} from './auth-reducer.ts'
 
 const START_INITIALIZATION = 'START_INITIALIZATION';
 
-let initialState = {
+type InitialStateType = {
+    initialization: boolean
+}
+let initialState: InitialStateType = {
     initialization: false,
 }
 
-const reducerApp = (state = initialState, action) => {
+const reducerApp = (state: InitialStateType = initialState, action): InitialStateType => {
     switch (action.type) {
         case START_INITIALIZATION:
             return {
@@ -17,11 +21,14 @@ const reducerApp = (state = initialState, action) => {
             return state;
     }
 }
+type InitializationActionType = {
+    type: typeof START_INITIALIZATION
+}
 
-export const initialization = () => {
+export const initialization = (): InitializationActionType => {
     return {type: START_INITIALIZATION}
 }
-export const initializeApp = () => (dispatch) => {
+export const initializeApp = () => (dispatch): void => {
     let promiseMeRequest = dispatch(setAuthUserData());
 
     Promise.all([promiseMeRequest])

@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {unfollow, follow, uploadUsers, setBlockOfPages} from "../Redux/users-reducer";
+import {unfollow, follow, uploadUsers, setBlockOfPages} from "../Redux/users-reducer.ts";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {useEffect} from "react";
