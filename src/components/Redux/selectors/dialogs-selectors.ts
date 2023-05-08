@@ -1,6 +1,7 @@
 import {createSelector} from "reselect";
+import {AppStateType} from "../store-redux";
 
-const getDialogs = (state) => {
+const getDialogs = (state: AppStateType) => {
     return state.dialogPage.dialogs;
 };
 export const getDialogSelector = createSelector(getDialogs,
@@ -8,7 +9,7 @@ export const getDialogSelector = createSelector(getDialogs,
     return dialogs;
 });
 
-const getMessages = (state) => {
+const getMessages = (state: AppStateType) => {
     return state.dialogPage.messages;
 };
 export const getMessagesSelector = createSelector(getMessages,
@@ -16,8 +17,8 @@ export const getMessagesSelector = createSelector(getMessages,
     return messages;
 });
 
-const getNewMessageText = (state) => {
-    return state.dialogPage.newMessageText;
+const getNewMessageText = (state: AppStateType) => {
+    return state.dialogPage.messages[state.dialogPage.messages.length - 1].message;
 };
 export const GetNewMessageTextSelector = createSelector(getNewMessageText,
     (newMessageText) => {

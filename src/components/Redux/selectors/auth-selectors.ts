@@ -1,5 +1,6 @@
 import {createSelector} from "reselect";
-const getUserId = (state) => {
+import {AppStateType} from "../store-redux";
+const getUserId = (state: AppStateType) => {
     return state.auth.userId;
 };
 export const getUserIdSelector = createSelector(getUserId,
@@ -7,7 +8,7 @@ export const getUserIdSelector = createSelector(getUserId,
         return userId;
 });
 
-const getIsLogged = (state) => {
+const getIsLogged = (state: AppStateType) => {
     return state.auth.isLogged;
 };
 export const getIsLoggedSelector = createSelector(getIsLogged,
@@ -15,7 +16,7 @@ export const getIsLoggedSelector = createSelector(getIsLogged,
     return isLogged;
 });
 
-const getLoadingErrorMessage = (state) => {
+const getLoadingErrorMessage = (state: AppStateType) => {
     return state.auth.loginErrorMessage;
 };
 export const getLoadingErrorMessageSelector = createSelector(getLoadingErrorMessage,
@@ -23,7 +24,7 @@ export const getLoadingErrorMessageSelector = createSelector(getLoadingErrorMess
     return loadingErrorMessage;
 });
 
-const getIsLoading = (state) => {
+const getIsLoading = (state: AppStateType) => {
     return state.auth.isLoading;
 };
 export const getIsLoadingSelector = createSelector(getIsLoading,
@@ -31,10 +32,19 @@ export const getIsLoadingSelector = createSelector(getIsLoading,
     return isLoading;
 });
 
-const getCaptchaUrl = (state) => {
+const getCaptchaUrl = (state: AppStateType) => {
     return state.auth.captchaUrl;
 };
 export const getCaptchaUrlSelector = createSelector(getCaptchaUrl,
     (captchaUrl) => {
     return captchaUrl;
+});
+
+const getLogin = (state: AppStateType) => {
+    return state.auth.login;
+};
+
+export const GetLoginSelector = createSelector(getLogin,
+    (login) => {
+    return login;
 });

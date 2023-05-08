@@ -1,6 +1,7 @@
 import {createSelector} from "reselect";
+import {AppStateType} from "../store-redux";
 
-const getPosts = (state) => {
+const getPosts = (state: AppStateType) => {
     return state.profilePage.posts
 };
 export const getPostsSelector = createSelector(getPosts,
@@ -8,15 +9,15 @@ export const getPostsSelector = createSelector(getPosts,
     return posts;
 });
 
-const getNewPostText = (state) => {
-    return state.profilePage.newPostText;
+const getNewPostText = (state: AppStateType) => {
+    return state.profilePage.posts[state.profilePage.posts.length - 1].postMessage;
 };
 export const getNewPostTextSelector = createSelector(getNewPostText,
     (newPostText) => {
     return newPostText;
 });
 
-const getProfile = (state) => {
+const getProfile = (state: AppStateType) => {
     return state.profilePage.profile;
 };
 export const getProfileSelector = createSelector(getProfile,
@@ -24,7 +25,7 @@ export const getProfileSelector = createSelector(getProfile,
     return profile;
 });
 
-const getStatusPage = (state) => {
+const getStatusPage = (state: AppStateType) => {
     return state.profilePage.statusText;
 };
 export const getStatusSelector = createSelector(getStatusPage,
@@ -32,7 +33,7 @@ export const getStatusSelector = createSelector(getStatusPage,
     return selector;
 });
 
-const getIsOwner = (state) => {
+const getIsOwner = (state: AppStateType) => {
     return state.profilePage.isOwner;
 };
 

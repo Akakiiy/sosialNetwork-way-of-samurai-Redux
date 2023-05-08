@@ -58,7 +58,7 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
         case ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, {id: 3, postMessage: action.newPostText, likesCount: 210,}],
+                posts: [...state.posts, {id: 3, postMessage: action.postMessage, likesCount: 210,}],
             }
         case UPLOAD_USER_PROFILE:
             return {
@@ -97,13 +97,13 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
 
 type AddPostType = {
     type: typeof ADD_POST
-    newPostText: string
+    postMessage: string
 }
 
-export const addPost = (newPostText: string): AddPostType => {
+export const addPost = (postMessage: string): AddPostType => {
     return {
         type: ADD_POST,
-        newPostText,
+        postMessage,
     };
 };
 

@@ -5,7 +5,7 @@ import s from "./Header.module.css";
 
 type PropsType = {
     isLogged: boolean
-    login: string
+    login: string | null
     logout: () => void
 }
 
