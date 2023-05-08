@@ -53,7 +53,7 @@ let initialState = {
     isOwner: false,
 };
 
-const profileReducer = (state: InitialStateType = initialState, action): InitialStateType => {
+const profileReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
             return {
@@ -78,7 +78,7 @@ const profileReducer = (state: InitialStateType = initialState, action): Initial
         case ADD_PHOTO:
             return {
                 ...state,
-                profile: {...state.profile, photos: {...action.photos}},
+                profile: {...state.profile, photos: {...action.photos}} as ProfileType, //тут указана типизация, но так вроде делать нельзя
             }
         case SET_IS_OWNER:
             return {
@@ -130,7 +130,7 @@ export const setUserProfile = (profile: ProfileType) :SetUserProfileType => {
         profile,
     }
 };
-export const uploadUserProfile = (userId) => async (dispatch) => {
+export const uploadUserProfile = (userId: number) => async (dispatch: any) => {
     let response = await apiServices.axiosGetUserProfile(userId);
 
     dispatch(setUserProfile(response.data));
@@ -147,11 +147,11 @@ export const setProfileStatus = (statusText: string): SetProfileStatus => {
         statusText
     }
 };
-export const getUserStatus = (userId: number) => async (dispatch) => {
+export const getUserStatus = (userId: number) => async (dispatch: any) => {
     let request = await statusRequests.getUserStatus(userId);
     dispatch(setProfileStatus(request.data));
 };
-export const setUserStatus = (userStatusText: string) => async (dispatch) => {
+export const setUserStatus = (userStatusText: string) => async (dispatch: any) => {
     let request = await statusRequests.setUserStatus(userStatusText);
     if (request.data.resultCode === 0) {
         dispatch(setProfileStatus(userStatusText));
@@ -169,7 +169,7 @@ export const setUserPhoto = (photos: PhotosType): SetUserPhoto => {
         photos,
     }
 };
-export const savePhoto = (photoFile: string) => async (dispatch) => {
+export const savePhoto = (photoFile: string) => async (dispatch: any) => {
     const response = await photosRequests.putPhoto(photoFile);
 
     if (response.data.resultCode === 0) {
@@ -200,7 +200,7 @@ export const setUserProfileInfo = (profileInfoData: ProfileType): SetUserProfile
         profileInfoData,
     }
 };
-export const putUserProfileInfo = (profileInfoData: ProfileType) => async (dispatch) => {
+export const putUserProfileInfo = (profileInfoData: ProfileType) => async (dispatch: any) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
     if (response.data.resultCode === 0) {

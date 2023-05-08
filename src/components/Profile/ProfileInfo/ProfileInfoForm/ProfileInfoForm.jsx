@@ -94,7 +94,7 @@ const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, h
                             Object.keys(contacts).map(key => {
                                 return (
                                     <div key={key} className={s.link}>
-                                        <span>{key}</span> -> <FieldForProfileForm
+                                        <span>{key}</span> &gt; <FieldForProfileForm
                                         placeholder={contacts[key] || haveNoInfo} type={'text'} name={key}/>
                                     </div>
                                 )

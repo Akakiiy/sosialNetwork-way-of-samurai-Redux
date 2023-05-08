@@ -21,7 +21,7 @@ const ProfileInfoText = ({lookingForAJobDescription, haveNoInfo, lookingForAJob,
                     Object.keys(contacts).map(key => {
                         return (
                             <div key={key} className={s.link}>
-                                <span>{key}</span> -> {contacts[key] || haveNoInfo}
+                                <span>{key}</span> &gt; {contacts[key] || haveNoInfo}
                             </div>
                         )
                     })

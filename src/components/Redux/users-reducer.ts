@@ -11,7 +11,7 @@ const SET_CURRENT_BLOCK_OF_PAGES = 'SET_CURRENT_BLOCK_OF_PAGES';
 
 type InitialStateType = {
     users: Array<UserType>
-    totalUsersCount: number
+    totalUsersCount: number | null
     currentPage: number
     uploadingUsersCount: number
     isLoading: boolean
@@ -30,17 +30,17 @@ type PhotoType = {
     large: string | null
 }
 
-let initialState = {
+let initialState: InitialStateType = {
     users: [],
-    totalUsersCount : null,
+    totalUsersCount: null,
     currentPage: 1,
     uploadingUsersCount: 8,
     isLoading: false,
-    areFollowing: [],
+    areFollowing: [], //array of users ids
     blockOfPages: 1,
 };
 
-const usersReducer = (state: InitialStateType = initialState, action): InitialStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -184,7 +184,7 @@ export const toggleButtonsFollowing = (id: number, isFollowing: boolean): Toggle
         isFollowing,
     };
 };
-export const uploadUsers = (currentPage: number, uploadingUsersCount: number) =>  async (dispatch) => {
+export const uploadUsers = (currentPage: number, uploadingUsersCount: number) =>  async (dispatch: any) => {
     dispatch(changePageTo(currentPage));
     dispatch(togglePreloader(true));
     let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
@@ -193,7 +193,7 @@ export const uploadUsers = (currentPage: number, uploadingUsersCount: number) =>
     dispatch(setTotalUsersCount(data.totalCount));
     dispatch(setUsers(data.items));
 };
-export const follow = (userId: number) => async (dispatch) => {
+export const follow = (userId: number) => async (dispatch: any) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosFollow(userId);
 
@@ -202,7 +202,7 @@ export const follow = (userId: number) => async (dispatch) => {
         dispatch(followSuccess(userId));
     }
 };
-export const unfollow = (userId: number) => async (dispatch) => {
+export const unfollow = (userId: number) => async (dispatch: any) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosUnfollow(userId);
 
@@ -225,5 +225,3 @@ export const setBlockOfPages = (blockOfPages: number): SetBlockOfPagesType => {
 }
 
 export default usersReducer;
-
-// 160
