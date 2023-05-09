@@ -1,4 +1,6 @@
 import {apiServices, loginRequests} from "../../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./store-redux";
 
 const SET_USER_DATA_IN_STATE = 'SET_USER_DATA_IN_STATE';
 const SET_LOADING = 'SET_LOADING';
@@ -25,7 +27,7 @@ let initialState: InitialStateType = {
     captchaUrl: '',
 }
 
-const authReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA_IN_STATE:
             return {
@@ -51,6 +53,8 @@ const authReducer = (state: InitialStateType = initialState, action: any): Initi
             return state;
     }
 };
+type ActionType = SetUserDataInStateType | SetLoadingType | SetLoginMessageError | SetCaptcha
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
 
 type SetUserDataInStateType = {
     type: typeof SET_USER_DATA_IN_STATE
@@ -66,7 +70,7 @@ type SetUserDataInStateDataType = {
 export const setUserDataInState = (userId: number | null, email: string | null, login: string | null, isLogged: boolean): SetUserDataInStateType => {
     return {
         type: SET_USER_DATA_IN_STATE,
-        data: { userId, email, login, isLogged },
+        data: {userId, email, login, isLogged},
     }
 };
 
@@ -81,7 +85,7 @@ export const setLoading = (isLoading: boolean): SetLoadingType => {
         isLoading,
     }
 };
-export const setAuthUserData = () => async (dispatch: any) => {
+export const setAuthUserData = ():ThunkType => async (dispatch) => {
     dispatch(setLoading(true));
     let data = await apiServices.axiosCheckLogin();
 
@@ -111,7 +115,7 @@ type LoginType = {
     captcha: string
 }
 
-export const login = ({email, password, rememberMe, captcha}: LoginType) => async (dispatch :any) => {
+export const login = ({email, password, rememberMe, captcha}: LoginType):ThunkType => async (dispatch) => {
     dispatch(setLoading(true));
     let response = await loginRequests.axiosLoginUser({email, password, rememberMe, captcha});
 
@@ -130,13 +134,13 @@ export const login = ({email, password, rememberMe, captcha}: LoginType) => asyn
             return
     }
 };
-export const logout = () => async (dispatch: any) => {
+export const logout = ():ThunkType => async (dispatch) => {
     dispatch(setLoading(true));
     let response = await loginRequests.axiosLogeOutUser();
 
     dispatch(setLoading(false));
     if (response.data.resultCode === 0) {
-        dispatch(setUserDataInState(null, null,null, false));
+        dispatch(setUserDataInState(null, null, null, false));
     }
 };
 
@@ -151,7 +155,7 @@ export const setCaptcha = (captchaUrl: string): SetCaptcha => {
         captchaUrl,
     }
 };
-export const getCaptchaUrlFromSelver = () => async (dispatch: any) => {
+export const getCaptchaUrlFromSelver = ():ThunkType => async (dispatch) => {
     let response = await loginRequests.getLoginCaptcha();
     dispatch(setCaptcha(response.data.url));
 };

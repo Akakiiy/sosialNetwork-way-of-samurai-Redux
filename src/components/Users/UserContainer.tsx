@@ -36,9 +36,8 @@ const UsersContainer: React.FC<PropsType> = ({currentPage, uploadingUsersCount, 
                             setBlockOfPages, blockOfPages}) => {
 
     useEffect(() => {
-        console.log('UseEffect')
         uploadUsers(currentPage, uploadingUsersCount);
-    }); //currentPage
+    }, [currentPage]);
 
     const changePage = (page: number) => {
         uploadUsers(page, uploadingUsersCount);

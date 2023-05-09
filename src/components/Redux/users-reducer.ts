@@ -1,4 +1,6 @@
 import {apiServices} from "../../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./store-redux";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -24,6 +26,7 @@ export type UserType = {
     photos: PhotoType
     status: string | null
     followed: boolean
+    uniqueUrlName?: string | null
 }
 type PhotoType = {
     small: string | null
@@ -40,7 +43,7 @@ let initialState: InitialStateType = {
     blockOfPages: 1,
 };
 
-const usersReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -87,7 +90,7 @@ const usersReducer = (state: InitialStateType = initialState, action: any): Init
                 ...state,
                 areFollowing: action.isFollowing
                     ? [...state.areFollowing, action.id]
-                    : [state.areFollowing.filter(idBtn => action.id !== idBtn)]
+                    : [...state.areFollowing.filter(idBtn => action.id !== idBtn)]
             }
         case SET_CURRENT_BLOCK_OF_PAGES:
             return {
@@ -98,6 +101,8 @@ const usersReducer = (state: InitialStateType = initialState, action: any): Init
             return state;
     }
 };
+type ActionType = FollowSuccessType | UnfollowSuccessType | SetUsersType | ChangePageToType | SetTotalUsersCountType | TogglePreloaderType | SetBlockOfPagesType | ToggleButtonsFollowingType
+type ThunkType = ThunkAction<Promise<void>, AppStateType, undefined, ActionType>
 
 type FollowSuccessType = {
     type: typeof FOLLOW
@@ -125,10 +130,10 @@ export const unfollowSuccess = (userId: number): UnfollowSuccessType => {
 
 type SetUsersType = {
     type: typeof UPLOAD_USERS,
-    users: UserType
+    users: Array<UserType>
 }
 
-export const setUsers = (users: UserType): SetUsersType => {
+export const setUsers = (users: Array<UserType>): SetUsersType => {
     return {
         type: UPLOAD_USERS,
         users,
@@ -184,16 +189,17 @@ export const toggleButtonsFollowing = (id: number, isFollowing: boolean): Toggle
         isFollowing,
     };
 };
-export const uploadUsers = (currentPage: number, uploadingUsersCount: number) =>  async (dispatch: any) => {
+export const uploadUsers = (currentPage: number, uploadingUsersCount: number):ThunkType =>  async (dispatch) => {
     dispatch(changePageTo(currentPage));
     dispatch(togglePreloader(true));
     let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
 
     dispatch(togglePreloader(false));
     dispatch(setTotalUsersCount(data.totalCount));
+    console.log(data.items)
     dispatch(setUsers(data.items));
 };
-export const follow = (userId: number) => async (dispatch: any) => {
+export const follow = (userId: number): ThunkType => async (dispatch) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosFollow(userId);
 
@@ -202,7 +208,7 @@ export const follow = (userId: number) => async (dispatch: any) => {
         dispatch(followSuccess(userId));
     }
 };
-export const unfollow = (userId: number) => async (dispatch: any) => {
+export const unfollow = (userId: number): ThunkType => async (dispatch) => {
     dispatch(toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosUnfollow(userId);
 

@@ -1,4 +1,6 @@
 import {apiServices, photosRequests, profileInfoRequests, statusRequests} from "../../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./store-redux";
 
 const ADD_POST = 'ADD-POST';
 const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
@@ -54,7 +56,7 @@ let initialState = {
     isOwner: false,
 };
 
-const profileReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case ADD_POST:
             return {
@@ -81,11 +83,6 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
                 ...state,
                 profile: {...state.profile, photos: {...action.photos}} as ProfileType, //тут указана типизация, но так вроде делать нехорошо
             }
-        case SET_IS_OWNER:
-            return {
-                ...state,
-                isOwner: action.isOwner,
-            };
         case SET_USER_PROFILE_INFO:
             return {
                 ...state,
@@ -95,6 +92,8 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
             return state;
     }
 };
+type ActionType = AddPostType | DeletePostByIDType | SetUserProfileType | SetProfileStatus | SetUserPhoto | SetUserProfileInfoType
+type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
 
 type AddPostType = {
     type: typeof ADD_POST
@@ -131,7 +130,7 @@ export const setUserProfile = (profile: ProfileType) :SetUserProfileType => {
         profile,
     }
 };
-export const uploadUserProfile = (userId: number) => async (dispatch: any) => {
+export const uploadUserProfile = (userId: number): ThunkCreatorType => async (dispatch) => {
     let response = await apiServices.axiosGetUserProfile(userId);
 
     dispatch(setUserProfile(response.data));
@@ -148,11 +147,11 @@ export const setProfileStatus = (statusText: string): SetProfileStatus => {
         statusText
     }
 };
-export const getUserStatus = (userId: number) => async (dispatch: any) => {
+export const getUserStatus = (userId: number): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
     dispatch(setProfileStatus(request.data));
 };
-export const setUserStatus = (userStatusText: string) => async (dispatch: any) => {
+export const setUserStatus = (userStatusText: string): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);
     if (request.data.resultCode === 0) {
         dispatch(setProfileStatus(userStatusText));
@@ -170,7 +169,7 @@ export const setUserPhoto = (photos: PhotosType): SetUserPhoto => {
         photos,
     }
 };
-export const savePhoto = (photoFile: string) => async (dispatch: any) => {
+export const savePhoto = (photoFile: string): ThunkCreatorType => async (dispatch) => {
     const response = await photosRequests.putPhoto(photoFile);
 
     if (response.data.resultCode === 0) {
@@ -201,7 +200,7 @@ export const setUserProfileInfo = (profileInfoData: ProfileType): SetUserProfile
         profileInfoData,
     }
 };
-export const putUserProfileInfo = (profileInfoData: ProfileType) => async (dispatch: any) => {
+export const putUserProfileInfo = (profileInfoData: ProfileType): ThunkCreatorType => async (dispatch) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
     if (response.data.resultCode === 0) {
