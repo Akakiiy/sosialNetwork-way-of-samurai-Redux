@@ -3,8 +3,17 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import Preloader from "../common/Preloader/Preloader";
 import React from "react";
+import {ProfileType} from "../Redux/profile-reducer";
 
-const Profile = (props) => {
+type PropsType = {
+    profile: null | ProfileType,
+    isOwner: boolean
+    statusText: string
+    setUserStatus: () => void
+    savePhoto: () => void
+}
+
+const Profile: React.FC<PropsType> = (props) => {
 
     return (
         <div className={s.content}>

@@ -1,7 +1,25 @@
 import s from "./ProfileInfoContacts.module.css";
 import React from "react";
 
-const ProfileInfoText = ({lookingForAJobDescription, haveNoInfo, lookingForAJob, contacts, aboutMe}) => {
+type PropsType = {
+    lookingForAJobDescription: string
+    haveNoInfo: string
+    lookingForAJob: boolean
+    contacts: ContactType
+    aboutMe: string
+}
+export type ContactType = {
+    github?: string
+    vk?: string
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    website?: string
+    youtube?: string
+    mainLink?: string
+}
+
+const ProfileInfoText: React.FC<PropsType> = ({lookingForAJobDescription, haveNoInfo, lookingForAJob, contacts, aboutMe}) => {
     return (
         <>
             <div className={s.jubHunting}>
@@ -21,7 +39,7 @@ const ProfileInfoText = ({lookingForAJobDescription, haveNoInfo, lookingForAJob,
                     Object.keys(contacts).map(key => {
                         return (
                             <div key={key} className={s.link}>
-                                <span>{key}</span> &gt; {contacts[key] || haveNoInfo}
+                                <span>{key}</span> &gt; {contacts[key as keyof ContactType] || haveNoInfo}
                             </div>
                         )
                     })

@@ -1,17 +1,18 @@
 import s from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 import FriendsMiniContainer from "./FriendsMini/FriendsMiniContainer";
+import classNames from "classnames";
 
-const Navbar = (props) => {
+const Navbar = () => {
     return (
         <nav className={s.nav}>
             <div className={s.item}>
                 <NavLink activeClassName={s.active} to={'/profile'}>Profile</NavLink>
             </div>
-            <div className={`${s.item} ${s.active}`}>
+            <div className={classNames(s.item, s.active)}>
                 <NavLink activeClassName={s.active} to={'/dialogs'}>Messages</NavLink>
             </div>
-            <div className={`${s.item} ${s.active}`}>
+            <div className={classNames(s.item, s.active)}>
                 <NavLink activeClassName={s.active} to={'/users'}>Users</NavLink>
             </div>
             <div className={s.item}>
@@ -23,6 +24,7 @@ const Navbar = (props) => {
             <div className={s.item}>
                 <NavLink activeClassName={s.active} to={'/settings'}>Settings</NavLink>
             </div>
+            {/*@ts-ignore*/}
             <FriendsMiniContainer />
         </nav>
     )

@@ -4,21 +4,51 @@ import * as Yup from "yup";
 import React from "react";
 import FieldForProfileForm from "./FieldForProfileForm";
 import {connect} from "react-redux";
-import {putUserProfileInfo} from "../../../Redux/profile-reducer.ts";
+import {ProfileType, putUserProfileInfo} from "../../../Redux/profile-reducer";
 import {getUserIdSelector} from "../../../Redux/selectors/auth-selectors";
-import {getProfileSelector} from "../../../Redux/selectors/profile-selectors";
+import {getFullName} from "../../../Redux/selectors/profile-selectors";
+import {ContactType} from "../ProfileInfoContacts/ProfileTextInfo";
+import {AppStateType} from "../../../Redux/store-redux";
 
-const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, haveNoInfo, putUserProfileInfo, userId, fullName, aboutMe, changeChangeMode}) => {
+type PropsType = MDSPType & MDTPType & OwnPropsType
+type InitialValuesForFormType = {
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string
+    aboutMe: string
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+}
+type FormValuesType = {
+    lookingForAJobDescription: string
+    lookingForAJob: boolean
+    aboutMe: string
+    github?: string
+    vk?: string
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    website?: string
+    youtube?: string
+    mainLink?: string
+}
+
+const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescription, lookingForAJob, haveNoInfo, putUserProfileInfo, userId, fullName, aboutMe, changeChangeMode}) => {
 
     const urlYupValidator = Yup.string().matches(
         /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
         'Please enter correct url');
 
-    const InitialValuesForForm = (contacts, lookingForAJobDescription, lookingForAJob, ) => {
+    const InitialValuesForForm = (contacts: ContactType, lookingForAJobDescription: string, lookingForAJob: boolean, aboutMe: string): InitialValuesForFormType => {
         return {
             lookingForAJob: lookingForAJob,
             lookingForAJobDescription: lookingForAJobDescription || '',
-            aboutMe: aboutMe || '',
+            aboutMe,
             github: contacts.github || '',
             vk: contacts.vk || '',
             facebook: contacts.facebook || '',
@@ -29,13 +59,13 @@ const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, h
             mainLink: contacts.mainLink || '',
         }
     };
-    const combineUserProfileDataInfoForUploading = (values) => {
+    const combineUserProfileDataInfoForUploading = (values: FormValuesType): ProfileType => {
         return {
             userId,
             lookingForAJob: values.lookingForAJob,
             lookingForAJobDescription: values.lookingForAJobDescription,
             fullName,
-            aboutMe: values.aboutMe,
+            aboutMe,
             contacts: {
                 github: values.github,
                 vk: values.vk,
@@ -67,6 +97,7 @@ const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, h
                 onSubmit={(values, {resetForm}) => {
                     putUserProfileInfo(combineUserProfileDataInfoForUploading(values));
                     changeChangeMode();
+                    // @ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
                     resetForm(InitialValuesForForm(contacts, lookingForAJobDescription, lookingForAJob, aboutMe));
                 }}
                 validateOnBlur={true}
@@ -95,7 +126,7 @@ const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, h
                                 return (
                                     <div key={key} className={s.link}>
                                         <span>{key}</span> &gt; <FieldForProfileForm
-                                        placeholder={contacts[key] || haveNoInfo} type={'text'} name={key}/>
+                                        placeholder={contacts[key as keyof ContactType] || haveNoInfo} type={'text'} name={key}/>
                                     </div>
                                 )
                             })
@@ -114,11 +145,27 @@ const ProfileInfoForm = ({contacts, lookingForAJobDescription, lookingForAJob, h
     )
 }
 
-const mapStateToProps = (state) => {
+type MDSPType = {
+    userId: number | null
+    fullName: string | null
+}
+type MDTPType = {
+    putUserProfileInfo: (values: ProfileType) => void
+}
+type OwnPropsType = {
+    contacts: ContactType
+    lookingForAJobDescription: string
+    lookingForAJob: boolean
+    haveNoInfo: string
+    aboutMe: string
+    changeChangeMode: () => void
+}
+
+const mapStateToProps = (state: AppStateType): MDSPType => {
     return {
         userId: getUserIdSelector(state),
-        fullName: getProfileSelector(state).fullName,
+        fullName: getFullName(state),
     }
 }
 
-export default connect(mapStateToProps, {putUserProfileInfo})(ProfileInfoForm);
+export default connect<MDSPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {putUserProfileInfo})(ProfileInfoForm);

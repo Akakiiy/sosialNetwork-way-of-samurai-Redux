@@ -45,7 +45,7 @@ const App = (props) => {
                 <Route path={'/login'} render={() => {
                     return (
                         <Suspense fallback={<Preloader/>}>
-                            <LoginContainer/>
+                            <LoginContainer />
                         </Suspense>
                     )
                 }}/>

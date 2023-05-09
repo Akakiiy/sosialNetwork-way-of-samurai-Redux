@@ -3,7 +3,17 @@ import React from "react";
 import Post from "./Post/Post";
 import MyPostReduxForm from "./MyPostForm/MyPostForm";
 
-const MyPosts = (props) => {
+type PropsType = {
+    posts: Array<PostType>
+    addPost: (newPostText: string) => void
+}
+export type PostType = {
+    id: number
+    postMessage: string
+    likesCount: number
+}
+
+const MyPosts: React.FC<PropsType> = (props) => {
 
     return (
         <div className={s.postsContainer}>

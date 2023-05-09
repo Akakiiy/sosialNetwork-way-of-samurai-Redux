@@ -1,7 +1,13 @@
 import {ErrorMessage, Field} from "formik";
 import React from "react";
 
-const FieldForProfileForm = ({type, name, placeholder}) => {
+type PropsType = {
+    type: string
+    name: string
+    placeholder?: string
+}
+
+const FieldForProfileForm: React.FC<PropsType> = ({type, name, placeholder}) => {
     return(
         <div>
             <Field type={type}

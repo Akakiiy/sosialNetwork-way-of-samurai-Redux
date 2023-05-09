@@ -25,6 +25,15 @@ export const getProfileSelector = createSelector(getProfile,
     return profile;
 });
 
+export const getFullName = createSelector(getProfile,
+    (profile) => {
+    if (profile === null) {
+        return null
+    } else {
+        return profile.fullName
+    }
+})
+
 const getStatusPage = (state: AppStateType) => {
     return state.profilePage.statusText;
 };

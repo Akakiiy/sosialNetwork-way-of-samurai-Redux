@@ -1,9 +1,23 @@
 import s from './User.module.css';
 import profileImgPlug from "../../../assets/img/ryan-gosling.jpeg";
 import {NavLink} from "react-router-dom";
+import React from "react";
 
+type PropsType = {
+    id: number
+    name: string
+    status: string | null
+    photos: PhotosType
+    areFollowing: Array<number> //array with ids
+    followed: boolean
+    unfollow: (id: number) => void
+    follow: (id: number) => void
+}
+type PhotosType = {
+    small: string | null
+}
 
-const User = (props) => {
+const User: React.FC<PropsType> = (props) => {
     return (
         <>
             <div>

@@ -18,7 +18,7 @@ type InitialStateType = {
     areFollowing: Array<number>
     blockOfPages: number
 }
-type UserType = {
+export type UserType = {
     name: string
     id: number
     photos: PhotoType

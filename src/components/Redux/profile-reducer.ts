@@ -20,25 +20,26 @@ type PostType = {
     postMessage: string
     likesCount: number
 }
-type ProfileType = {
-    userId: number
+export type ProfileType = {
+    userId: number | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
-    fullName: string
+    fullName: string | null
+    aboutMe: string
     contacts: ContactsType
-    photos: PhotosType
+    photos?: PhotosType
 }
-type ContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
+export type ContactsType = {
+    github?: string
+    vk?: string
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    website?: string
+    youtube?: string
+    mainLink?: string
 }
-type PhotosType = {
+export type PhotosType = {
     small: string | null
     large: string | null
 }
@@ -78,7 +79,7 @@ const profileReducer = (state: InitialStateType = initialState, action: any): In
         case ADD_PHOTO:
             return {
                 ...state,
-                profile: {...state.profile, photos: {...action.photos}} as ProfileType, //тут указана типизация, но так вроде делать нельзя
+                profile: {...state.profile, photos: {...action.photos}} as ProfileType, //тут указана типизация, но так вроде делать нехорошо
             }
         case SET_IS_OWNER:
             return {

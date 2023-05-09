@@ -1,9 +1,18 @@
 import s from './ProfileInfo.module.css';
 import profileImgPlug from '../../../assets/img/ryan-gosling.jpeg'
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import ProfileInfoContacts from "./ProfileInfoContacts/ProfileInfoContacts";
+import {ProfileType} from "../../Redux/profile-reducer";
 
-const ProfileInfo = (props) => {
+type PropsType = {
+    profile: ProfileType
+    setUserStatus: (status: string) => void
+    savePhoto: (photo: any) => void
+    statusText: string
+    isOwner: boolean
+}
+
+const ProfileInfo: React.FC<PropsType> = (props) => {
 
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.statusText);
@@ -22,22 +31,22 @@ const ProfileInfo = (props) => {
         setEditMode(false)
         props.setUserStatus(status);
     };
-    const changeLocalStatus = (e) => {
+    const changeLocalStatus = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setStatus(e.target.value);
     }
-    const changeUserPhoto = (event) => {
-        if (event.target.files.length > 0) {
+    const changeUserPhoto = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target && event.target.files && event.target.files.length > 0) { //здесь идет проверка на null
             props.savePhoto(event.target.files[0]);
         }
         setImgInputEditMode(false);
-    }
+    };
 
     return (
         <div>
             <div className={s.profileInfo}>
                 <div className={s.imgWrapper}>
-                    <img className={s.avaImg} src={props.profile.photos.large || profileImgPlug}
-                         alt={props.profile.fullName}/>
+                    <img className={s.avaImg} src={(props.profile.photos && props.profile.photos.large) || profileImgPlug}
+                         alt={props.profile.fullName || ''}/>
                     {
                         props.isOwner && (imgInputEditMode && <input className={s.inputForImg}
                                                                      type={'file'}

@@ -2,9 +2,15 @@ import s from './ProfileInfoContacts.module.css';
 import React, {useState} from "react";
 import ProfileInfoForm from "../ProfileInfoForm/ProfileInfoForm";
 import ProfileInfoText from "./ProfileTextInfo";
+import {ProfileType} from "../../../Redux/profile-reducer";
 
-const haveNoInfo = 'ничего не указано';
-const ProfileInfoContacts = ({profile, isOwner, putUserProfileInfo}) => {
+type PropsType = {
+    profile: ProfileType
+    isOwner: boolean
+}
+
+const haveNoInfo: string = 'ничего не указано';
+const ProfileInfoContacts: React.FC<PropsType> = ({profile, isOwner}) => {
     const [changeMode, setChangeMode] = useState(false);
 
     const changeChangeMode = () => {
@@ -20,7 +26,6 @@ const ProfileInfoContacts = ({profile, isOwner, putUserProfileInfo}) => {
                                        lookingForAJobDescription={profile.lookingForAJobDescription}
                                        lookingForAJob={profile.lookingForAJob}
                                        aboutMe={profile.aboutMe}
-                                       putUserProfileInfo={putUserProfileInfo}
                                        changeChangeMode={changeChangeMode}/>
                     : <ProfileInfoText contacts={profile.contacts}
                                        haveNoInfo={haveNoInfo}

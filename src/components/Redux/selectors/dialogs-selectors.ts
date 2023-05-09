@@ -4,7 +4,7 @@ import {AppStateType} from "../store-redux";
 const getDialogs = (state: AppStateType) => {
     return state.dialogPage.dialogs;
 };
-export const getDialogSelector = createSelector(getDialogs,
+export const getDialogsSelector = createSelector(getDialogs,
     (dialogs) => {
     return dialogs;
 });

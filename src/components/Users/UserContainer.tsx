@@ -1,9 +1,8 @@
 import {connect} from "react-redux";
-import {unfollow, follow, uploadUsers, setBlockOfPages} from "../Redux/users-reducer.ts";
+import {unfollow, follow, uploadUsers, setBlockOfPages, UserType} from "../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {useEffect} from "react";
-import {compose} from "redux";
+import React, {useEffect} from "react";
 import {
     getAreFollowing, getBlockOfPagesSelector,
     getCurrentPage, getIsLoadingSelector,
@@ -11,17 +10,37 @@ import {
     getUploadingUsersCount,
     getUsers
 } from "../Redux/selectors/users-selectors";
+import {AppStateType} from "../Redux/store-redux";
 
-const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
+type MSTPType = {
+    users: Array<UserType>
+    totalUsersCount: number | null
+    currentPage: number
+    uploadingUsersCount: number
+    areFollowing: Array<number>
+    isLoading: boolean
+    blockOfPages: number
+}
+type MDTPType = {
+    uploadUsers: (currentPage: number, uploadingUsersCount: number) => void
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    setBlockOfPages: (blockOfPages: number) => void
+}
+type OwnPropsType = {}
+type PropsType = MSTPType & MDTPType & OwnPropsType
+
+const UsersContainer: React.FC<PropsType> = ({currentPage, uploadingUsersCount, totalUsersCount,
                             isLoading, uploadUsers, users,
                             areFollowing,unfollow, follow,
                             setBlockOfPages, blockOfPages}) => {
 
     useEffect(() => {
+        console.log('UseEffect')
         uploadUsers(currentPage, uploadingUsersCount);
-    }, [currentPage]);
+    }); //currentPage
 
-    const changePage = (page) => {
+    const changePage = (page: number) => {
         uploadUsers(page, uploadingUsersCount);
     }
 
@@ -45,7 +64,7 @@ const UsersContainer = ({currentPage, uploadingUsersCount, totalUsersCount,
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         users: getUsers(state),
         totalUsersCount: getTotalUsersCount(state),
@@ -57,6 +76,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(
-    connect(mapStateToProps, {uploadUsers, follow, unfollow, setBlockOfPages}),
-)(UsersContainer);
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {uploadUsers, follow, unfollow, setBlockOfPages})(UsersContainer);

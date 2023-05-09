@@ -1,8 +1,23 @@
 import s from "./Users.module.css";
 import User from "./User/User";
 import UsersPagesPaginator from "./UsersPagesPaginator";
+import {UserType} from "../Redux/users-reducer";
+import React from "react";
 
-const Users = (props) => {
+type PropsType = {
+    users: Array<UserType>
+    totalUsersCount: number | null
+    currentPage: number
+    uploadingUsersCount: number
+    areFollowing: Array<number>
+    blockOfPages: number
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    setBlockOfPages: (blockOfPages: number) => void
+    changePage: (page: number) => void
+}
+
+const Users: React.FC<PropsType> = (props) => {
 
     return (
         <div className={s.usersWrapper}>

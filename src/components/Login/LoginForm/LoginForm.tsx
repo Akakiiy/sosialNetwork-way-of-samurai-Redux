@@ -3,7 +3,18 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import React from "react";
 import * as Yup from "yup";
 
-const LoginForm = (props) => {
+type PropsType = {
+    captchaUrl: string | null
+    login: (values: ValuesType) => void
+}
+export type ValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+}
+
+const LoginForm: React.FC<PropsType> = (props) => {
 
     return (
         <Formik
@@ -12,7 +23,7 @@ const LoginForm = (props) => {
                 email: Yup.string().email('Invalid email').required('Required'),
                 password: Yup.string().required('Required'),
             })}
-            onSubmit={(values) => {
+            onSubmit={(values: ValuesType) => {
                 props.login(values);
             }}
             validateOnBlur={true}

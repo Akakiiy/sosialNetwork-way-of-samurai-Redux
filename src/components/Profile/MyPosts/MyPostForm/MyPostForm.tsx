@@ -1,12 +1,17 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-const MyPostForm = (props) => {
+type PropsType = {
+    addPost: (newPostText: string) => void
+}
+
+const MyPostForm: React.FC<PropsType> = (props) => {
     return (
         <Formik
             initialValues={{ newPostText: ''}}
             onSubmit={(values, {resetForm}) => {
                 props.addPost(values.newPostText);
+                //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
                 resetForm({ newPostText: ''});
             }}
         >
