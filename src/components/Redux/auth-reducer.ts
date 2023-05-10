@@ -1,4 +1,4 @@
-import {apiServices, loginRequests} from "../../api/api";
+import {apiServices, loginRequests, ResultCodeEnum} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store-redux";
 
@@ -108,7 +108,7 @@ const setLoginMessageError = (loginErrorMessage: string | null): SetLoginMessage
     }
 };
 
-type LoginType = {
+export type LoginType = {
     email: string
     password: string
     rememberMe: boolean
@@ -121,15 +121,15 @@ export const login = ({email, password, rememberMe, captcha}: LoginType):ThunkTy
 
     dispatch(setLoading(false));
     switch (response.data.resultCode) {
-        case 0:
+        case ResultCodeEnum.Success:
             dispatch(setLoginMessageError(null));
             dispatch(setCaptcha(''));
             dispatch(setAuthUserData());
             return;
-        case 10:
+        case ResultCodeEnum.CaptchaError:
             dispatch(getCaptchaUrlFromSelver());
             return;
-        default:
+        case ResultCodeEnum.Error:
             dispatch(setLoginMessageError(response.data.messages[0]));
             return
     }
@@ -139,7 +139,7 @@ export const logout = ():ThunkType => async (dispatch) => {
     let response = await loginRequests.axiosLogeOutUser();
 
     dispatch(setLoading(false));
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodeEnum.Success) {
         dispatch(setUserDataInState(null, null, null, false));
     }
 };

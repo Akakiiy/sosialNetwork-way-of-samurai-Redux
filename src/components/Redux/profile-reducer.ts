@@ -1,4 +1,4 @@
-import {apiServices, photosRequests, profileInfoRequests, statusRequests} from "../../api/api";
+import {apiServices, photosRequests, profileInfoRequests, ResultCodeEnum, statusRequests} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store-redux";
 
@@ -88,11 +88,16 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
                 ...state,
                 profile: {...state.profile, ...action.profileInfoData},
             }
+        case SET_IS_OWNER:
+            return {
+                ...state,
+                isOwner: action.isOwner
+            }
         default :
             return state;
     }
 };
-type ActionType = AddPostType | DeletePostByIDType | SetUserProfileType | SetProfileStatus | SetUserPhoto | SetUserProfileInfoType
+type ActionType = AddPostType | DeletePostByIDType | SetUserProfileType | SetProfileStatus | SetUserPhoto | SetUserProfileInfoType | SetIsOwner
 type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
 
 type AddPostType = {
@@ -149,11 +154,11 @@ export const setProfileStatus = (statusText: string): SetProfileStatus => {
 };
 export const getUserStatus = (userId: number): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
-    dispatch(setProfileStatus(request.data));
+    dispatch(setProfileStatus(request.statusText));
 };
 export const setUserStatus = (userStatusText: string): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);
-    if (request.data.resultCode === 0) {
+    if (request.data.resultCode === ResultCodeEnum.Success) {
         dispatch(setProfileStatus(userStatusText));
     }
 };
@@ -172,7 +177,7 @@ export const setUserPhoto = (photos: PhotosType): SetUserPhoto => {
 export const savePhoto = (photoFile: string): ThunkCreatorType => async (dispatch) => {
     const response = await photosRequests.putPhoto(photoFile);
 
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodeEnum.Success) {
         dispatch(setUserPhoto(response.data.data.photos));
     }
 };
@@ -203,7 +208,7 @@ export const setUserProfileInfo = (profileInfoData: ProfileType): SetUserProfile
 export const putUserProfileInfo = (profileInfoData: ProfileType): ThunkCreatorType => async (dispatch) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodeEnum.Success) {
         dispatch(setUserProfileInfo(profileInfoData));
     } else {
         console.log(response.data.messages[0]);

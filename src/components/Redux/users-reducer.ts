@@ -1,4 +1,4 @@
-import {apiServices} from "../../api/api";
+import {apiServices, ResultCodeEnum} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store-redux";
 
@@ -204,7 +204,7 @@ export const follow = (userId: number): ThunkType => async (dispatch) => {
     let resultCode = await apiServices.axiosFollow(userId);
 
     dispatch(toggleButtonsFollowing(userId, false));
-    if (resultCode === 0) {
+    if (resultCode === ResultCodeEnum.Success) {
         dispatch(followSuccess(userId));
     }
 };
@@ -213,7 +213,7 @@ export const unfollow = (userId: number): ThunkType => async (dispatch) => {
     let resultCode = await apiServices.axiosUnfollow(userId);
 
     dispatch(toggleButtonsFollowing(userId, false));
-    if (resultCode === 0) {
+    if (resultCode === ResultCodeEnum.Success) {
         dispatch(unfollowSuccess(userId));
     }
 };
