@@ -24,7 +24,6 @@ const Navbar = () => {
             <div className={s.item}>
                 <NavLink activeClassName={s.active} to={'/settings'}>Settings</NavLink>
             </div>
-            {/*@ts-ignore*/}
             <FriendsMiniContainer />
         </nav>
     )

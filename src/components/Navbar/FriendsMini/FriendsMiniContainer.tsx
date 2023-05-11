@@ -9,13 +9,12 @@ type MSTPType = {
 }
 type MDTPType = {}
 type OwnPropsType = {}
-type PropsType = MSTPType & MDTPType & OwnPropsType;
 
-const mapStateToProps = (state: AppStateType): PropsType => {
+const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         friends: state.sidebar.friends,
         isLogged: getIsLoggedSelector(state),
     };
 };
 
-export default connect<MSTPType, MDTPType, PropsType, AppStateType>(mapStateToProps, {})(FriendsMini);
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {})(FriendsMini);

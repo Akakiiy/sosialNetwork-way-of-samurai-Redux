@@ -14,7 +14,7 @@ let initialState = {
     ],
 };
 
-const sidebarReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const sidebarReducer = (state: InitialStateType = initialState, action: void): InitialStateType => {
     return state;
 };
 

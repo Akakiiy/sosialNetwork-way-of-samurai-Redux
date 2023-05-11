@@ -1,6 +1,6 @@
-import {apiServices, ResultCodeEnum} from "../../api/api";
-import {ThunkAction} from "redux-thunk";
-import {ActionsTypes, AppStateType} from "./store-redux";
+import {ResultCodeEnum} from "../../api/api";
+import {ActionsTypes, ThunkType} from "./store-redux";
+import {usersRequests} from "../../api/userRequests";
 
 type InitialStateType = {
     users: Array<UserType>
@@ -94,7 +94,6 @@ const usersReducer = (state: InitialStateType = initialState, action: UserAction
 };
 
 type UserActionType = ActionsTypes<typeof usersActions>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, undefined, UserActionType>
 
 export const usersActions = {
     followSuccess: (userId: number) => ({type: 'FOLLOW', userId} as const),
@@ -106,27 +105,27 @@ export const usersActions = {
     setBlockOfPages: (blockOfPages: number) => ({type: 'SET_CURRENT_BLOCK_OF_PAGES', blockOfPages} as const),
     toggleButtonsFollowing: (id: number, isFollowing: boolean) => ({type: 'TOGGLE_BUTTONS_FOLLOWING', id, isFollowing} as const)
 }
-export const uploadUsers = (currentPage: number, uploadingUsersCount: number):ThunkType =>  async (dispatch) => {
+export const uploadUsers = (currentPage: number, uploadingUsersCount: number):ThunkType<UserActionType> =>  async (dispatch) => {
     dispatch(usersActions.changePageTo(currentPage));
     dispatch(usersActions.togglePreloader(true));
-    let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
+    let data = await usersRequests.axiosGetUsers(currentPage, uploadingUsersCount);
 
     dispatch(usersActions.togglePreloader(false));
     dispatch(usersActions.setTotalUsersCount(data.totalCount));
     dispatch(usersActions.setUsers(data.items));
 };
-export const follow = (userId: number): ThunkType => async (dispatch) => {
+export const follow = (userId: number): ThunkType<UserActionType> => async (dispatch) => {
     dispatch(usersActions.toggleButtonsFollowing(userId, true));
-    let resultCode = await apiServices.axiosFollow(userId);
+    let resultCode = await usersRequests.axiosFollow(userId);
 
     dispatch(usersActions.toggleButtonsFollowing(userId, false));
     if (resultCode === ResultCodeEnum.Success) {
         dispatch(usersActions.followSuccess(userId));
     }
 };
-export const unfollow = (userId: number): ThunkType => async (dispatch) => {
+export const unfollow = (userId: number): ThunkType<UserActionType> => async (dispatch) => {
     dispatch(usersActions.toggleButtonsFollowing(userId, true));
-    let resultCode = await apiServices.axiosUnfollow(userId);
+    let resultCode = await usersRequests.axiosUnfollow(userId);
 
     dispatch(usersActions.toggleButtonsFollowing(userId, false));
     if (resultCode === ResultCodeEnum.Success) {

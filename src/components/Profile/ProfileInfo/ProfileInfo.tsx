@@ -7,7 +7,7 @@ import {ProfileType} from "../../Redux/profile-reducer";
 type PropsType = {
     profile: ProfileType
     setUserStatus: (status: string) => void
-    savePhoto: (photo: any) => void
+    savePhoto: (photo: File) => void
     statusText: string
     isOwner: boolean
 }

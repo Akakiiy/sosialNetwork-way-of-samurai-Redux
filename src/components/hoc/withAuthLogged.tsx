@@ -18,21 +18,21 @@ const mapStateToPropsForLogged = (state: AppStateType): MSTPForLoggedType => {
     }
 }
 
-export const WithAuthLogged = (Component: any) => { //ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
-    class WithAuthLoggedContainer extends React.Component<PropsType> {
+    export const WithAuthLogged = (Component: React.ComponentType<any>) => { //ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
+        class WithAuthLoggedContainer extends React.Component<PropsType> {
 
-        render() {
-            if (!this.props.isLogged) {
-                return <Redirect to={'/login'} />
+            render() {
+                if (!this.props.isLogged) {
+                    return <Redirect to={'/login'} />
+                }
+                return (
+                    <Component {...this.props} />
+                );
             }
-            return (
-                <Component {...this.props} />
-            );
         }
-    }
 
-    return compose(
-        withRouter,
-        connect(mapStateToPropsForLogged),
-    )(WithAuthLoggedContainer);
-};
+        return compose(
+            withRouter,
+            connect(mapStateToPropsForLogged),
+        )(WithAuthLoggedContainer);
+    };

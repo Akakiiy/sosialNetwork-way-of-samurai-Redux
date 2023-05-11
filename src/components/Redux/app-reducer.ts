@@ -1,6 +1,5 @@
 import {setAuthUserData} from './auth-reducer'
-import {ThunkAction} from "redux-thunk";
-import {ActionsTypes, AppStateType} from "./store-redux";
+import {ActionsTypes, ThunkType} from "./store-redux";
 
 
 let initialState = {
@@ -24,7 +23,7 @@ export const appActions = {
     initialization : () => ({type: 'START_INITIALIZATION'} as const)
 }
 
-export const initializeApp = ():ThunkAction<void, AppStateType, unknown, AppActionTypes> => (dispatch) => {
+export const initializeApp = ():ThunkType<AppActionTypes> => (dispatch) => {
     let promiseMeRequest = dispatch(setAuthUserData());
 
     Promise.all([promiseMeRequest])

@@ -57,7 +57,7 @@ type MDTPType = {
     uploadUserProfile: (userId: number) => void
     getUserStatus: (userId: number) => void
     setUserStatus: (userStatusText: string) => void
-    savePhoto: (photoFile: string) => void
+    savePhoto: (photoFile: File) => void
     setIsOwner: (isOwner: boolean) => void
 }
 type OwnPropsType = {}
@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch: any): MDTPType => {
         uploadUserProfile: (userId: number) => dispatch(uploadUserProfile(userId)),
         getUserStatus: (userId: number) => dispatch(getUserStatus(userId)),
         setUserStatus: (userStatusText: string) => dispatch(setUserStatus(userStatusText)),
-        savePhoto: (photoFile: string) => dispatch(savePhoto(photoFile)),
+        savePhoto: (photoFile: File) => dispatch(savePhoto(photoFile)),
         setIsOwner: (isOwner: boolean) => dispatch(profileActions.setIsOwner(isOwner))
     }
 }

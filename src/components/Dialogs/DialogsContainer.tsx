@@ -30,7 +30,7 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         messages: getMessagesSelector(state),
     };
 };
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any): MDTPType => {
     return {
         addDialogMessage: (messageData: string) => dispatch(dialogsActions.addDialogMessage(messageData))
     }

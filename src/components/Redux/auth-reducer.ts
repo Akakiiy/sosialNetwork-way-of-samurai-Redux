@@ -1,6 +1,7 @@
-import {apiServices, loginRequests, ResultCodeEnum} from "../../api/api";
-import {ThunkAction} from "redux-thunk";
-import {ActionsTypes, AppStateType} from "./store-redux";
+import {ResultCodeEnum} from "../../api/api";
+import {ActionsTypes, ThunkType} from "./store-redux";
+import {usersRequests} from "../../api/userRequests";
+import {loginRequests} from "../../api/loginRequests";
 
 type InitialStateType = {
     userId: number | null
@@ -50,7 +51,7 @@ const authReducer = (state: InitialStateType = initialState, action: ReducerActi
 };
 type ReducerActionsTypes = ActionsTypes<typeof authActions>
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ReducerActionsTypes>
+// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ReducerActionsTypes>
 
 const authActions = {
     setUserDataInState: (userId: number | null,
@@ -62,9 +63,9 @@ const authActions = {
     setCaptcha: (captchaUrl: string) => ({type: 'SET_CAPTCHA_URL', captchaUrl} as const)
 };
 
-export const setAuthUserData = ():ThunkType => async (dispatch) => {
+export const setAuthUserData = (): ThunkType<ReducerActionsTypes> => async (dispatch) => {
     dispatch(authActions.setLoading(true));
-    let data = await apiServices.axiosCheckLogin();
+    let data = await usersRequests.axiosCheckLogin();
 
     dispatch(authActions.setLoading(false));
     if (data.resultCode === ResultCodeEnum.Success) {
@@ -80,7 +81,7 @@ export type LoginType = {
     captcha: string
 }
 
-export const login = ({email, password, rememberMe, captcha}: LoginType):ThunkType => async (dispatch) => {
+export const login = ({email, password, rememberMe, captcha}: LoginType): ThunkType<ReducerActionsTypes> => async (dispatch) => {
     dispatch(authActions.setLoading(true));
     let response = await loginRequests.axiosLoginUser({email, password, rememberMe, captcha});
 
@@ -99,7 +100,7 @@ export const login = ({email, password, rememberMe, captcha}: LoginType):ThunkTy
             return
     }
 };
-export const logout = ():ThunkType => async (dispatch) => {
+export const logout = (): ThunkType<ReducerActionsTypes> => async (dispatch) => {
     dispatch(authActions.setLoading(true));
     let response = await loginRequests.axiosLogeOutUser();
 
@@ -108,7 +109,7 @@ export const logout = ():ThunkType => async (dispatch) => {
         dispatch(authActions.setUserDataInState(null, null, null, false));
     }
 };
-export const getCaptchaUrlFromSelver = ():ThunkType => async (dispatch) => {
+export const getCaptchaUrlFromSelver = (): ThunkType<ReducerActionsTypes> => async (dispatch) => {
     let response = await loginRequests.getLoginCaptcha();
     dispatch(authActions.setCaptcha(response.data.url));
 };

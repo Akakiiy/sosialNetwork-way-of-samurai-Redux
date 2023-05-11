@@ -1,6 +1,7 @@
-import {apiServices, photosRequests, profileInfoRequests, ResultCodeEnum, statusRequests} from "../../api/api";
-import {ThunkAction} from "redux-thunk";
-import {ActionsTypes, AppStateType} from "./store-redux";
+import {ResultCodeEnum} from "../../api/api";
+import {ActionsTypes, ThunkType} from "./store-redux";
+import {usersRequests} from "../../api/userRequests";
+import {photosRequests, profileInfoRequests, statusRequests} from "../../api/profileRequests";
 
 type InitialStateType = {
     posts: PostsType
@@ -91,8 +92,6 @@ const profileReducer = (state: InitialStateType = initialState, action: ProfileA
 };
 type ProfileActionType = ActionsTypes<typeof profileActions>
 
-type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionType>
-
 export const profileActions = {
     addPost: (postMessage: string) => ({type: 'ADD_POST', postMessage} as const),
     deletePostByID: (postId: number) => ({type: 'DELETE_POST', postId} as const),
@@ -103,29 +102,29 @@ export const profileActions = {
     setIsOwner: (isOwner: boolean) => ({type: 'SET_IS_OWNER', isOwner} as const)
 }
 
-export const uploadUserProfile = (userId: number): ThunkCreatorType => async (dispatch) => {
-    let response = await apiServices.axiosGetUserProfile(userId);
+export const uploadUserProfile = (userId: number): ThunkType<ProfileActionType> => async (dispatch) => {
+    let response = await usersRequests.axiosGetUserProfile(userId);
 
     dispatch(profileActions.setUserProfile(response.data));
 };
-export const getUserStatus = (userId: number): ThunkCreatorType => async (dispatch) => {
+export const getUserStatus = (userId: number): ThunkType<ProfileActionType> => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
     dispatch(profileActions.setProfileStatus(request.statusText));
 };
-export const setUserStatus = (userStatusText: string): ThunkCreatorType => async (dispatch) => {
+export const setUserStatus = (userStatusText: string): ThunkType<ProfileActionType> => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);
     if (request.data.resultCode === ResultCodeEnum.Success) {
         dispatch(profileActions.setProfileStatus(userStatusText));
     }
 };
-export const savePhoto = (photoFile: string): ThunkCreatorType => async (dispatch) => {
+export const savePhoto = (photoFile: File): ThunkType<ProfileActionType> => async (dispatch) => {
     const response = await photosRequests.putPhoto(photoFile);
 
     if (response.data.resultCode === ResultCodeEnum.Success) {
         dispatch(profileActions.setUserPhoto(response.data.data.photos));
     }
 };
-export const putUserProfileInfo = (profileInfoData: ProfileType): ThunkCreatorType => async (dispatch) => {
+export const putUserProfileInfo = (profileInfoData: ProfileType): ThunkType<ProfileActionType> => async (dispatch) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
     if (response.data.resultCode === ResultCodeEnum.Success) {
