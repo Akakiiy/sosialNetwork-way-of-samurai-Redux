@@ -5,9 +5,9 @@ import {
     getUserStatus,
     ProfileType,
     savePhoto,
-    setIsOwner,
     setUserStatus,
-    uploadUserProfile
+    uploadUserProfile,
+    profileActions
 } from "../Redux/profile-reducer";
 import {withRouter} from "react-router-dom";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
@@ -16,7 +16,7 @@ import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../Redu
 import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 import {AppStateType} from "../Redux/store-redux";
 
-type PropsType = MSTPType & MDTPType & OwnProps
+type PropsType = MSTPType & MDTPType & OwnPropsType
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
 
@@ -56,11 +56,11 @@ type MSTPType = {
 type MDTPType = {
     uploadUserProfile: (userId: number) => void
     getUserStatus: (userId: number) => void
-    setUserStatus: () => void
-    savePhoto: () => void
+    setUserStatus: (userStatusText: string) => void
+    savePhoto: (photoFile: string) => void
     setIsOwner: (isOwner: boolean) => void
 }
-type OwnProps = {}
+type OwnPropsType = {}
 
 const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
@@ -70,9 +70,18 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         isOwner: getIsOwnerSelector(state),
     }
 };
+const mapDispatchToProps = (dispatch: any): MDTPType => {
+    return {
+        uploadUserProfile: (userId: number) => dispatch(uploadUserProfile(userId)),
+        getUserStatus: (userId: number) => dispatch(getUserStatus(userId)),
+        setUserStatus: (userStatusText: string) => dispatch(setUserStatus(userStatusText)),
+        savePhoto: (photoFile: string) => dispatch(savePhoto(photoFile)),
+        setIsOwner: (isOwner: boolean) => dispatch(profileActions.setIsOwner(isOwner))
+    }
+}
 
 export default compose(
-    connect(mapStateToProps, {uploadUserProfile, getUserStatus, setUserStatus, savePhoto, setIsOwner}),
+    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps),
     withRouter,
     WithAuthLogged,
 )(ProfileContainer);

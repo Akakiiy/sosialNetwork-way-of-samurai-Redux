@@ -1,4 +1,4 @@
-import {addPost} from "../../Redux/profile-reducer";
+import {profileActions} from "../../Redux/profile-reducer";
 import MyPosts, {PostType} from "./MyPosts";
 import {connect} from "react-redux";
 import {getPostsSelector} from "../../Redux/selectors/profile-selectors";
@@ -17,4 +17,10 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         posts: getPostsSelector(state),
     };
 };
-export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {addPost})(MyPosts)
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        addPost: (postMessage: string) => dispatch(profileActions.addPost(postMessage))
+    }
+}
+
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(MyPosts)

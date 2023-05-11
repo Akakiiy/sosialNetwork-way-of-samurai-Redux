@@ -1,21 +1,6 @@
-const ADD_DIALOG_MESSAGE = 'ADD_DIALOG_MESSAGE';
+import {ActionsTypes} from "./store-redux";
 
-type InitialStateType = {
-    dialogs: DialogsType
-    messages: MessagesType
-}
-type DialogsType = Array<DialogType>
-type MessagesType = Array<MessageType>
-type DialogType = {
-    id: number
-    name: string
-}
-type MessageType = {
-    id: number
-    message: string
-}
-
-let initialState: InitialStateType = {
+let initialState = {
     dialogs: [
         {id: 1, name: 'Ryan Gosling'},
         {id: 2, name: 'Anton'},
@@ -30,9 +15,11 @@ let initialState: InitialStateType = {
     ],
 };
 
-const dialogsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+type InitialStateType = typeof initialState
+
+const dialogsReducer = (state: InitialStateType = initialState, action: DialogsActionType): InitialStateType => {
     switch (action.type) {
-        case ADD_DIALOG_MESSAGE:
+        case 'ADD_DIALOG_MESSAGE':
             return {
                 ...state,
                 messages: [...state.messages, {id: 4, message: action.messageData,}],
@@ -41,17 +28,10 @@ const dialogsReducer = (state: InitialStateType = initialState, action: ActionTy
             return state;
     }
 };
-type ActionType = AddDialogMessageType
+type DialogsActionType = ActionsTypes<typeof dialogsActions>
 
-type AddDialogMessageType = {
-    type: typeof ADD_DIALOG_MESSAGE
-    messageData: string
+export const dialogsActions = {
+    addDialogMessage: (messageData: string) => ({type: 'ADD_DIALOG_MESSAGE', messageData} as const)
 }
 
-export const addDialogMessage = (messageData: string): AddDialogMessageType => {
-    return {
-        type: ADD_DIALOG_MESSAGE,
-        messageData,
-    }
-};
 export default dialogsReducer;

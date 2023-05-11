@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {unfollow, follow, uploadUsers, setBlockOfPages, UserType} from "../Redux/users-reducer";
+import {unfollow, follow, uploadUsers, UserType, usersActions} from "../Redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import React, {useEffect} from "react";
@@ -12,22 +12,6 @@ import {
 } from "../Redux/selectors/users-selectors";
 import {AppStateType} from "../Redux/store-redux";
 
-type MSTPType = {
-    users: Array<UserType>
-    totalUsersCount: number | null
-    currentPage: number
-    uploadingUsersCount: number
-    areFollowing: Array<number>
-    isLoading: boolean
-    blockOfPages: number
-}
-type MDTPType = {
-    uploadUsers: (currentPage: number, uploadingUsersCount: number) => void
-    follow: (id: number) => void
-    unfollow: (id: number) => void
-    setBlockOfPages: (blockOfPages: number) => void
-}
-type OwnPropsType = {}
 type PropsType = MSTPType & MDTPType & OwnPropsType
 
 const UsersContainer: React.FC<PropsType> = ({currentPage, uploadingUsersCount, totalUsersCount,
@@ -62,7 +46,22 @@ const UsersContainer: React.FC<PropsType> = ({currentPage, uploadingUsersCount, 
         </>
     );
 }
-
+type MSTPType = {
+    users: Array<UserType>
+    totalUsersCount: number | null
+    currentPage: number
+    uploadingUsersCount: number
+    areFollowing: Array<number>
+    isLoading: boolean
+    blockOfPages: number
+}
+type MDTPType = {
+    uploadUsers: (currentPage: number, uploadingUsersCount: number) => void
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    setBlockOfPages: (blockOfPages: number) => void
+}
+type OwnPropsType = {}
 const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         users: getUsers(state),
@@ -74,5 +73,13 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         blockOfPages: getBlockOfPagesSelector(state),
     };
 };
+const mapDispatchToProps = (dispatch: any): MDTPType => {
+    return {
+        uploadUsers: (currentPage: number, uploadingUsersCount: number) => dispatch(uploadUsers(currentPage, uploadingUsersCount)),
+        follow: (id: number) => dispatch(follow(id)),
+        unfollow: (id: number) => dispatch(unfollow(id)),
+        setBlockOfPages: (blockOfPages: number) => dispatch(usersActions.setBlockOfPages(blockOfPages))
+    }
+}
 
-export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {uploadUsers, follow, unfollow, setBlockOfPages})(UsersContainer);
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersContainer);

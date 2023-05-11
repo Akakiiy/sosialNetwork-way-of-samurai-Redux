@@ -1,15 +1,6 @@
 import {apiServices, ResultCodeEnum} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./store-redux";
-
-const FOLLOW = 'FOLLOW';
-const UNFOLLOW = 'UNFOLLOW';
-const UPLOAD_USERS = 'UPLOAD_USERS';
-const CHANGE_CURRENT_PAGE = 'CHANGE_CURRENT_PAGE';
-const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
-const TOGGLE_BUTTONS_FOLLOWING = 'TOGGLE_BUTTONS_FOLLOWING';
-const SET_CURRENT_BLOCK_OF_PAGES = 'SET_CURRENT_BLOCK_OF_PAGES';
+import {ActionsTypes, AppStateType} from "./store-redux";
 
 type InitialStateType = {
     users: Array<UserType>
@@ -43,9 +34,9 @@ let initialState: InitialStateType = {
     blockOfPages: 1,
 };
 
-const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
-        case FOLLOW:
+        case 'FOLLOW':
             return {
                 ...state,
                 users : state.users.map(user => {
@@ -55,7 +46,7 @@ const usersReducer = (state: InitialStateType = initialState, action: ActionType
                     return user;
                 }),
             }
-        case UNFOLLOW:
+        case 'UNFOLLOW':
             return {
                 ...state,
                 users : state.users.map(user => {
@@ -65,34 +56,34 @@ const usersReducer = (state: InitialStateType = initialState, action: ActionType
                     return user;
                 }),
             }
-        case UPLOAD_USERS:
+        case 'UPLOAD_USERS':
             return {
                 ...state,
                 users: [...action.users]
             }
-        case CHANGE_CURRENT_PAGE:
+        case 'CHANGE_CURRENT_PAGE':
             return {
                 ...state,
                 currentPage: action.pageId,
             }
-        case SET_TOTAL_USERS_COUNT:
+        case 'SET_TOTAL_USERS_COUNT':
             return {
                 ...state,
                 totalUsersCount: action.totalUsersCount,
             }
-        case TOGGLE_PRELOADER:
+        case 'TOGGLE_PRELOADER':
             return {
                 ...state,
                 isLoading: action.isLoading,
             }
-        case TOGGLE_BUTTONS_FOLLOWING:
+        case 'TOGGLE_BUTTONS_FOLLOWING':
             return {
                 ...state,
                 areFollowing: action.isFollowing
                     ? [...state.areFollowing, action.id]
                     : [...state.areFollowing.filter(idBtn => action.id !== idBtn)]
             }
-        case SET_CURRENT_BLOCK_OF_PAGES:
+        case 'SET_CURRENT_BLOCK_OF_PAGES':
             return {
                 ...state,
                 blockOfPages: action.blockOfPages,
@@ -101,133 +92,46 @@ const usersReducer = (state: InitialStateType = initialState, action: ActionType
             return state;
     }
 };
-type ActionType = FollowSuccessType | UnfollowSuccessType | SetUsersType | ChangePageToType | SetTotalUsersCountType | TogglePreloaderType | SetBlockOfPagesType | ToggleButtonsFollowingType
-type ThunkType = ThunkAction<Promise<void>, AppStateType, undefined, ActionType>
 
-type FollowSuccessType = {
-    type: typeof FOLLOW
-    userId: number
+type UserActionType = ActionsTypes<typeof usersActions>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, undefined, UserActionType>
+
+export const usersActions = {
+    followSuccess: (userId: number) => ({type: 'FOLLOW', userId} as const),
+    unfollowSuccess: (userId: number) => ({type: 'UNFOLLOW', userId} as const),
+    setUsers: (users: Array<UserType>) => ({type: 'UPLOAD_USERS', users} as const),
+    changePageTo: (pageId: number) => ({type: 'CHANGE_CURRENT_PAGE', pageId} as const),
+    setTotalUsersCount: (totalUsersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', totalUsersCount} as const),
+    togglePreloader: (isLoading: boolean) => ({type: 'TOGGLE_PRELOADER', isLoading} as const),
+    setBlockOfPages: (blockOfPages: number) => ({type: 'SET_CURRENT_BLOCK_OF_PAGES', blockOfPages} as const),
+    toggleButtonsFollowing: (id: number, isFollowing: boolean) => ({type: 'TOGGLE_BUTTONS_FOLLOWING', id, isFollowing} as const)
 }
-
-export const followSuccess = (userId: number): FollowSuccessType => {
-    return {
-        type: FOLLOW,
-        userId,
-    };
-};
-
-type UnfollowSuccessType = {
-    type: typeof UNFOLLOW
-    userId: number
-}
-
-export const unfollowSuccess = (userId: number): UnfollowSuccessType => {
-    return {
-        type: UNFOLLOW,
-        userId,
-    }
-};
-
-type SetUsersType = {
-    type: typeof UPLOAD_USERS,
-    users: Array<UserType>
-}
-
-export const setUsers = (users: Array<UserType>): SetUsersType => {
-    return {
-        type: UPLOAD_USERS,
-        users,
-    }
-};
-
-type ChangePageToType = {
-    type: typeof CHANGE_CURRENT_PAGE
-    pageId: number
-}
-
-export const changePageTo = (pageId: number): ChangePageToType => {
-    return {
-        type: CHANGE_CURRENT_PAGE,
-        pageId,
-    }
-};
-
-type SetTotalUsersCountType = {
-    type: typeof SET_TOTAL_USERS_COUNT
-    totalUsersCount: number
-}
-
-export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountType => {
-    return {
-        type: SET_TOTAL_USERS_COUNT,
-        totalUsersCount,
-    }
-};
-
-type TogglePreloaderType = {
-    type: typeof TOGGLE_PRELOADER
-    isLoading: boolean
-}
-
-export const togglePreloader = (isLoading: boolean): TogglePreloaderType => {
-    return {
-        type: TOGGLE_PRELOADER,
-        isLoading,
-    }
-};
-
-type ToggleButtonsFollowingType = {
-    type: typeof TOGGLE_BUTTONS_FOLLOWING
-    id: number
-    isFollowing: boolean
-}
-
-export const toggleButtonsFollowing = (id: number, isFollowing: boolean): ToggleButtonsFollowingType => {
-    return {
-        type: TOGGLE_BUTTONS_FOLLOWING,
-        id,
-        isFollowing,
-    };
-};
 export const uploadUsers = (currentPage: number, uploadingUsersCount: number):ThunkType =>  async (dispatch) => {
-    dispatch(changePageTo(currentPage));
-    dispatch(togglePreloader(true));
+    dispatch(usersActions.changePageTo(currentPage));
+    dispatch(usersActions.togglePreloader(true));
     let data = await apiServices.axiosGetUsers(currentPage, uploadingUsersCount);
 
-    dispatch(togglePreloader(false));
-    dispatch(setTotalUsersCount(data.totalCount));
-    console.log(data.items)
-    dispatch(setUsers(data.items));
+    dispatch(usersActions.togglePreloader(false));
+    dispatch(usersActions.setTotalUsersCount(data.totalCount));
+    dispatch(usersActions.setUsers(data.items));
 };
 export const follow = (userId: number): ThunkType => async (dispatch) => {
-    dispatch(toggleButtonsFollowing(userId, true));
+    dispatch(usersActions.toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosFollow(userId);
 
-    dispatch(toggleButtonsFollowing(userId, false));
+    dispatch(usersActions.toggleButtonsFollowing(userId, false));
     if (resultCode === ResultCodeEnum.Success) {
-        dispatch(followSuccess(userId));
+        dispatch(usersActions.followSuccess(userId));
     }
 };
 export const unfollow = (userId: number): ThunkType => async (dispatch) => {
-    dispatch(toggleButtonsFollowing(userId, true));
+    dispatch(usersActions.toggleButtonsFollowing(userId, true));
     let resultCode = await apiServices.axiosUnfollow(userId);
 
-    dispatch(toggleButtonsFollowing(userId, false));
+    dispatch(usersActions.toggleButtonsFollowing(userId, false));
     if (resultCode === ResultCodeEnum.Success) {
-        dispatch(unfollowSuccess(userId));
+        dispatch(usersActions.unfollowSuccess(userId));
     }
 };
-
-type SetBlockOfPagesType = {
-    type: typeof SET_CURRENT_BLOCK_OF_PAGES
-    blockOfPages: number
-}
-
-export const setBlockOfPages = (blockOfPages: number): SetBlockOfPagesType => {
-    return {
-        type: SET_CURRENT_BLOCK_OF_PAGES,
-        blockOfPages,
-    }
-}
 
 export default usersReducer;

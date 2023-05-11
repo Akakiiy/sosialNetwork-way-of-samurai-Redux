@@ -1,5 +1,5 @@
 import s from '../ProfileInfoContacts/ProfileInfoContacts.module.css';
-import {Form, Formik} from "formik";
+import {Form, Formik, FormikProps} from "formik";
 import * as Yup from "yup";
 import React from "react";
 import FieldForProfileForm from "./FieldForProfileForm";
@@ -10,22 +10,10 @@ import {getFullName} from "../../../Redux/selectors/profile-selectors";
 import {ContactType} from "../ProfileInfoContacts/ProfileTextInfo";
 import {AppStateType} from "../../../Redux/store-redux";
 
-type PropsType = MDSPType & MDTPType & OwnPropsType
-type InitialValuesForFormType = {
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string
-    aboutMe: string
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
-}
+type PropsType = MDSPType & MDTPType & OwnPropsType; //& FormikProps<FormValuesType>
+
 type FormValuesType = {
-    lookingForAJobDescription: string
+    lookingForAJobDescription: string | undefined
     lookingForAJob: boolean
     aboutMe: string
     github?: string
@@ -38,17 +26,20 @@ type FormValuesType = {
     mainLink?: string
 }
 
-const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescription, lookingForAJob, haveNoInfo, putUserProfileInfo, userId, fullName, aboutMe, changeChangeMode}) => {
+const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescription,
+                                                  lookingForAJob, haveNoInfo,
+                                                  putUserProfileInfo, userId,
+                                                  fullName, aboutMe, changeChangeMode }) => {
 
     const urlYupValidator = Yup.string().matches(
         /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
         'Please enter correct url');
 
-    const InitialValuesForForm = (contacts: ContactType, lookingForAJobDescription: string, lookingForAJob: boolean, aboutMe: string): InitialValuesForFormType => {
+    const InitialValuesForForm = (contacts: ContactType, lookingForAJobDescription: string, lookingForAJob: boolean, aboutMe: string): FormValuesType => {
         return {
             lookingForAJob: lookingForAJob,
             lookingForAJobDescription: lookingForAJobDescription || '',
-            aboutMe,
+            aboutMe: aboutMe || '',
             github: contacts.github || '',
             vk: contacts.vk || '',
             facebook: contacts.facebook || '',
@@ -57,13 +48,14 @@ const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescripti
             website: contacts.website || '',
             youtube: contacts.youtube || '',
             mainLink: contacts.mainLink || '',
-        }
+        };
     };
+
     const combineUserProfileDataInfoForUploading = (values: FormValuesType): ProfileType => {
         return {
             userId,
             lookingForAJob: values.lookingForAJob,
-            lookingForAJobDescription: values.lookingForAJobDescription,
+            lookingForAJobDescription: values.lookingForAJobDescription || '',
             fullName,
             aboutMe,
             contacts: {
@@ -75,8 +67,8 @@ const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescripti
                 website: values.website,
                 youtube: values.youtube,
                 mainLink: values.mainLink,
-            }
-        }
+            },
+        };
     };
 
     return (
@@ -94,10 +86,10 @@ const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescripti
                     youtube: urlYupValidator,
                     mainLink: urlYupValidator,
                 })}
-                onSubmit={(values, {resetForm}) => {
+                onSubmit={(values, { resetForm }) => {
                     putUserProfileInfo(combineUserProfileDataInfoForUploading(values));
                     changeChangeMode();
-                    // @ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
+                    //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
                     resetForm(InitialValuesForForm(contacts, lookingForAJobDescription, lookingForAJob, aboutMe));
                 }}
                 validateOnBlur={true}
@@ -105,9 +97,10 @@ const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescripti
                 <Form>
                     <div className={s.jubHunting}>
                         <div className={s.professionalSkills}>
-                            <span>My professional skills</span> <FieldForProfileForm placeholder={lookingForAJobDescription || haveNoInfo}
-                                                                                     type={'text'}
-                                                                                     name={'lookingForAJobDescription'}/>
+                            <span>My professional skills</span> <FieldForProfileForm
+                            placeholder={lookingForAJobDescription || haveNoInfo}
+                            type={'text'}
+                            name={'lookingForAJobDescription'}/>
                         </div>
                         <div className={s.professionalSkills}>
                             <span>Looking for a job</span><FieldForProfileForm type={'checkbox'}
@@ -126,7 +119,8 @@ const ProfileInfoForm: React.FC<PropsType> = ({contacts, lookingForAJobDescripti
                                 return (
                                     <div key={key} className={s.link}>
                                         <span>{key}</span> &gt; <FieldForProfileForm
-                                        placeholder={contacts[key as keyof ContactType] || haveNoInfo} type={'text'} name={key}/>
+                                        placeholder={contacts[key as keyof ContactType] || haveNoInfo} type={'text'}
+                                        name={key}/>
                                     </div>
                                 )
                             })

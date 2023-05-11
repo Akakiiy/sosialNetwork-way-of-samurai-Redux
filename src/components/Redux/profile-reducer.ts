@@ -1,14 +1,6 @@
 import {apiServices, photosRequests, profileInfoRequests, ResultCodeEnum, statusRequests} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./store-redux";
-
-const ADD_POST = 'ADD-POST';
-const UPLOAD_USER_PROFILE = 'UPLOAD-USER-PROFILE';
-const SET_STATUS = 'CHANGE_STATUS';
-const DELETE_POST ='DELETE_POST';
-const ADD_PHOTO = 'ADD_PHOTO';
-const SET_IS_OWNER = 'SET_IS_OWNER';
-const SET_USER_PROFILE_INFO = 'SET_USER_PROFILE_INFO';
+import {ActionsTypes, AppStateType} from "./store-redux";
 
 type InitialStateType = {
     posts: PostsType
@@ -56,39 +48,39 @@ let initialState = {
     isOwner: false,
 };
 
-const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD_POST':
             return {
                 ...state,
                 posts: [...state.posts, {id: 3, postMessage: action.postMessage, likesCount: 210,}],
             }
-        case UPLOAD_USER_PROFILE:
+        case 'UPLOAD_USER_PROFILE':
             return {
                 ...state,
                 profile: action.profile,
             }
-        case SET_STATUS:
+        case 'SET_STATUS':
             return {
                 ...state,
                 statusText: action.statusText,
             }
-        case DELETE_POST:
+        case 'DELETE_POST':
             return {
                 ...state,
                 posts: state.posts.filter(post => post.id !== +action.postId)
             }
-        case ADD_PHOTO:
+        case 'ADD_PHOTO':
             return {
                 ...state,
                 profile: {...state.profile, photos: {...action.photos}} as ProfileType, //тут указана типизация, но так вроде делать нехорошо
             }
-        case SET_USER_PROFILE_INFO:
+        case 'SET_USER_PROFILE_INFO':
             return {
                 ...state,
                 profile: {...state.profile, ...action.profileInfoData},
             }
-        case SET_IS_OWNER:
+        case 'SET_IS_OWNER':
             return {
                 ...state,
                 isOwner: action.isOwner
@@ -97,121 +89,47 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionTy
             return state;
     }
 };
-type ActionType = AddPostType | DeletePostByIDType | SetUserProfileType | SetProfileStatus | SetUserPhoto | SetUserProfileInfoType | SetIsOwner
-type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
+type ProfileActionType = ActionsTypes<typeof profileActions>
 
-type AddPostType = {
-    type: typeof ADD_POST
-    postMessage: string
+type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionType>
+
+export const profileActions = {
+    addPost: (postMessage: string) => ({type: 'ADD_POST', postMessage} as const),
+    deletePostByID: (postId: number) => ({type: 'DELETE_POST', postId} as const),
+    setUserProfile: (profile: ProfileType) => ({type: 'UPLOAD_USER_PROFILE', profile} as const),
+    setProfileStatus: (statusText: string) => ({type: 'SET_STATUS', statusText} as const),
+    setUserPhoto: (photos: PhotosType) => ({type: 'ADD_PHOTO', photos} as const),
+    setUserProfileInfo: (profileInfoData: ProfileType) => ({type: 'SET_USER_PROFILE_INFO', profileInfoData} as const),
+    setIsOwner: (isOwner: boolean) => ({type: 'SET_IS_OWNER', isOwner} as const)
 }
 
-export const addPost = (postMessage: string): AddPostType => {
-    return {
-        type: ADD_POST,
-        postMessage,
-    };
-};
-
-type DeletePostByIDType = {
-    type: typeof DELETE_POST
-    postId: number
-}
-
-export const deletePostByID = (postId: number): DeletePostByIDType => {
-    return {
-        type: DELETE_POST,
-        postId,
-    }
-};
-
-type SetUserProfileType = {
-    type: typeof UPLOAD_USER_PROFILE
-    profile: ProfileType
-}
-
-export const setUserProfile = (profile: ProfileType) :SetUserProfileType => {
-    return {
-        type: UPLOAD_USER_PROFILE,
-        profile,
-    }
-};
 export const uploadUserProfile = (userId: number): ThunkCreatorType => async (dispatch) => {
     let response = await apiServices.axiosGetUserProfile(userId);
 
-    dispatch(setUserProfile(response.data));
-};
-
-type SetProfileStatus = {
-    type: typeof SET_STATUS
-    statusText: string
-}
-
-export const setProfileStatus = (statusText: string): SetProfileStatus => {
-    return {
-        type: SET_STATUS,
-        statusText
-    }
+    dispatch(profileActions.setUserProfile(response.data));
 };
 export const getUserStatus = (userId: number): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
-    dispatch(setProfileStatus(request.statusText));
+    dispatch(profileActions.setProfileStatus(request.statusText));
 };
 export const setUserStatus = (userStatusText: string): ThunkCreatorType => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);
     if (request.data.resultCode === ResultCodeEnum.Success) {
-        dispatch(setProfileStatus(userStatusText));
-    }
-};
-
-type SetUserPhoto = {
-    type: typeof ADD_PHOTO
-    photos: PhotosType
-}
-
-export const setUserPhoto = (photos: PhotosType): SetUserPhoto => {
-    return {
-        type: ADD_PHOTO,
-        photos,
+        dispatch(profileActions.setProfileStatus(userStatusText));
     }
 };
 export const savePhoto = (photoFile: string): ThunkCreatorType => async (dispatch) => {
     const response = await photosRequests.putPhoto(photoFile);
 
     if (response.data.resultCode === ResultCodeEnum.Success) {
-        dispatch(setUserPhoto(response.data.data.photos));
-    }
-};
-
-type SetIsOwner = {
-    type: typeof SET_IS_OWNER
-    isOwner: boolean
-}
-
-export const setIsOwner = (isOwner: boolean): SetIsOwner => {
-    return {
-        type: SET_IS_OWNER,
-        isOwner,
-    }
-};
-
-type SetUserProfileInfoType = {
-    type: typeof SET_USER_PROFILE_INFO
-    profileInfoData: ProfileType
-}
-
-export const setUserProfileInfo = (profileInfoData: ProfileType): SetUserProfileInfoType => {
-    return {
-        type: SET_USER_PROFILE_INFO,
-        profileInfoData,
+        dispatch(profileActions.setUserPhoto(response.data.data.photos));
     }
 };
 export const putUserProfileInfo = (profileInfoData: ProfileType): ThunkCreatorType => async (dispatch) => {
 
     const response = await profileInfoRequests.setUserProfileInfo(profileInfoData);
     if (response.data.resultCode === ResultCodeEnum.Success) {
-        dispatch(setUserProfileInfo(profileInfoData));
-    } else {
-        console.log(response.data.messages[0]);
+        dispatch(profileActions.setUserProfileInfo(profileInfoData));
     }
 };
 

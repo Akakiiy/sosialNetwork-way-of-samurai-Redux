@@ -9,8 +9,8 @@ type PropsType = {
     profile: null | ProfileType,
     isOwner: boolean
     statusText: string
-    setUserStatus: () => void
-    savePhoto: () => void
+    setUserStatus: (userStatusText: string) => void
+    savePhoto: (photoFile: string) => void
 }
 
 const Profile: React.FC<PropsType> = (props) => {

@@ -1,4 +1,4 @@
-import {addDialogMessage} from "../Redux/dialogs-reducer";
+import {dialogsActions} from "../Redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {WithAuthLogged} from "../hoc/withAuthLogged";
@@ -30,8 +30,13 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         messages: getMessagesSelector(state),
     };
 };
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        addDialogMessage: (messageData: string) => dispatch(dialogsActions.addDialogMessage(messageData))
+    }
+}
 
 export default compose(
-    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {addDialogMessage}),
+    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps),
     WithAuthLogged,
 )(Dialogs);
