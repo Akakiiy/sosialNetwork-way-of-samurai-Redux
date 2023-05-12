@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {ProfileType, putUserProfileInfo} from "../../../Redux/profile-reducer";
 import {getUserIdSelector} from "../../../Redux/selectors/auth-selectors";
 import {getFullName} from "../../../Redux/selectors/profile-selectors";
-import {ContactType} from "../ProfileInfoContacts/ProfileTextInfo";
+import {ContactsType} from "../ProfileInfoContacts/ProfileTextInfo";
 import {AppStateType} from "../../../Redux/store-redux";
 
 type PropsType = MDSPType & MDTPType & OwnPropsType; //& FormikProps<FormValuesType>
@@ -35,7 +35,7 @@ const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescript
         /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
         'Please enter correct url');
 
-    const InitialValuesForForm = (contacts: ContactType, lookingForAJobDescription: string, lookingForAJob: boolean, aboutMe: string): FormValuesType => {
+    const InitialValuesForForm = (contacts: ContactsType, lookingForAJobDescription: string, lookingForAJob: boolean, aboutMe: string): FormValuesType => {
         return {
             lookingForAJob: lookingForAJob,
             lookingForAJobDescription: lookingForAJobDescription || '',
@@ -118,7 +118,7 @@ const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescript
                                 return (
                                     <div key={key} className={s.link}>
                                         <span>{key}</span> &gt; <FieldForProfileForm
-                                        placeholder={contacts[key as keyof ContactType] || haveNoInfo} type={'text'}
+                                        placeholder={contacts[key as keyof ContactsType] || haveNoInfo} type={'text'}
                                         name={key}/>
                                     </div>
                                 )
@@ -146,7 +146,7 @@ type MDTPType = {
     putUserProfileInfo: (values: ProfileType) => void
 }
 type OwnPropsType = {
-    contacts: ContactType
+    contacts: ContactsType
     lookingForAJobDescription: string
     lookingForAJob: boolean
     haveNoInfo: string

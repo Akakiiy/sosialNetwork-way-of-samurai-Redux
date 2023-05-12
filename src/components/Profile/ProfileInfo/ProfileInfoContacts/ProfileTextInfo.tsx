@@ -5,10 +5,10 @@ type PropsType = {
     lookingForAJobDescription: string
     haveNoInfo: string
     lookingForAJob: boolean
-    contacts: ContactType
+    contacts: ContactsType
     aboutMe: string
 }
-export type ContactType = {
+export type ContactsType = {
     github?: string
     vk?: string
     facebook?: string
@@ -39,7 +39,7 @@ const ProfileInfoText: React.FC<PropsType> = ({lookingForAJobDescription, haveNo
                     Object.keys(contacts).map(key => {
                         return (
                             <div key={key} className={s.link}>
-                                <span>{key}</span> &gt; {contacts[key as keyof ContactType] || haveNoInfo}
+                                <span>{key}</span> &gt; {contacts[key as keyof ContactsType] || haveNoInfo}
                             </div>
                         )
                     })

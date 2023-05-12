@@ -17,12 +17,14 @@ import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 import {AppStateType} from "../Redux/store-redux";
 import {RouteComponentProps} from "react-router";
 
-type PropsType = MSTPType & MDTPType & OwnPropsType & RouteComponentProps
+type PathParamPropsType = {
+    userId: string
+}
+type PropsType = MSTPType & MDTPType & OwnPropsType & RouteComponentProps<PathParamPropsType>
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
 
-    //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
-    let userId = props.match.params.userId; //вытаскиваем ID из URL
+    let userId: number | null = +props.match.params.userId; //вытаскиваем ID из URL
 
     const refreshProfile = () => {
         if (!userId) {
@@ -31,8 +33,8 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
         } else {
             props.setIsOwner(false);
         }
-        props.uploadUserProfile(userId);
-        props.getUserStatus(userId);
+        props.uploadUserProfile(userId as number);
+        props.getUserStatus(userId as number);
     }
 
     useEffect(() => {
