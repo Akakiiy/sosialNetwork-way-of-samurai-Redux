@@ -17,10 +17,4 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         posts: getPostsSelector(state),
     };
 };
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        addPost: (postMessage: string) => dispatch(profileActions.addPost(postMessage))
-    }
-}
-
-export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(MyPosts)
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {addPost: profileActions.addPost})(MyPosts)

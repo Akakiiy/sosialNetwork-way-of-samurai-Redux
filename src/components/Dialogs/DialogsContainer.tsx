@@ -30,13 +30,7 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         messages: getMessagesSelector(state),
     };
 };
-const mapDispatchToProps = (dispatch: any): MDTPType => {
-    return {
-        addDialogMessage: (messageData: string) => dispatch(dialogsActions.addDialogMessage(messageData))
-    }
-}
-
 export default compose(
-    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps),
+    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {addDialogMessage: dialogsActions.addDialogMessage}),
     WithAuthLogged,
 )(Dialogs);

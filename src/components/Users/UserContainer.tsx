@@ -73,13 +73,9 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         blockOfPages: getBlockOfPagesSelector(state),
     };
 };
-const mapDispatchToProps = (dispatch: any): MDTPType => {
-    return {
-        uploadUsers: (currentPage: number, uploadingUsersCount: number) => dispatch(uploadUsers(currentPage, uploadingUsersCount)),
-        follow: (id: number) => dispatch(follow(id)),
-        unfollow: (id: number) => dispatch(unfollow(id)),
-        setBlockOfPages: (blockOfPages: number) => dispatch(usersActions.setBlockOfPages(blockOfPages))
-    }
-}
-
-export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {
+    uploadUsers,
+    follow,
+    unfollow,
+    setBlockOfPages: usersActions.setBlockOfPages
+})(UsersContainer);

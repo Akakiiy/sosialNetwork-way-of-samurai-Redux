@@ -70,18 +70,15 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         isOwner: getIsOwnerSelector(state),
     }
 };
-const mapDispatchToProps = (dispatch: any): MDTPType => {
-    return {
-        uploadUserProfile: (userId: number) => dispatch(uploadUserProfile(userId)),
-        getUserStatus: (userId: number) => dispatch(getUserStatus(userId)),
-        setUserStatus: (userStatusText: string) => dispatch(setUserStatus(userStatusText)),
-        savePhoto: (photoFile: File) => dispatch(savePhoto(photoFile)),
-        setIsOwner: (isOwner: boolean) => dispatch(profileActions.setIsOwner(isOwner))
-    }
-}
 
 export default compose(
-    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps),
+    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {
+        uploadUserProfile,
+        getUserStatus,
+        setUserStatus,
+        savePhoto,
+        setIsOwner: profileActions.setIsOwner
+    }),
     withRouter,
     WithAuthLogged,
 )(ProfileContainer);
