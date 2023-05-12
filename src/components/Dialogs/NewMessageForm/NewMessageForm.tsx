@@ -25,8 +25,7 @@ const NewMessageForm: React.FC<PropsType> = (props) => {
             })}
             onSubmit={(values: MessageType, {resetForm}) => {
                 props.addDialogMessage(values.message);
-                //@ts-ignore
-                resetForm(initialMessageValue); //ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
+                resetForm();
             }}
             validateOnBlur={true}
         >
@@ -39,9 +38,8 @@ const NewMessageForm: React.FC<PropsType> = (props) => {
                            placeholder={'new message'}/>
                     <ErrorMessage name="message"
                                   component="div"
-                                  // @ts-ignore
+                                  // @ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
                                   style={({color: 'red'}) as React.CSSProperties}
-                        //ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
                     />
                 </div>
                 <div>

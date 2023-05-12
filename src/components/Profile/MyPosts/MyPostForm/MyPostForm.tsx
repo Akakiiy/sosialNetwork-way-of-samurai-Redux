@@ -11,8 +11,7 @@ const MyPostForm: React.FC<PropsType> = (props) => {
             initialValues={{ newPostText: ''}}
             onSubmit={(values, {resetForm}) => {
                 props.addPost(values.newPostText);
-                //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
-                resetForm({ newPostText: ''});
+                resetForm();
             }}
         >
             <Form>

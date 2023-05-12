@@ -89,8 +89,7 @@ const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescript
                 onSubmit={(values, { resetForm }) => {
                     putUserProfileInfo(combineUserProfileDataInfoForUploading(values));
                     changeChangeMode();
-                    //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
-                    resetForm(InitialValuesForForm(contacts, lookingForAJobDescription, lookingForAJob, aboutMe));
+                    resetForm();
                 }}
                 validateOnBlur={true}
             >

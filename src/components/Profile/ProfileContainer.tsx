@@ -15,12 +15,13 @@ import {compose} from "redux";
 import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
 import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 import {AppStateType} from "../Redux/store-redux";
+import {RouteComponentProps} from "react-router";
 
-type PropsType = MSTPType & MDTPType & OwnPropsType
+type PropsType = MSTPType & MDTPType & OwnPropsType & RouteComponentProps
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
 
-    // @ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
+    //@ts-ignore ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ ВНИМАНИЕ
     let userId = props.match.params.userId; //вытаскиваем ID из URL
 
     const refreshProfile = () => {
