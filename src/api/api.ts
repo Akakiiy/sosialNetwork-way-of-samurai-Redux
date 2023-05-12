@@ -53,9 +53,7 @@ export type AxiosGetUsersResponseType = {
     totalCount: number
     error: string | null
 }
-export type GetUserStatusType = {
-    status: string
-}
+export type GetUserStatusType = string
 export type GetLoginCaptchaType = {
     url: string
 }

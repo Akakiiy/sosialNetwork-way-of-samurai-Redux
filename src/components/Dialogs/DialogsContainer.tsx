@@ -5,6 +5,7 @@ import {WithAuthLogged} from "../hoc/withAuthLogged";
 import {compose} from "redux";
 import {getDialogsSelector, getMessagesSelector} from "../Redux/selectors/dialogs-selectors";
 import {AppStateType} from "../Redux/store-redux";
+import React from "react";
 
 type MSTPType = {
     dialogs: Array<DialogType>
@@ -21,9 +22,7 @@ export type MessageType = {
 type MDTPType = {
     addDialogMessage: (message: string) => void
 }
-type OwnPropsType = {
-    isLogged: boolean
-}
+type OwnPropsType = {}
 const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         dialogs: getDialogsSelector(state),
@@ -33,4 +32,4 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
 export default compose(
     connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {addDialogMessage: dialogsActions.addDialogMessage}),
     WithAuthLogged,
-)(Dialogs);
+)(Dialogs) as React.ComponentType;

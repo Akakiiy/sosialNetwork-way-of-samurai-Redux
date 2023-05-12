@@ -109,7 +109,7 @@ export const uploadUserProfile = (userId: number): ThunkType<ProfileActionType> 
 };
 export const getUserStatus = (userId: number): ThunkType<ProfileActionType> => async (dispatch) => {
     let request = await statusRequests.getUserStatus(userId);
-    dispatch(profileActions.setProfileStatus(request.statusText));
+    dispatch(profileActions.setProfileStatus(request.data));
 };
 export const setUserStatus = (userStatusText: string): ThunkType<ProfileActionType> => async (dispatch) => {
     let request = await statusRequests.setUserStatus(userStatusText);

@@ -84,4 +84,4 @@ export default compose(
     }),
     withRouter,
     WithAuthLogged,
-)(ProfileContainer);
+)(ProfileContainer) as React.ComponentType;

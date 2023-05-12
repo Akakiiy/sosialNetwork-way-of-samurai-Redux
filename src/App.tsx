@@ -9,14 +9,17 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {initializeApp} from "./components/Redux/app-reducer.ts";
+import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import {AppStateType} from "./components/Redux/store-redux";
 
 const UsersContainer = React.lazy(() => import("./components/Users/UserContainer"));
 const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
 
-const App = (props) => {
+type PropsType = MSTPType & MDTPType
+
+const App: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         props.initializeApp()
@@ -55,7 +58,14 @@ const App = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
+type MSTPType = {
+    initialization: boolean
+}
+type MDTPType = {
+    initializeApp: () => void
+}
+
+const mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         initialization: state.app.initialization,
     }
@@ -63,5 +73,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {initializeApp}),
-)(App);
+    connect<MSTPType, MDTPType, {}, AppStateType>(mapStateToProps, {initializeApp}),
+)(App) as React.ComponentType;
