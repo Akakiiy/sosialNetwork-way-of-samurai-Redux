@@ -23,8 +23,10 @@ export const usersRequests = {
         return requestsForUserProfile.get<ProfileType>("profile/" + userId);
     },
     axiosGetUsers: (currentPage: number, uploadingUsers: number, term: string, friend: null | boolean) => {
+        console.log(`users?page=${currentPage}&count=${uploadingUsers}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
         return requestsDefault.get<AxiosGetUsersResponseType>(`users?page=${currentPage}&count=${uploadingUsers}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
             .then(response => {
+                console.log(response.data)
                 return response.data
             });
     },

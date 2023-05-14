@@ -10,9 +10,10 @@ type PropsType = {
     term: string
     friend: null | boolean
     isLoading: boolean
+    changePage: (page: number) => void
 }
 
-const UsersSearchForm: React.FC<PropsType> = ({searchUsers, friend, term, isLoading}) => {
+const UsersSearchForm: React.FC<PropsType> = ({searchUsers, friend, term, isLoading, changePage}) => {
     const initialValues: InitialValuesType = {
         term,
         friend: JSON.stringify(friend)
@@ -24,6 +25,7 @@ const UsersSearchForm: React.FC<PropsType> = ({searchUsers, friend, term, isLoad
             onSubmit={(values) => {
                 const {term, friend} = values
                 searchUsers(term, JSON.parse(friend));
+                changePage(1)
             }}
         >
                 <Form>

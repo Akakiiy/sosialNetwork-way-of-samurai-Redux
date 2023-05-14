@@ -13,8 +13,8 @@ import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {AppStateType} from "./components/Redux/store-redux";
+import {Users} from "./components/Users/Users";
 
-const UsersContainer = React.lazy(() => import("./components/Users/UserContainer"));
 const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
 
 type PropsType = MSTPType & MDTPType
@@ -36,12 +36,7 @@ const App: React.FC<PropsType> = (props) => {
             <div className={'app-wrapper-content'}>
                 <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>} />
                 <Route path={'/dialogs'} render={() => <DialogsContainer />} />
-                <Route path={'/users'} render={() => {
-                    return (
-                        <Suspense fallback={<Preloader/>}>
-                            <UsersContainer />
-                        </Suspense>)
-                }} />
+                <Route path={'/users'} render={() => <Users />} />
                 <Route path={'/news'} render={News} />
                 <Route path={'/music'} render={Music} />
                 <Route path={'/settings'} render={Settings} />

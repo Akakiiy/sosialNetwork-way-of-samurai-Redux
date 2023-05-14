@@ -8,7 +8,7 @@ type PropsType = {
     setBlockOfPages: (blockOfPages: number) => void
     changePage: (page: number) => void
     blockOfPages: number
-    countPagesInABlock: number
+    pagesInABlock: number
     isLoading: boolean
 }
 
@@ -16,7 +16,7 @@ const UsersPagesPaginator: React.FC<PropsType> = (props) => {
 
     const {currentPage, changePage,
         totalUsersCount, uploadingUsersCount,
-        countPagesInABlock, setBlockOfPages, blockOfPages, isLoading} = props
+        pagesInABlock, setBlockOfPages, blockOfPages, isLoading} = props
 
 
     let totalPages: number = Math.ceil(totalUsersCount || 0 / uploadingUsersCount),
@@ -26,9 +26,9 @@ const UsersPagesPaginator: React.FC<PropsType> = (props) => {
         pagesArr.push(i)
     }
 
-    let minPageNum: number = (blockOfPages - 1) * countPagesInABlock + 1,
-        maxPageNum: number = blockOfPages * countPagesInABlock,
-        filteredPages: Array<number> = pagesArr.slice(minPageNum - 1, maxPageNum);
+    let minPageNum: number = (blockOfPages - 1) * pagesInABlock + 1,
+        maxPageNum: number = blockOfPages * pagesInABlock,
+        slicedPages: Array<number> = pagesArr.slice(minPageNum - 1, maxPageNum);
 
     const prevPage = () => {
         if (blockOfPages > 1) {
@@ -36,7 +36,7 @@ const UsersPagesPaginator: React.FC<PropsType> = (props) => {
         }
     };
     const nextPage = () => {
-        if ((totalPages / countPagesInABlock) > blockOfPages) {
+        if ((totalPages / pagesInABlock) > blockOfPages) {
             setBlockOfPages(blockOfPages + 1)
         }
     };
@@ -44,7 +44,7 @@ const UsersPagesPaginator: React.FC<PropsType> = (props) => {
         <div className={s.pages}>
             <button className={s.prevBtn} onClick={prevPage}>Prev</button>
             {
-                filteredPages.map(page => {
+                slicedPages.map(page => {
                     return <button className={currentPage === +page ? s.activePage : s.page}
                                    key={page}
                                    onClick={() => changePage(page)}
