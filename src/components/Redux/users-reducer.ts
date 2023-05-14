@@ -10,6 +10,8 @@ type InitialStateType = {
     isLoading: boolean
     areFollowing: Array<number>
     blockOfPages: number
+    term: string
+    friend: null | boolean
 }
 export type UserType = {
     name: string
@@ -30,8 +32,10 @@ let initialState: InitialStateType = {
     currentPage: 1,
     uploadingUsersCount: 8,
     isLoading: false,
-    areFollowing: [], //array of users ids
+    areFollowing: [], //array of users IDs
     blockOfPages: 1,
+    term: '',
+    friend: null
 };
 
 const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
@@ -88,6 +92,12 @@ const usersReducer = (state: InitialStateType = initialState, action: UserAction
                 ...state,
                 blockOfPages: action.blockOfPages,
             }
+        case 'SET_SETTINGS_FOR_SEARCH':
+            return {
+                ...state,
+                term: action.term,
+                friend: action.friend,
+            }
         default :
             return state;
     }
@@ -103,12 +113,13 @@ export const usersActions = {
     setTotalUsersCount: (totalUsersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', totalUsersCount} as const),
     togglePreloader: (isLoading: boolean) => ({type: 'TOGGLE_PRELOADER', isLoading} as const),
     setBlockOfPages: (blockOfPages: number) => ({type: 'SET_CURRENT_BLOCK_OF_PAGES', blockOfPages} as const),
-    toggleButtonsFollowing: (id: number, isFollowing: boolean) => ({type: 'TOGGLE_BUTTONS_FOLLOWING', id, isFollowing} as const)
+    toggleButtonsFollowing: (id: number, isFollowing: boolean) => ({type: 'TOGGLE_BUTTONS_FOLLOWING', id, isFollowing} as const),
+    searchUsers: (term: string, friend: null | boolean) => ({type: 'SET_SETTINGS_FOR_SEARCH', term, friend} as const)
 }
-export const uploadUsers = (currentPage: number, uploadingUsersCount: number):ThunkType<UserActionType> =>  async (dispatch) => {
+export const uploadUsers = (currentPage: number, uploadingUsersCount: number, term: string, friend: null | boolean):ThunkType<UserActionType> =>  async (dispatch) => {
     dispatch(usersActions.changePageTo(currentPage));
     dispatch(usersActions.togglePreloader(true));
-    let data = await usersRequests.axiosGetUsers(currentPage, uploadingUsersCount);
+    let data = await usersRequests.axiosGetUsers(currentPage, uploadingUsersCount, term, friend);
 
     dispatch(usersActions.togglePreloader(false));
     dispatch(usersActions.setTotalUsersCount(data.totalCount));

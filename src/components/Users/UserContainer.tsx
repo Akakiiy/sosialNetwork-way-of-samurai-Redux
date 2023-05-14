@@ -5,7 +5,7 @@ import Preloader from "../common/Preloader/Preloader";
 import React, {useEffect} from "react";
 import {
     getAreFollowing, getBlockOfPagesSelector,
-    getCurrentPage, getIsLoadingSelector,
+    getCurrentPage, getFriendSelector, getIsLoadingSelector, getTermSelector,
     getTotalUsersCount,
     getUploadingUsersCount,
     getUsers
@@ -14,36 +14,40 @@ import {AppStateType} from "../Redux/store-redux";
 
 type PropsType = MSTPType & MDTPType & OwnPropsType
 
-const UsersContainer: React.FC<PropsType> = ({currentPage, uploadingUsersCount, totalUsersCount,
-                            isLoading, uploadUsers, users,
-                            areFollowing,unfollow, follow,
-                            setBlockOfPages, blockOfPages}) => {
+const UsersContainer: React.FC<PropsType> = (props) => {
+
+    const {
+        currentPage, uploadingUsersCount, totalUsersCount,
+        isLoading, uploadUsers, users,
+        areFollowing, unfollow, follow,
+        setBlockOfPages, blockOfPages, term,
+        friend, searchUsers
+    } = props;
 
     useEffect(() => {
-        uploadUsers(currentPage, uploadingUsersCount);
-    }, [currentPage]);
+        uploadUsers(currentPage, uploadingUsersCount, term, friend);
+    }, [currentPage, term, friend]);
 
     const changePage = (page: number) => {
-        uploadUsers(page, uploadingUsersCount);
+        uploadUsers(page, uploadingUsersCount, term, friend);
     }
 
     return (
-        <>
-            {
-                isLoading ?
-                    <Preloader/> :
-                    <Users changePage={changePage}
-                           currentPage={currentPage}
-                           totalUsersCount={totalUsersCount}
-                           uploadingUsersCount={uploadingUsersCount}
-                           unfollow={unfollow}
-                           follow={follow}
-                           users={users}
-                           areFollowing={areFollowing}
-                           blockOfPages={blockOfPages}
-                           setBlockOfPages={setBlockOfPages}/>
-            }
-        </>
+        <Users changePage={changePage}
+               currentPage={currentPage}
+               totalUsersCount={totalUsersCount}
+               uploadingUsersCount={uploadingUsersCount}
+               unfollow={unfollow}
+               follow={follow}
+               users={users}
+               areFollowing={areFollowing}
+               blockOfPages={blockOfPages}
+               setBlockOfPages={setBlockOfPages}
+               searchUsers={searchUsers}
+               term={term}
+               friend={friend}
+               isLoading={isLoading}/>
+
     );
 }
 type MSTPType = {
@@ -54,12 +58,15 @@ type MSTPType = {
     areFollowing: Array<number>
     isLoading: boolean
     blockOfPages: number
+    term: string
+    friend: null | boolean
 }
 type MDTPType = {
-    uploadUsers: (currentPage: number, uploadingUsersCount: number) => void
+    uploadUsers: (currentPage: number, uploadingUsersCount: number, term: string, friend: null | boolean) => void
     follow: (id: number) => void
     unfollow: (id: number) => void
     setBlockOfPages: (blockOfPages: number) => void
+    searchUsers: (term: string, friend: null | boolean) => void
 }
 type OwnPropsType = {}
 const mapStateToProps = (state: AppStateType): MSTPType => {
@@ -71,11 +78,14 @@ const mapStateToProps = (state: AppStateType): MSTPType => {
         areFollowing: getAreFollowing(state),
         isLoading: getIsLoadingSelector(state),
         blockOfPages: getBlockOfPagesSelector(state),
+        term: getTermSelector(state),
+        friend: getFriendSelector(state),
     };
 };
 export default connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {
     uploadUsers,
     follow,
     unfollow,
-    setBlockOfPages: usersActions.setBlockOfPages
+    setBlockOfPages: usersActions.setBlockOfPages,
+    searchUsers: usersActions.searchUsers
 })(UsersContainer);

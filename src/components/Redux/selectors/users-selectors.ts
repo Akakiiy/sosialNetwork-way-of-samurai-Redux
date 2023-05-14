@@ -56,3 +56,19 @@ export const getBlockOfPagesSelector = createSelector(getBlockOfPages,
     (blockOfPages) => {
     return blockOfPages;
 });
+
+const getTerm = (state: AppStateType) => {
+    return state.usersPage.term;
+};
+export const getTermSelector = createSelector(getTerm,
+    (term) => {
+    return term;
+});
+
+const getFriend = (state: AppStateType) => {
+    return state.usersPage.friend;
+};
+export const getFriendSelector = createSelector(getFriend,
+    (friend) => {
+    return friend;
+});

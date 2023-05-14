@@ -9,17 +9,17 @@ type PropsType = {
     changePage: (page: number) => void
     blockOfPages: number
     countPagesInABlock: number
+    isLoading: boolean
 }
 
-const UsersPagesPaginator: React.FC<PropsType> = ({currentPage, changePage,
-                                                      totalUsersCount, uploadingUsersCount,
-                                                      countPagesInABlock, setBlockOfPages, blockOfPages}) => {
+const UsersPagesPaginator: React.FC<PropsType> = (props) => {
 
-    if (totalUsersCount === null) {
-        totalUsersCount = 0
-    }
+    const {currentPage, changePage,
+        totalUsersCount, uploadingUsersCount,
+        countPagesInABlock, setBlockOfPages, blockOfPages, isLoading} = props
 
-    let totalPages: number = Math.ceil(totalUsersCount / uploadingUsersCount),
+
+    let totalPages: number = Math.ceil(totalUsersCount || 0 / uploadingUsersCount),
         pagesArr: Array<number> = [];
 
     for (let i: number = 1; i <= totalPages; i++) {
@@ -47,7 +47,8 @@ const UsersPagesPaginator: React.FC<PropsType> = ({currentPage, changePage,
                 filteredPages.map(page => {
                     return <button className={currentPage === +page ? s.activePage : s.page}
                                    key={page}
-                                   onClick={() => changePage(page)}>{page}</button>
+                                   onClick={() => changePage(page)}
+                                   disabled={isLoading}>{page}</button>
                 })
             }
             <button className={s.nextBtn} onClick={nextPage}>Next</button>

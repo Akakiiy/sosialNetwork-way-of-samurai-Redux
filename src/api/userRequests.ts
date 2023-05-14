@@ -22,8 +22,8 @@ export const usersRequests = {
     axiosGetUserProfile: (userId: number) => {
         return requestsForUserProfile.get<ProfileType>("profile/" + userId);
     },
-    axiosGetUsers: (currentPage: number, uploadingUsers: number) => {
-        return requestsDefault.get<AxiosGetUsersResponseType>(`users?page=${currentPage}&count=${uploadingUsers}`)
+    axiosGetUsers: (currentPage: number, uploadingUsers: number, term: string, friend: null | boolean) => {
+        return requestsDefault.get<AxiosGetUsersResponseType>(`users?page=${currentPage}&count=${uploadingUsers}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
             .then(response => {
                 return response.data
             });
