@@ -19,7 +19,7 @@ const UsersPagesPaginator: React.FC<PropsType> = (props) => {
         pagesInABlock, setBlockOfPages, blockOfPages, isLoading} = props
 
 
-    let totalPages: number = Math.ceil(totalUsersCount || 0 / uploadingUsersCount),
+    let totalPages: number = Math.ceil((totalUsersCount || 0) / uploadingUsersCount),
         pagesArr: Array<number> = [];
 
     for (let i: number = 1; i <= totalPages; i++) {
