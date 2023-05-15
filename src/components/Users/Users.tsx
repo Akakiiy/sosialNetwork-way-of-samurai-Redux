@@ -36,12 +36,11 @@ export const Users = () => {
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
 
     useEffect(() => {
-        console.log('useEffect')
         dispatch(uploadUsers(currentPage, uploadingUsersCount, term, friend));
     }, [currentPage, term, friend]);
 
     const changePage = (page: number) => {
-        dispatch(uploadUsers(page, uploadingUsersCount, term, friend));
+        dispatch(usersActions.changePageTo(page));
     }
     const followUser = (userId: number) => {
         dispatch(follow(userId))
