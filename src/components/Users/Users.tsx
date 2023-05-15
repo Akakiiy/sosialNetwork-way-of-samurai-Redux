@@ -42,9 +42,9 @@ export const Users = () => {
     useEffect(() => {
         const parsed = queryString.parse(history.location.search.substring(1)) as {term: string, friend: string, page: string};
 
-        const page = +parsed.page
-        const term = parsed.term
-        const friend = parsed.friend ? JSON.parse(parsed.friend) : null
+        const page: number = parsed.page ? +parsed.page : 1
+        const term: string = parsed.term ? parsed.term : ''
+        const friend: boolean | null = parsed.friend ? JSON.parse(parsed.friend) : null
 
         changePage(page);
         setSettingsForSearch(term, friend);
