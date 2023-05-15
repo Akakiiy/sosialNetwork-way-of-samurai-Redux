@@ -13,8 +13,7 @@ import UsersSearchForm from "./UsersSearchForm";
 import Preloader from "../common/Preloader/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getAreFollowing, getBlockOfPagesSelector,
-    getCurrentPage, getFriendSelector, getIsLoadingSelector, getTermSelector,
+    getAreFollowing, getCurrentPage, getFriendSelector, getIsLoadingSelector, getTermSelector,
     getTotalUsersCount,
     getUploadingUsersCount,
     getUsers
@@ -31,7 +30,6 @@ export const Users = () => {
         uploadingUsersCount: number = useSelector(getUploadingUsersCount),
         areFollowing: Array<number> = useSelector(getAreFollowing),
         isLoading: boolean = useSelector(getIsLoadingSelector),
-        blockOfPages: number = useSelector(getBlockOfPagesSelector),
         term: string = useSelector(getTermSelector),
         friend: null | boolean = useSelector(getFriendSelector);
     // диспатч для санок и AC
@@ -74,9 +72,6 @@ export const Users = () => {
     const unfollowUser = (userId: number) => {
         dispatch(unfollow(userId));
     }
-    const setBlockOfPages = (blockOfPages: number) => {
-        dispatch(usersActions.setBlockOfPages(blockOfPages))
-    }
     const setSettingsForSearch = (term: string, friend: null | boolean) => {
         dispatch(usersActions.searchUsers(term, friend))
     }
@@ -84,11 +79,7 @@ export const Users = () => {
         <div className={s.usersWrapper}>
             <UsersPagesPaginator uploadingUsersCount={uploadingUsersCount}
                                  totalUsersCount={totalUsersCount}
-                                 currentPage={currentPage}
                                  changePage={changePage}
-                                 pagesInABlock={10}
-                                 blockOfPages={blockOfPages}
-                                 setBlockOfPages={setBlockOfPages}
                                  isLoading={isLoading}/>
             <UsersSearchForm searchUsers={setSettingsForSearch}
                              term={term}

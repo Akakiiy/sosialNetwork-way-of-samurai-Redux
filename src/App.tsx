@@ -1,72 +1,61 @@
 import './App.css';
 import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Redirect, Route, withRouter} from "react-router-dom";
-import Music from "./components/Music/Music";
-import News from "./components/News/News";
+import {Route} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import {compose} from "redux";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import ProfileContainer from "./components/Profile/ProfileContainer";
-import {AppStateType} from "./components/Redux/store-redux";
 import {Users} from "./components/Users/Users";
+import {getInitializationSelector} from "./components/Redux/selectors/app-selectors";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./components/Redux/store-redux";
+import {Layout, theme} from 'antd';
+import {AppHeader} from "./components/Header/Header";
+const { Content} = Layout;
 
 const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
 
-type PropsType = MSTPType & MDTPType
-
-const App: React.FC<PropsType> = (props) => {
+type PropsType = {}
+export const App: React.FC<PropsType> = () => {
+    const initialization = useSelector(getInitializationSelector);
+    const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
+    const setInitialization = () => {
+        dispatch(initializeApp())
+    }
 
     useEffect(() => {
-        props.initializeApp()
-    });
+        setInitialization();
+    }, []);
 
-    if (!props.initialization) {
-        return <Preloader />
+    if (!initialization) {
+        return <Preloader/>
     }
 
     return (
-        <div className={'app-wrapper'}>
-            <HeaderContainer />
+        <Layout style={{ minHeight: '100vh' }}>
             <Navbar />
-            <div className={'app-wrapper-content'}>
-                <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>} />
-                <Route path={'/dialogs'} render={() => <DialogsContainer />} />
-                <Route path={'/users'} render={() => <Users />} />
-                <Route path={'/news'} render={News} />
-                <Route path={'/music'} render={Music} />
-                <Route path={'/settings'} render={Settings} />
-                <Route path={'/login'} render={() => {
-                    return (
-                        <Suspense fallback={<Preloader/>}>
-                            <LoginContainer />
-                        </Suspense>
-                    )
-                }}/>
-                {/*<Route path={'/'}><Redirect to={'/profile'}/></Route> /!*временная заглушка на стартовую стриницу, пока не не придумаю приветствие*!/*/}
-            </div>
-        </div>
+            <Layout className="site-layout" >
+                <AppHeader bgc={'#ffffff'}/>
+                <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                    <div style={{ padding: 24, background: '#ffffff' }}>
+                        <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                        <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
+                        <Route path={'/users'} render={() => <Users/>}/>
+                        <Route path={'/settings'} render={Settings}/>
+                        <Route path={'/login'} render={() => {
+                            return (
+                                <Suspense fallback={<Preloader/>}>
+                                    <LoginContainer/>
+                                </Suspense>
+                            )
+                        }}/>
+                        {/*todo page for 404 error*/}
+                    </div>
+                </Content>
+            </Layout>
+        </Layout>
     );
 }
-
-type MSTPType = {
-    initialization: boolean
-}
-type MDTPType = {
-    initializeApp: () => void
-}
-
-const mapStateToProps = (state: AppStateType): MSTPType => {
-    return {
-        initialization: state.app.initialization,
-    }
-}
-
-export default compose(
-    withRouter,
-    connect<MSTPType, MDTPType, {}, AppStateType>(mapStateToProps, {initializeApp}),
-)(App) as React.ComponentType;

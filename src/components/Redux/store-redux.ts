@@ -4,9 +4,8 @@ import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 import usersReducer from "./users-reducer";
 import authReducer from "./auth-reducer";
-import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
+import thunk, {ThunkAction} from "redux-thunk";
 import reducerApp from "./app-reducer"
-import {useDispatch} from "react-redux";
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,

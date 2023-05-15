@@ -10,9 +10,8 @@
     display: flex;
     margin-top: 20px;
     border: 1px solid;
-    width: 70%;
+    width: 50%;
     border-radius: 5px;
-    background-color: rgba(45, 245, 158, 0.47);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .pages {

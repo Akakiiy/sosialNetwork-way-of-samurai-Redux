@@ -50,14 +50,6 @@ export const getIsLoadingSelector = createSelector(getIsLoading,
     return isLoading;
 });
 
-const getBlockOfPages = (state: AppStateType) => {
-    return state.usersPage.blockOfPages;
-};
-export const getBlockOfPagesSelector = createSelector(getBlockOfPages,
-    (blockOfPages: number) => {
-    return blockOfPages;
-});
-
 const getTerm = (state: AppStateType) => {
     return state.usersPage.term;
 };

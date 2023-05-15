@@ -44,7 +44,7 @@ const getLogin = (state: AppStateType) => {
     return state.auth.login;
 };
 
-export const GetLoginSelector = createSelector(getLogin,
+export const getLoginSelector = createSelector(getLogin,
     (login) => {
     return login;
 });

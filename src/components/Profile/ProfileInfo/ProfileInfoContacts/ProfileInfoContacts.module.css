@@ -1,4 +1,5 @@
 .profileInfo {
+    width: 80%;
     margin: 0 auto;
     padding: 10px;
     border: 1px black solid;
@@ -12,7 +13,7 @@
 .professionalSkills {
     display: flex;
     margin-top: 15px;
-    color: white;
+    color: black;
 }
 .professionalSkills span {
     margin-right: 10px;
@@ -25,7 +26,7 @@
 .link {
     display: flex;
     margin: 10px 0 10px 10px;
-    color: rgb(255, 255, 255);
+    color: black;
 }
 .link span {
     font-size: 16px;
@@ -35,7 +36,7 @@
     margin: 0 auto;
     position: relative;
     display: block;
-    color: #ffffff;
+    color: black;
     background-color: rgba(140, 140, 140, 0.58);
     font-size: 14px;
     border: 2px solid rgba(24, 150, 72, 0.67);

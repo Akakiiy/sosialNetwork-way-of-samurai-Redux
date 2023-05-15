@@ -9,7 +9,6 @@ type InitialStateType = {
     uploadingUsersCount: number
     isLoading: boolean
     areFollowing: Array<number>
-    blockOfPages: number
     term: string
     friend: null | boolean
 }
@@ -33,7 +32,6 @@ let initialState: InitialStateType = {
     uploadingUsersCount: 8,
     isLoading: false,
     areFollowing: [], //array of users IDs
-    blockOfPages: 1,
     term: '',
     friend: null
 };
@@ -87,11 +85,6 @@ const usersReducer = (state: InitialStateType = initialState, action: UserAction
                     ? [...state.areFollowing, action.id]
                     : [...state.areFollowing.filter(idBtn => action.id !== idBtn)]
             }
-        case 'SET_CURRENT_BLOCK_OF_PAGES':
-            return {
-                ...state,
-                blockOfPages: action.blockOfPages,
-            }
         case 'SET_SETTINGS_FOR_SEARCH':
             return {
                 ...state,
@@ -112,7 +105,6 @@ export const usersActions = {
     changePageTo: (pageId: number) => ({type: 'CHANGE_CURRENT_PAGE', pageId} as const),
     setTotalUsersCount: (totalUsersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', totalUsersCount} as const),
     togglePreloader: (isLoading: boolean) => ({type: 'TOGGLE_PRELOADER', isLoading} as const),
-    setBlockOfPages: (blockOfPages: number) => ({type: 'SET_CURRENT_BLOCK_OF_PAGES', blockOfPages} as const),
     toggleButtonsFollowing: (id: number, isFollowing: boolean) => ({type: 'TOGGLE_BUTTONS_FOLLOWING', id, isFollowing} as const),
     searchUsers: (term: string, friend: null | boolean) => ({type: 'SET_SETTINGS_FOR_SEARCH', term, friend} as const)
 }
