@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
     // был убран <React.StrictMode>, так как тогда компонента рендерится дважды и вместо 4х пользователей выдает 8
     <HashRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
+            <Provider store={store}>
+                <App/>
+            </Provider>
     </HashRouter>
 );

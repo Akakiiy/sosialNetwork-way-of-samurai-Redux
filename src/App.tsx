@@ -47,7 +47,7 @@ const App: React.FC<PropsType> = (props) => {
                         </Suspense>
                     )
                 }}/>
-                <Route path={'/'}><Redirect to={'/profile'}/></Route> {/*временная заглушка на стартовую стриницу, пока не не придумаю приветствие*/}
+                {/*<Route path={'/'}><Redirect to={'/profile'}/></Route> /!*временная заглушка на стартовую стриницу, пока не не придумаю приветствие*!/*/}
             </div>
         </div>
     );

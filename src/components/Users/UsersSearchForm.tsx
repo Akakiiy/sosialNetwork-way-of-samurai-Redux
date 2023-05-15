@@ -21,6 +21,7 @@ const UsersSearchForm: React.FC<PropsType> = ({searchUsers, friend, term, isLoad
 
     return (
         <Formik
+            enableReinitialize
             initialValues={initialValues}
             onSubmit={(values) => {
                 const {term, friend} = values

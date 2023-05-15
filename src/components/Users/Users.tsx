@@ -21,6 +21,8 @@ import {
 } from "../Redux/selectors/users-selectors";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../Redux/store-redux";
+import {useHistory} from "react-router";
+import * as queryString from "querystring";
 
 export const Users = () => {
     const users: Array<UserType> = useSelector(getUsers),
@@ -32,10 +34,34 @@ export const Users = () => {
         blockOfPages: number = useSelector(getBlockOfPagesSelector),
         term: string = useSelector(getTermSelector),
         friend: null | boolean = useSelector(getFriendSelector);
-
+    // диспатч для санок и AC
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
+    // объект хистори, для работы с адрессной строкой
+    const history = useHistory()
 
     useEffect(() => {
+        const parsed = queryString.parse(history.location.search.substring(1)) as {term: string, friend: string, page: string};
+
+        const page = +parsed.page
+        const term = parsed.term
+        const friend = parsed.friend ? JSON.parse(parsed.friend) : null
+
+        changePage(page);
+        setSettingsForSearch(term, friend);
+    }, [])
+
+    useEffect(() => {
+        //динамическое формирование адрессной строки без дефолтных параметров
+        let paramsSearchUrl: {page?: number, term?: string, friend?: boolean} = {};
+        if (currentPage !== 1) paramsSearchUrl.page = currentPage;
+        if (term) paramsSearchUrl.term = term;
+        if (friend !== null) paramsSearchUrl.friend = friend;
+        //формирование адрессной строки при поиске юзеров
+        history.push({
+            pathname: '/users',
+            search: queryString.stringify(paramsSearchUrl)
+        });
+        // запрос на отфильтрованных юзеров
         dispatch(uploadUsers(currentPage, uploadingUsersCount, term, friend));
     }, [currentPage, term, friend]);
 
@@ -51,7 +77,7 @@ export const Users = () => {
     const setBlockOfPages = (blockOfPages: number) => {
         dispatch(usersActions.setBlockOfPages(blockOfPages))
     }
-    const searchUsers = (term: string, friend: null | boolean) => {
+    const setSettingsForSearch = (term: string, friend: null | boolean) => {
         dispatch(usersActions.searchUsers(term, friend))
     }
     return (
@@ -64,7 +90,7 @@ export const Users = () => {
                                  blockOfPages={blockOfPages}
                                  setBlockOfPages={setBlockOfPages}
                                  isLoading={isLoading}/>
-            <UsersSearchForm searchUsers={searchUsers}
+            <UsersSearchForm searchUsers={setSettingsForSearch}
                              term={term}
                              friend={friend}
                              isLoading={isLoading}
