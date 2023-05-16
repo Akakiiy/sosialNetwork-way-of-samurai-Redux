@@ -5,11 +5,11 @@ import {Button} from "antd";
 type InitialValuesType = {
     newMessageText: string
 }
-type PropsType = {}
+type PropsType = {
+    wsChannel: WebSocket
+}
 
-const wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-
-export const NewChatMessageForm: React.FC<PropsType> = () => {
+export const NewChatMessageForm: React.FC<PropsType> = ({wsChannel}) => {
     const initialValues: InitialValuesType = { newMessageText: '' }
 
     const sendChatMessage = (newMessageText: string | null) => {

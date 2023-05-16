@@ -1,6 +1,6 @@
 import s from './Login.module.css';
 import LoginForm, {ValuesType} from "./LoginForm/LoginForm";
-import {Redirect} from "react-router-dom";
+import {redirect} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
 import React from "react";
 
@@ -15,7 +15,7 @@ type PropsType = {
 const Login: React.FC<PropsType> = (props) => {
 
     if (props.isLogged) {
-        return <Redirect to={'/profile'} />
+        redirect('/profile')
     }
 
     return (

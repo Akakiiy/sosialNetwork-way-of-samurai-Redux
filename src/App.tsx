@@ -1,12 +1,11 @@
 import './App.css';
-import React, {Suspense, useEffect} from "react";
+import React, {ReactNode, Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import {Users} from "./components/Users/Users";
 import {getInitializationSelector} from "./components/Redux/selectors/app-selectors";
 import {ThunkDispatch} from "redux-thunk";
@@ -14,6 +13,8 @@ import {AppStateType} from "./components/Redux/store-redux";
 import {Layout} from 'antd';
 import {AppHeader} from "./components/Header/Header";
 import Dialogs from "./components/Dialogs/Dialogs";
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
+import {WithAuthLogged} from "./components/hoc/withAuthLogged";
 
 const { Content} = Layout;
 
@@ -36,6 +37,8 @@ export const App: React.FC<PropsType> = () => {
         return <Preloader/>
     }
 
+    const ProfileContainerWithAuth = WithAuthLogged(ProfileContainer);
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Navbar />
@@ -43,24 +46,14 @@ export const App: React.FC<PropsType> = () => {
                 <AppHeader bgc={'#ffffff'}/>
                 <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                     <div style={{ padding: 24, background: '#ffffff' }}>
-                        <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
-                        <Route path={'/dialogs'} render={() => <Dialogs/>}/>
-                        <Route path={'/users'} render={() => <Users/>}/>
-                        <Route path={'/settings'} render={Settings}/>
-                        <Route path={'/login'} render={() => {
-                            return (
-                                <Suspense fallback={<Preloader/>}>
-                                    <LoginContainer/>
-                                </Suspense>
-                            )
-                        }}/>
-                        <Route path={'/chat'} render={() => {
-                            return (
-                                <Suspense fallback={<Preloader/>}>
-                                    <ChatPage/>
-                                </Suspense>
-                            )
-                        }}/>
+                        <Routes>
+                            <Route path={'/profile/:userId?'} element={<ProfileContainerWithAuth/>}/>
+                            <Route path={'/dialogs'} element={<Dialogs/>}/>
+                            <Route path={'/users'} element={<Users/>}/>
+                            <Route path={'/settings'} element={<Settings/>}/>
+                        </Routes>
+                        {/*<Route path={'/login'} element={<Suspense fallback={<Preloader/>}><LoginContainer/></Suspense>/>*/}
+                        {/*<Route path={'/chat'} render={<Suspense fallback={<Preloader/>}><ChatPage/></Suspense>/>*/}
                         {/*todo page for 404 error*/}
                     </div>
                 </Content>

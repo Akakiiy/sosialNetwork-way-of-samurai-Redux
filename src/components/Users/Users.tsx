@@ -20,7 +20,7 @@ import {
 } from "../Redux/selectors/users-selectors";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../Redux/store-redux";
-import {useHistory} from "react-router";
+import {useSearchParams} from "react-router-dom";
 import * as queryString from "querystring";
 
 export const Users = () => {
@@ -35,10 +35,10 @@ export const Users = () => {
     // диспатч для санок и AC
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
     // объект хистори, для работы с адрессной строкой
-    const history = useHistory()
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        const parsed = queryString.parse(history.location.search.substring(1)) as {term: string, friend: string, page: string};
+        const parsed = queryString.parse(searchParams.toString().substring(1)) as {term: string, friend: string, page: string};
 
         const page: number = parsed.page ? +parsed.page : 1
         const term: string = parsed.term ? parsed.term : ''
@@ -55,10 +55,11 @@ export const Users = () => {
         if (term) paramsSearchUrl.term = term;
         if (friend !== null) paramsSearchUrl.friend = friend;
         //формирование адрессной строки при поиске юзеров
-        history.push({
-            pathname: '/users',
-            search: queryString.stringify(paramsSearchUrl)
-        });
+        setSearchParams(queryString.stringify(paramsSearchUrl));
+        // navigate.push({
+        //     pathname: '/users',
+        //     search: queryString.stringify(paramsSearchUrl)
+        // });
         // запрос на отфильтрованных юзеров
         dispatch(uploadUsers(currentPage, uploadingUsersCount, term, friend));
     }, [currentPage, term, friend]);

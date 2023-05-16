@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { Avatar, List } from 'antd';
 import {Link} from "react-router-dom";
 
-type PropsType = {}
+type PropsType = {
+    wsChannel: WebSocket
+}
 type MessageType = {
     message: string,
     photo: string,
@@ -10,15 +12,15 @@ type MessageType = {
     userName: string
 }
 
-const wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-export const ChatMessages: React.FC<PropsType> = () => {
 
-    const [messages, setMessages] = useState<Array<MessageType>>([]);
+export const ChatMessages: React.FC<PropsType> = ({wsChannel}) => {
+
+    const [messages, setMessages] = useState<MessageType[]>([]);
 
     useEffect(() => {
         wsChannel.addEventListener('message', (e) => {
-            const newMessages = JSON.parse(e.data)
-            setMessages((prevMessages: Array<any>) => [...prevMessages, ...newMessages]);
+            let newMessages = JSON.parse(e.data)
+            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
         });
     }, []);
 

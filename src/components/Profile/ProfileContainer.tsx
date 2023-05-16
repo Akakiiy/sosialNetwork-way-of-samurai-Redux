@@ -1,87 +1,69 @@
-import React, {useEffect} from "react";
+import React, {ComponentType, useEffect} from "react";
 import Profile from "./Profile";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     getUserStatus,
+    profileActions,
     ProfileType,
     savePhoto,
     setUserStatus,
-    uploadUserProfile,
-    profileActions
+    uploadUserProfile
 } from "../Redux/profile-reducer";
-import {withRouter} from "react-router-dom";
-import {WithAuthLogged} from "../hoc/withAuthLogged";
-import {compose} from "redux";
+import {useParams} from "react-router-dom";
 import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
 import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
 import {AppStateType} from "../Redux/store-redux";
-import {RouteComponentProps} from "react-router";
+import {ThunkDispatch} from "redux-thunk";
 
-type PathParamPropsType = {
-    userId: string
-}
-type PropsType = MSTPType & MDTPType & OwnPropsType & RouteComponentProps<PathParamPropsType>
+type PropsType = {}
 
-const ProfileContainer: React.FC<PropsType> = (props) => {
+export const ProfileContainer: React.FC<PropsType> = () => {
 
-    let userId: number | null = +props.match.params.userId; //вытаскиваем ID из URL
+    const profile: null | ProfileType = useSelector(getProfileSelector);
+    const statusText: string = useSelector(getStatusSelector);
+    const userCurrentId: number | null = useSelector(getUserIdSelector);
+    const isOwner: boolean = useSelector(getIsOwnerSelector);
+
+    const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch()
+    const uploadUserProfileFunc = (userId: number) => {
+        dispatch(uploadUserProfile(userId))
+    }
+    const getUserStatusFunc = (userId: number) => {
+        dispatch(getUserStatus(userId))
+    }
+    const setUserStatusFunc = (userStatusText: string) => {
+        dispatch(setUserStatus(userStatusText))
+    }
+    const savePhotoFunc = (photoFile: File) => {
+        dispatch(savePhoto(photoFile))
+    }
+    const setIsOwnerFunc = (isOwner: boolean) => {
+        dispatch(profileActions.setIsOwner(isOwner))
+    }
+
+    const params = useParams();
+    let newUserId: number | null;
 
     const refreshProfile = () => {
-        if (!userId) {
-            userId = props.userId;
-            props.setIsOwner(true);
+        if (params.userId === undefined) {
+            newUserId = userCurrentId;
+            setIsOwnerFunc(true);
         } else {
-            props.setIsOwner(false);
+            newUserId = Number(params.userId)
+            setIsOwnerFunc(false);
         }
-        props.uploadUserProfile(userId as number);
-        props.getUserStatus(userId as number);
+        uploadUserProfileFunc(newUserId as number);
+        getUserStatusFunc(newUserId as number);
     }
-
     useEffect(() => {
         refreshProfile();
-    }, [userId]);
+    }, [params.userId]);
 
     return (
-        <Profile profile={props.profile}
-                 statusText={props.statusText}
-                 setUserStatus={props.setUserStatus}
-                 savePhoto={props.savePhoto}
-                 isOwner={props.isOwner}/>
+        <Profile profile={profile}
+                 statusText={statusText}
+                 setUserStatus={setUserStatusFunc}
+                 savePhoto={savePhotoFunc}
+                 isOwner={isOwner}/>
     )
 }
-
-type MSTPType = {
-    profile: null | ProfileType,
-    statusText: string
-    userId: number | null
-    isOwner: boolean
-}
-type MDTPType = {
-    uploadUserProfile: (userId: number) => void
-    getUserStatus: (userId: number) => void
-    setUserStatus: (userStatusText: string) => void
-    savePhoto: (photoFile: File) => void
-    setIsOwner: (isOwner: boolean) => void
-}
-type OwnPropsType = {}
-
-const mapStateToProps = (state: AppStateType): MSTPType => {
-    return {
-        profile: getProfileSelector(state),
-        statusText: getStatusSelector(state),
-        userId: getUserIdSelector(state),
-        isOwner: getIsOwnerSelector(state),
-    }
-};
-
-export default compose(
-    connect<MSTPType, MDTPType, OwnPropsType, AppStateType>(mapStateToProps, {
-        uploadUserProfile,
-        getUserStatus,
-        setUserStatus,
-        savePhoto,
-        setIsOwner: profileActions.setIsOwner
-    }),
-    withRouter,
-    WithAuthLogged,
-)(ProfileContainer) as React.ComponentType;
