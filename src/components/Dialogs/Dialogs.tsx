@@ -1,41 +1,76 @@
-import s from './Dialogs.module.css';
 import React from "react";
-import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
-import {Redirect} from "react-router-dom";
-import NewMessageForm from "./NewMessageForm/NewMessageForm";
-import {DialogType, MessageType} from "./DialogsContainer";
+import {NavLink, Redirect} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getDialogsSelector, getMessagesSelector} from "../Redux/selectors/dialogs-selectors";
+import {compose} from "redux";
+import {WithAuthLogged} from "../hoc/withAuthLogged";
+import {dialogsActions} from "../Redux/dialogs-reducer";
+import { Tabs } from 'antd';
 
+import { List, Typography, Col, Row } from 'antd';
+import NewMessageForm from "./NewMessageForm/NewMessageForm";
+
+export type DialogType = {
+    id: number
+    name: string
+}
+export type MessageType = {
+    id: number
+    message: string
+}
 type PropsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
     isLogged: boolean
-    addDialogMessage: (message: string) => void
 }
 
 const Dialogs: React.FC<PropsType> = (props) => {
 
-    const dialogElements = props.dialogs.map((dialog, i) => <DialogItem key={i} name={dialog.name} id={dialog.id} />);
+    const dialogs: Array<DialogType> = useSelector(getDialogsSelector)
+    const messages: Array<MessageType> = useSelector(getMessagesSelector)
+    const dispatch = useDispatch();
 
-    const messagesElements = props.messages.map(m => <Message key={m.id} message={m.message} />)
-
-    if (!props.isLogged) {
-        return <Redirect to={'/login'} />
+    const addMessage = (message: string) => {
+        dispatch(dialogsActions.addDialogMessage(message))
     }
 
     return (
-        <div>
-            <div className={s.dialogs}>
-                <div className={s.dialogItems}>
-                    { dialogElements }
-                </div>
-                <div className={s.messages}>
-                    { messagesElements }
-                    <NewMessageForm addDialogMessage={props.addDialogMessage}/>
-                </div>
-            </div>
-        </div>
+        <>
+            {
+                props.isLogged
+                    ?<Row>
+                        <Col span={18}>
+                            <div>
+                                <Tabs
+                                    defaultActiveKey="1"
+                                    tabPosition={"left"}
+                                    style={{ height: '100%', padding: 20 }}
+                                    items={dialogs.map((dialog, i) => {
+                                        return {
+                                            label: <NavLink to={`/dialogs/${dialog.id}`}>{dialog.name}</NavLink>,
+                                            key: `${dialog.id}`,
+                                            disabled: i === dialogs.length,
+                                            children: <div>
+                                                <List
+                                                    bordered
+                                                    dataSource={messages}
+                                                    renderItem={(item) => (
+                                                        <List.Item key={item.id}>
+                                                            <Typography.Text>
+                                                                {item.message}
+                                                            </Typography.Text>
+                                                        </List.Item>
+                                                   )}
+                                                />
+                                                <NewMessageForm addDialogMessage={addMessage}/>
+                                            </div>,
+                                        };
+                                    })}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    : <Redirect to={'/login'} />
+            }
+        </>
     )
 }
-
-export default Dialogs;
+export default compose(WithAuthLogged)(Dialogs) as React.ComponentType;

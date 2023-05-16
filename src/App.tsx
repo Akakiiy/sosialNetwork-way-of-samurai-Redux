@@ -3,7 +3,6 @@ import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
 import {Route} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./components/Redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
@@ -12,11 +11,14 @@ import {Users} from "./components/Users/Users";
 import {getInitializationSelector} from "./components/Redux/selectors/app-selectors";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./components/Redux/store-redux";
-import {Layout, theme} from 'antd';
+import {Layout} from 'antd';
 import {AppHeader} from "./components/Header/Header";
+import Dialogs from "./components/Dialogs/Dialogs";
+
 const { Content} = Layout;
 
 const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
+const ChatPage = React.lazy(() => import("./components/pages/ChatPage/ChatPage"));
 
 type PropsType = {}
 export const App: React.FC<PropsType> = () => {
@@ -42,13 +44,20 @@ export const App: React.FC<PropsType> = () => {
                 <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                     <div style={{ padding: 24, background: '#ffffff' }}>
                         <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
-                        <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
+                        <Route path={'/dialogs'} render={() => <Dialogs/>}/>
                         <Route path={'/users'} render={() => <Users/>}/>
                         <Route path={'/settings'} render={Settings}/>
                         <Route path={'/login'} render={() => {
                             return (
                                 <Suspense fallback={<Preloader/>}>
                                     <LoginContainer/>
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route path={'/chat'} render={() => {
+                            return (
+                                <Suspense fallback={<Preloader/>}>
+                                    <ChatPage/>
                                 </Suspense>
                             )
                         }}/>

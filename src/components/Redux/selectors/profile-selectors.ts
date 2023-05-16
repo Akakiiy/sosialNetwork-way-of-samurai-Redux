@@ -24,6 +24,12 @@ export const getProfileSelector = createSelector(getProfile,
     (profile) => {
     return profile;
 });
+export const getProfilePhotoSelector = createSelector(getProfile,
+    (profile) => {
+    if (profile && profile.photos) {
+        return profile.photos.large
+    }
+})
 
 export const getFullName = createSelector(getProfile,
     (profile) => {

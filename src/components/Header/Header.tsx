@@ -5,7 +5,8 @@ import {getIsLoggedSelector, getLoginSelector} from "../Redux/selectors/auth-sel
 import {logout} from "../Redux/auth-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../Redux/store-redux";
-import {Col, Layout, Row, Button} from "antd";
+import {Col, Layout, Row, Button, Avatar} from "antd";
+import {getProfilePhotoSelector} from "../Redux/selectors/profile-selectors";
 
 const { Header} = Layout;
 
@@ -16,6 +17,7 @@ type PropsType = {
 export const AppHeader: React.FC<PropsType> = (props) => {
     const isLogged = useSelector(getIsLoggedSelector);
     const login = useSelector(getLoginSelector);
+    const photo = useSelector(getProfilePhotoSelector);
 
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
 
@@ -30,12 +32,13 @@ export const AppHeader: React.FC<PropsType> = (props) => {
                 {
                     isLogged
                         ? <>
-                            <Col span={2}>
-                                <Button>
+                            <Col span={3}>
+                                <Avatar src={photo}/>
+                                <Button style={{marginLeft: '10px'}}>
                                     <NavLink to={'/profile'}>{login}</NavLink>
                                 </Button>
                             </Col>
-                            <Col span={3}>
+                            <Col span={2}>
                                 <Button danger onClick={userLogout}>
                                     Log Out
                                 </Button>

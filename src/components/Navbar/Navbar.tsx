@@ -40,10 +40,14 @@ const items: MenuItem[] = [
             <NavLink to={'/dialogs'}>Messages</NavLink>,
             '4',
             <SendOutlined />),
+        getItem(
+            <NavLink to={'/chat'}>Chat</NavLink>,
+            '5',
+            <SendOutlined />),
     ]),
     getItem(
         <NavLink to={'/settings'}>Settings</NavLink>,
-        '5',
+        '6',
         <SettingOutlined />),
 ];
 
