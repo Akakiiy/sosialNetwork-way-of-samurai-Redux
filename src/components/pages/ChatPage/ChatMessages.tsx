@@ -3,7 +3,7 @@ import { Avatar, List } from 'antd';
 import {Link} from "react-router-dom";
 
 type PropsType = {
-    wsChannel: WebSocket
+    wsChannel: WebSocket | null
 }
 type MessageType = {
     message: string,
@@ -18,11 +18,15 @@ export const ChatMessages: React.FC<PropsType> = ({wsChannel}) => {
     const [messages, setMessages] = useState<MessageType[]>([]);
 
     useEffect(() => {
-        wsChannel.addEventListener('message', (e) => {
+        const messageHandler = (e: MessageEvent) => {
             let newMessages = JSON.parse(e.data)
             setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-        });
-    }, []);
+        }
+        wsChannel?.addEventListener('message', messageHandler);
+        return () => {
+            wsChannel?.removeEventListener('message', messageHandler)
+        }
+    }, [wsChannel]);
 
     return (
         <List

@@ -56,10 +56,6 @@ export const Users = () => {
         if (friend !== null) paramsSearchUrl.friend = friend;
         //формирование адрессной строки при поиске юзеров
         setSearchParams(queryString.stringify(paramsSearchUrl));
-        // navigate.push({
-        //     pathname: '/users',
-        //     search: queryString.stringify(paramsSearchUrl)
-        // });
         // запрос на отфильтрованных юзеров
         dispatch(uploadUsers(currentPage, uploadingUsersCount, term, friend));
     }, [currentPage, term, friend]);

@@ -57,7 +57,7 @@ export const App: React.FC<PropsType> = () => {
                                 <Route path={'/login'} element={<LoginPage/>} />
                                 <Route path={'/chat'} element={<ChatPageWithAuth/>} />
                                 {/*todo page for 404 error*/}
-                            </Routes>
+                            </Routes>   
                         </Suspense>
                     </div>
                 </Content>

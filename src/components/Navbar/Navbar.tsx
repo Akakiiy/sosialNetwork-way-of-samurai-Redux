@@ -5,15 +5,17 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import {Menu} from 'antd';
+import {Button, Menu} from 'antd';
 import Sider from "antd/es/layout/Sider";
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 
 const Navbar = () => {
     //settings for antd
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate()
+    let location = useLocation();
+
     return (
         <Sider collapsible
                collapsed={collapsed}
@@ -23,6 +25,9 @@ const Navbar = () => {
                   onClick={({key}) => {
                       navigate(key)
                   }}
+                  defaultSelectedKeys={[location.pathname]}
+                  // defaultChecked={'/profile'}
+                  // defaultMotions={'/profile'}
                   items={[
                       { label: 'Profile', key: '/profile', icon: <UserOutlined />},
                       { label: 'Users', key: '/users', icon: <TeamOutlined />},

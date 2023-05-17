@@ -45,7 +45,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
                                     style={{ height: '100%', padding: 20 }}
                                     items={dialogs.map((dialog, i) => {
                                         return {
-                                            label: <NavLink to={`/dialogs/${dialog.id}`}>{dialog.name}</NavLink>,
+                                            label: <div>{dialog.name}</div>,
                                             key: `${dialog.id}`,
                                             disabled: i === dialogs.length,
                                             children: <div>
