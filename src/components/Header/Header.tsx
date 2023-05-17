@@ -1,12 +1,13 @@
 import {NavLink} from "react-router-dom";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getIsLoggedSelector, getLoginSelector} from "../Redux/selectors/auth-selectors";
+import {getIsLoggedSelector, getLoginSelector, getUserIdSelector} from "../Redux/selectors/auth-selectors";
 import {logout} from "../Redux/auth-reducer";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../Redux/store-redux";
-import {Col, Layout, Row, Button, Avatar} from "antd";
-import {getProfilePhotoSelector} from "../Redux/selectors/profile-selectors";
+import {Avatar, Button, Col, Layout, Row} from "antd";
+import {getOwnPhotoSelector} from "../Redux/selectors/header-selectors";
+import {getOwnPhoto} from "../Redux/header-reducer";
 
 const { Header} = Layout;
 
@@ -15,9 +16,10 @@ type PropsType = {
 }
 
 export const AppHeader: React.FC<PropsType> = (props) => {
+    const userCurrentId: number | null = useSelector(getUserIdSelector);
     const isLogged = useSelector(getIsLoggedSelector);
     const login = useSelector(getLoginSelector);
-    const photo = useSelector(getProfilePhotoSelector);
+    const photo = useSelector(getOwnPhotoSelector);
 
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
 
@@ -25,6 +27,9 @@ export const AppHeader: React.FC<PropsType> = (props) => {
         dispatch(logout())
     }
 
+    if (isLogged && userCurrentId) {
+        dispatch(getOwnPhoto(userCurrentId))
+    }
     return (
         <Header style={{ padding: 0, textAlign: "center", background: props.bgc }} >
             <Row>

@@ -18,7 +18,7 @@ import {WithAuthLogged} from "./components/hoc/withAuthLogged";
 
 const { Content} = Layout;
 
-const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
+const LoginPage = React.lazy(() => import("./components/Login/Login"));
 const ChatPage = React.lazy(() => import("./components/pages/ChatPage/ChatPage"));
 
 type PropsType = {}
@@ -54,7 +54,7 @@ export const App: React.FC<PropsType> = () => {
                                 <Route path={'/dialogs'} element={<Dialogs/>}/>
                                 <Route path={'/users'} element={<Users/>}/>
                                 <Route path={'/settings'} element={<Settings/>}/>
-                                <Route path={'/login'} element={<LoginContainer/>} />
+                                <Route path={'/login'} element={<LoginPage/>} />
                                 <Route path={'/chat'} element={<ChatPageWithAuth/>} />
                                 {/*todo page for 404 error*/}
                             </Routes>
