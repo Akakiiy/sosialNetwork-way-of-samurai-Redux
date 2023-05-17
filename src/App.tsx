@@ -1,5 +1,5 @@
 import './App.css';
-import React, {ReactNode, Suspense, useEffect} from "react";
+import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
 import {Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
@@ -38,6 +38,7 @@ export const App: React.FC<PropsType> = () => {
     }
 
     const ProfileContainerWithAuth = WithAuthLogged(ProfileContainer);
+    const ChatPageWithAuth = WithAuthLogged(ChatPage)
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -46,15 +47,18 @@ export const App: React.FC<PropsType> = () => {
                 <AppHeader bgc={'#ffffff'}/>
                 <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
                     <div style={{ padding: 24, background: '#ffffff' }}>
-                        <Routes>
-                            <Route path={'/profile/:userId?'} element={<ProfileContainerWithAuth/>}/>
-                            <Route path={'/dialogs'} element={<Dialogs/>}/>
-                            <Route path={'/users'} element={<Users/>}/>
-                            <Route path={'/settings'} element={<Settings/>}/>
-                        </Routes>
-                        {/*<Route path={'/login'} element={<Suspense fallback={<Preloader/>}><LoginContainer/></Suspense>/>*/}
-                        {/*<Route path={'/chat'} render={<Suspense fallback={<Preloader/>}><ChatPage/></Suspense>/>*/}
-                        {/*todo page for 404 error*/}
+                        <Suspense fallback={<Preloader />}>
+                            <Routes>
+                                {/*todo welcome page with path={'/'}*/}
+                                <Route path={'/profile/:userId?'} element={<ProfileContainerWithAuth/>}/>
+                                <Route path={'/dialogs'} element={<Dialogs/>}/>
+                                <Route path={'/users'} element={<Users/>}/>
+                                <Route path={'/settings'} element={<Settings/>}/>
+                                <Route path={'/login'} element={<LoginContainer/>} />
+                                <Route path={'/chat'} element={<ChatPageWithAuth/>} />
+                                {/*todo page for 404 error*/}
+                            </Routes>
+                        </Suspense>
                     </div>
                 </Content>
             </Layout>

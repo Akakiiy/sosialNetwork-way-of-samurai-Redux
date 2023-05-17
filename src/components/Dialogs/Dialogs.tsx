@@ -1,5 +1,5 @@
 import React from "react";
-import {NavLink, redirect} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getDialogsSelector, getMessagesSelector} from "../Redux/selectors/dialogs-selectors";
 import {compose} from "redux";
@@ -68,7 +68,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
                             </div>
                         </Col>
                     </Row>
-                    : redirect('/login')
+                    : <Navigate to={'/login'} replace/>
             }
         </>
     )

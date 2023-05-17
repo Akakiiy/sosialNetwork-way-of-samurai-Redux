@@ -1,5 +1,5 @@
 import React from "react";
-import {redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {AppStateType} from "../Redux/store-redux";
 
@@ -12,7 +12,7 @@ export const WithAuthLogged = <WTC extends MapPropsType>(Component: React.Compon
     function WithAuthLoggedContainer(props: MapPropsType) {
 
         if (!props.isLogged) {
-            redirect('/login')
+            return <Navigate to={'/login'} replace/>
         }
         return (
             <Component {...props as WTC} />
