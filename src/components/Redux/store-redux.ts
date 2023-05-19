@@ -7,6 +7,7 @@ import authReducer from "./auth-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import reducerApp from "./app-reducer"
 import headerReducer from "./header-reducer";
+import {chatReducer} from "./chat-reducer";
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     usersPage: usersReducer,
     auth: authReducer,
     app: reducerApp,
-    header: headerReducer
+    header: headerReducer,
+    chatPage: chatReducer
 })
 
 type RootReducerType = typeof rootReducer
