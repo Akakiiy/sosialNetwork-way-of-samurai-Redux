@@ -1,38 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { Avatar, List } from 'antd';
 import {Link} from "react-router-dom";
 
-type PropsType = {
-    wsChannel: WebSocket | null
-}
-type MessageType = {
-    message: string,
-    photo: string,
-    userId: number,
-    userName: string
-}
+type PropsType = {}
 
-
-export const ChatMessages: React.FC<PropsType> = ({wsChannel}) => {
-
-    const [messages, setMessages] = useState<MessageType[]>([]);
+export const ChatMessages: React.FC<PropsType> = () => {
 
     useEffect(() => {
-        const messageHandler = (e: MessageEvent) => {
-            let newMessages = JSON.parse(e.data)
-            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-        }
-        wsChannel?.addEventListener('message', messageHandler);
-        return () => {
-            wsChannel?.removeEventListener('message', messageHandler)
-        }
-    }, [wsChannel]);
+
+    }, [])
 
     return (
         <List
             style={{ height: '400px', overflowY: 'scroll'}}
             itemLayout="horizontal"
-            dataSource={messages}
+            // dataSource={messages}
             renderItem={(item: MessageType) => (
                 <List.Item>
                     <List.Item.Meta
