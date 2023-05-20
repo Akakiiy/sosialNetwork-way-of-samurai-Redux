@@ -36,6 +36,7 @@ const closeHandler = () => {
 
 function createWS () {
     ws?.removeEventListener('close', closeHandler);
+    ws?.removeEventListener('message', messageHandler);
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
     ws.addEventListener('close', closeHandler);
     ws.addEventListener('message', messageHandler);
