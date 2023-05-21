@@ -40,10 +40,10 @@ let newMessageHandler = (dispatch: Dispatch):((message: MessageType[]) => void) 
 
 export const startMessagesListening = (): ThunkType<ChatActionType> => (dispatch) => {
     chatAPI.start();
-    chatAPI.subscribe(newMessageHandler(dispatch));
+    chatAPI.subscribe('messages', newMessageHandler(dispatch));
 }
 export const stopMessagesListening = (): ThunkType<ChatActionType> => (dispatch) => {
-    chatAPI.subscribe(newMessageHandler(dispatch));
+    chatAPI.subscribe('messages', newMessageHandler(dispatch));
     chatAPI.stop();
 }
 export const sendMessage = (message: string): ThunkType<ChatActionType> => () => {
