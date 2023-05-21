@@ -21,11 +21,13 @@ let ws: WebSocket | null;
 
 export const chatAPI = {
     subscribe<T extends SubscribersKeys>(subscribersTask: T, callback: SubscribersType[T][number]) {
+        console.log('subscribe ', subscribers[subscribersTask])
         subscribers[subscribersTask].push(callback as never);
     },
     unsubscribe<T extends SubscribersKeys>(subscribersTask: T, callback: SubscribersType[T][number]) {
         //@ts-ignore todo fix filter bug with TS
         subscribers[subscribersTask] = subscribers[subscribersTask].filter((s: SubscribersType[T][number]) => s !== callback);
+        console.log('unsubscribe ', subscribers[subscribersTask]);
     },
     sendMessage(message: string) {
         ws?.send(message)
@@ -41,6 +43,7 @@ export const chatAPI = {
 }
 
 function wsCleanListeners () {
+    console.log('clear', subscribers)
     setStatusCreator('pending')
     ws?.removeEventListener('close', closeHandler);
     ws?.removeEventListener('message', messageHandler);
@@ -49,6 +52,7 @@ function wsCleanListeners () {
 }
 
 const closeHandler = () => {
+    console.log('close')
     setTimeout(createWS, 3000);
 }
 const messageHandler = (e: MessageEvent) => {
@@ -59,17 +63,19 @@ const setStatusCreator = (status: string) => {
     subscribers["status-changing"].forEach(s => s(status))
 }
 const openHandler = () => {
+    console.log('open')
     setStatusCreator('open')
 }
 const errorHandler = () => {
+    console.log('error')
     setStatusCreator('error')
 }
 
 function createWS () {
     wsCleanListeners()
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-    ws.addEventListener('close', closeHandler);
     ws.addEventListener('message', messageHandler);
+    ws.addEventListener('close', closeHandler);
     ws.addEventListener('open', openHandler);
     ws.addEventListener('error', errorHandler);
 }

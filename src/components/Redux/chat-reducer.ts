@@ -4,10 +4,12 @@ import {Dispatch} from "redux";
 
 type InitialValuesType = {
     messages: MessageType[],
+    chatStatus: string
 }
 
 const initialValues = {
-    messages: []
+    messages: [],
+    chatStatus: 'pending',
 }
 
 export const chatReducer = (state: InitialValuesType = initialValues, action: ChatActionType): InitialValuesType => {
@@ -17,6 +19,16 @@ export const chatReducer = (state: InitialValuesType = initialValues, action: Ch
                 ...state,
                 messages: [...state.messages, ...action.messages],
             }
+        case 'RESET_MESSAGES':
+            return {
+                ...state,
+                messages: [],
+            }
+        case 'SET_STATUS':
+            return {
+                ...state,
+                chatStatus: action.chatStatus
+            }
         default:
             return state
     }
@@ -24,8 +36,10 @@ export const chatReducer = (state: InitialValuesType = initialValues, action: Ch
 
 type ChatActionType = ActionsTypes<typeof chatActions>
 
-const chatActions = {
+export const chatActions = {
     getNewMessages: (messages: MessageType[]) => ({type: 'GET_NEW_MESSAGES', messages: messages} as const),
+    resetMessages: () => ({type: 'RESET_MESSAGES'} as const),
+    setStatus: (chatStatus: string) => ({type: 'SET_STATUS', chatStatus} as const),
 }
 
 let _newMessageHandler: ((message: MessageType[]) => void) | null = null
@@ -43,8 +57,16 @@ export const startMessagesListening = (): ThunkType<ChatActionType> => (dispatch
     chatAPI.subscribe('messages', newMessageHandler(dispatch));
 }
 export const stopMessagesListening = (): ThunkType<ChatActionType> => (dispatch) => {
-    chatAPI.subscribe('messages', newMessageHandler(dispatch));
+    dispatch(chatActions.resetMessages())
+    chatAPI.unsubscribe('messages', newMessageHandler(dispatch));
     chatAPI.stop();
+}
+const newStatusHandler = (dispatch: Dispatch) => (status: string) => dispatch(chatActions.setStatus(status))
+export const startStatusListening = (): ThunkType<ChatActionType> => (dispatch) => {
+    chatAPI.subscribe('status-changing', newStatusHandler(dispatch));
+}
+export const stopStatusListening = (): ThunkType<ChatActionType> => (dispatch) => {
+    chatAPI.unsubscribe('status-changing', newStatusHandler(dispatch));
 }
 export const sendMessage = (message: string): ThunkType<ChatActionType> => () => {
     chatAPI.sendMessage(message)
