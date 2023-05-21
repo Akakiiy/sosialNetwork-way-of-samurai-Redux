@@ -10,7 +10,7 @@ export type MessageType = {
     userName: string
 }
 type CallbackMessagesType = (messages: Array<MessageType>) => void;
-type CallbackStatusType = (status: string) => void
+type CallbackStatusType = (status: 'pending' | 'error' | 'open') => void
 
 let subscribers: SubscribersType = {
     'messages': [],
@@ -59,7 +59,7 @@ const messageHandler = (e: MessageEvent) => {
     let newMessages = JSON.parse(e.data);
     subscribers.messages.forEach(s => s(newMessages))
 }
-const setStatusCreator = (status: string) => {
+const setStatusCreator = (status: 'pending' | 'error' | 'open') => {
     subscribers["status-changing"].forEach(s => s(status))
 }
 const openHandler = () => {
