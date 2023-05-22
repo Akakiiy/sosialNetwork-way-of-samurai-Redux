@@ -34,7 +34,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <h2>Dialogs are coming soon!</h2>
+            <h2>Messages are coming soon!</h2>
             {
                 props.isLogged
                     ?<Row>
