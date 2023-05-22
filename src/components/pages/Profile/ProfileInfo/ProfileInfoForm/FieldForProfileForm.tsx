@@ -1,3 +1,4 @@
+import s from './FieldForProfileForm.module.css'
 import {ErrorMessage, Field} from "formik";
 import React from "react";
 
@@ -9,10 +10,14 @@ type PropsType = {
 
 const FieldForProfileForm: React.FC<PropsType> = ({type, name, placeholder}) => {
     return(
-        <div>
-            <Field type={type}
-                   name={name}
-                   placeholder={placeholder} />
+        <div style={{display: 'flex'}}>
+            <div className={s.formGroup}>
+                <Field className={s.formField} type={type} name={name} placeholder={placeholder}/>
+                {type === 'text' && <label htmlFor="term" className={s.formLabel}>{name}</label>}
+            </div>
+            {/*<Field type={type}*/}
+            {/*       name={name}*/}
+            {/*       placeholder={placeholder} />*/}
             <ErrorMessage name={name}
                           component="div" />
         </div>

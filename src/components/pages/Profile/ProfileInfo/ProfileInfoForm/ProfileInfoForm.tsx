@@ -9,6 +9,7 @@ import {getUserIdSelector} from "../../../../Redux/selectors/auth-selectors";
 import {getFullName} from "../../../../Redux/selectors/profile-selectors";
 import {ContactsType} from "../ProfileInfoContacts/ProfileTextInfo";
 import {AppStateType} from "../../../../Redux/store-redux";
+import {Button} from "antd";
 
 type PropsType = MDSPType & MDTPType & OwnPropsType; //& FormikProps<FormValuesType>
 
@@ -117,7 +118,7 @@ const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescript
                             Object.keys(contacts).map(key => {
                                 return (
                                     <div key={key} className={s.link}>
-                                        <span>{key}</span> &gt; <FieldForProfileForm
+                                        <span>{key} &gt; </span><FieldForProfileForm
                                         placeholder={contacts[key as keyof ContactsType] || haveNoInfo} type={'text'}
                                         name={key}/>
                                     </div>
@@ -126,11 +127,9 @@ const ProfileInfoForm: React.FC<PropsType> = ({ contacts, lookingForAJobDescript
                         }
                     </div>
                     <div>
-                        <button className={s.formSubmit}
-                                type="submit"
-                        >
-                            submit
-                        </button>
+                        <Button style={{marginTop: '10px'}} type={"primary"} htmlType={"submit"}>
+                            Применить
+                        </Button>
                     </div>
                 </Form>
             </Formik>

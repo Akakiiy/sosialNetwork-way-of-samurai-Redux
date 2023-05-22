@@ -18,19 +18,26 @@
 .professionalSkills span {
     margin-right: 10px;
     font-weight: bold;
-    color: rgba(255, 69, 0, 0.96);
+    background: linear-gradient(to right, #114799, #a638ef);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 .contacts {
     margin-top: 20px;
 }
 .link {
     display: flex;
-    margin: 10px 0 10px 10px;
+    align-items: end;
+    margin: 30px 0 10px 10px;
     color: black;
 }
 .link span {
     font-size: 16px;
-    color: orangered;
+    background: linear-gradient(to right, #114799, #a638ef);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 .toggleChangeMode{
     margin: 0 auto;

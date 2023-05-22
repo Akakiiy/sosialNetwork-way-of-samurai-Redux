@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import ProfileInfoForm from "../ProfileInfoForm/ProfileInfoForm";
 import ProfileInfoText from "./ProfileTextInfo";
 import {ProfileType} from "../../../../Redux/profile-reducer";
+import {Button} from "antd";
 
 type PropsType = {
     profile: ProfileType
@@ -33,8 +34,9 @@ const ProfileInfoContacts: React.FC<PropsType> = ({profile, isOwner}) => {
                                        lookingForAJob={profile.lookingForAJob}
                                        aboutMe={profile.aboutMe} />
             }
-            {isOwner && <button onClick={changeChangeMode}
-                                className={s.toggleChangeMode}>{changeMode ? 'Отменить изменения' : 'Редактировать данные'}</button>}
+            {isOwner && <Button style={{marginTop: '10px'}} danger={changeMode || false} onClick={changeChangeMode}>
+                {changeMode ? 'Отменить изменения' : 'Редактировать данные'}
+            </Button>}
         </div>
     );
 };

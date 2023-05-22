@@ -17,7 +17,8 @@ const MyPosts: React.FC<PropsType> = (props) => {
 
     return (
         <div className={s.postsContainer}>
-            <h3>My posts</h3>
+            <h2>DEMO VERSION COMING SOON!</h2>
+            <h3>My posts </h3>
             <MyPostReduxForm addPost={props.addPost} />
             <div className={s.posts}>
                 {

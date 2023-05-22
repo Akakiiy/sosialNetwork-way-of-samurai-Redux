@@ -3,6 +3,7 @@ import profileImgPlug from '../../../../assets/img/ryan-gosling.jpeg'
 import React, {ChangeEvent, useEffect, useState} from "react";
 import ProfileInfoContacts from "./ProfileInfoContacts/ProfileInfoContacts";
 import {ProfileType} from "../../../Redux/profile-reducer";
+import {Button} from "antd";
 
 type PropsType = {
     profile: ProfileType
@@ -52,8 +53,10 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
                                                                      type={'file'}
                                                                      onChange={changeUserPhoto}/>)
                     }
-                    {props.isOwner && <button className={s.changePhoto}
-                                              onClick={() => setImgInputEditMode(!imgInputEditMode)}>{imgInputEditMode ? 'закрыть' : 'сменить фото'}</button>}
+                    {props.isOwner && <Button onClick={() => setImgInputEditMode(!imgInputEditMode)}
+                                              style={{marginTop: '10px'}} type={"default"} htmlType={"submit"}>
+                        {imgInputEditMode ? 'закрыть' : 'сменить фото'}
+                    </Button>}
                 </div>
                 <div>
                     <div className={s.fullName}>{props.profile.fullName}</div>
