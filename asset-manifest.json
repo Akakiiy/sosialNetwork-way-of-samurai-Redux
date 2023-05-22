@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/sosialNetwork-way-of-samurai-Redux/static/css/main.25400d94.css",
-    "main.js": "/sosialNetwork-way-of-samurai-Redux/static/js/main.1d98124f.js",
+    "main.js": "/sosialNetwork-way-of-samurai-Redux/static/js/main.c690b407.js",
     "static/css/931.23cc5407.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/931.23cc5407.chunk.css",
     "static/js/931.5f0a78de.chunk.js": "/sosialNetwork-way-of-samurai-Redux/static/js/931.5f0a78de.chunk.js",
     "static/css/831.8ccc41c7.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/831.8ccc41c7.chunk.css",
@@ -9,7 +9,7 @@
     "static/media/ryan-gosling.jpeg": "/sosialNetwork-way-of-samurai-Redux/static/media/ryan-gosling.e6d44936a58cdc416dcd.jpeg",
     "index.html": "/sosialNetwork-way-of-samurai-Redux/index.html",
     "main.25400d94.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/main.25400d94.css.map",
-    "main.1d98124f.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/main.1d98124f.js.map",
+    "main.c690b407.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/main.c690b407.js.map",
     "931.23cc5407.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/931.23cc5407.chunk.css.map",
     "931.5f0a78de.chunk.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/931.5f0a78de.chunk.js.map",
     "831.8ccc41c7.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/831.8ccc41c7.chunk.css.map",
@@ -17,6 +17,6 @@
   },
   "entrypoints": [
     "static/css/main.25400d94.css",
-    "static/js/main.1d98124f.js"
+    "static/js/main.c690b407.js"
   ]
 }
