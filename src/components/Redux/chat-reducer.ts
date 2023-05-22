@@ -17,7 +17,7 @@ export const chatReducer = (state: InitialValuesType = initialValues, action: Ch
         case 'GET_NEW_MESSAGES':
             return {
                 ...state,
-                messages: [...state.messages, ...action.messages],
+                messages: [...state.messages, ...action.messages].slice(-100),
             }
         case 'RESET_MESSAGES':
             return {
