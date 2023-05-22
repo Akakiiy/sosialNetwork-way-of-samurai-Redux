@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/sosialNetwork-way-of-samurai-Redux/static/css/main.81c77ba1.css",
-    "main.js": "/sosialNetwork-way-of-samurai-Redux/static/js/main.aff6d671.js",
-    "static/css/680.acee78a4.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/680.acee78a4.chunk.css",
-    "static/js/680.77c4c6ac.chunk.js": "/sosialNetwork-way-of-samurai-Redux/static/js/680.77c4c6ac.chunk.js",
-    "static/css/823.53df6142.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/823.53df6142.chunk.css",
-    "static/js/823.7a4eb73e.chunk.js": "/sosialNetwork-way-of-samurai-Redux/static/js/823.7a4eb73e.chunk.js",
+    "main.css": "/sosialNetwork-way-of-samurai-Redux/static/css/main.25400d94.css",
+    "main.js": "/sosialNetwork-way-of-samurai-Redux/static/js/main.1d98124f.js",
+    "static/css/931.23cc5407.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/931.23cc5407.chunk.css",
+    "static/js/931.5f0a78de.chunk.js": "/sosialNetwork-way-of-samurai-Redux/static/js/931.5f0a78de.chunk.js",
+    "static/css/831.8ccc41c7.chunk.css": "/sosialNetwork-way-of-samurai-Redux/static/css/831.8ccc41c7.chunk.css",
+    "static/js/831.5e5aea35.chunk.js": "/sosialNetwork-way-of-samurai-Redux/static/js/831.5e5aea35.chunk.js",
     "static/media/ryan-gosling.jpeg": "/sosialNetwork-way-of-samurai-Redux/static/media/ryan-gosling.e6d44936a58cdc416dcd.jpeg",
     "index.html": "/sosialNetwork-way-of-samurai-Redux/index.html",
-    "main.81c77ba1.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/main.81c77ba1.css.map",
-    "main.aff6d671.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/main.aff6d671.js.map",
-    "680.acee78a4.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/680.acee78a4.chunk.css.map",
-    "680.77c4c6ac.chunk.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/680.77c4c6ac.chunk.js.map",
-    "823.53df6142.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/823.53df6142.chunk.css.map",
-    "823.7a4eb73e.chunk.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/823.7a4eb73e.chunk.js.map"
+    "main.25400d94.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/main.25400d94.css.map",
+    "main.1d98124f.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/main.1d98124f.js.map",
+    "931.23cc5407.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/931.23cc5407.chunk.css.map",
+    "931.5f0a78de.chunk.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/931.5f0a78de.chunk.js.map",
+    "831.8ccc41c7.chunk.css.map": "/sosialNetwork-way-of-samurai-Redux/static/css/831.8ccc41c7.chunk.css.map",
+    "831.5e5aea35.chunk.js.map": "/sosialNetwork-way-of-samurai-Redux/static/js/831.5e5aea35.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.81c77ba1.css",
-    "static/js/main.aff6d671.js"
+    "static/css/main.25400d94.css",
+    "static/js/main.1d98124f.js"
   ]
 }
