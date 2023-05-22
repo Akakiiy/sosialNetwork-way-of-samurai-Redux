@@ -1,5 +1,7 @@
+import s from './Users.module.css'
 import {Field, Form, Formik} from "formik";
 import React from "react";
+import {Button} from "antd";
 
 type InitialValuesType = {
     term: string
@@ -30,15 +32,21 @@ const UsersSearchForm: React.FC<PropsType> = ({searchUsers, friend, term, isLoad
             }}
         >
                 <Form>
-                    <Field type="text" name="term" />
-                    <Field name="friend" as={"select"}>
-                        <option value="null">AlL</option>
-                        <option value="true">Followed</option>
-                        <option value="false">Unfollowed</option>
-                    </Field>
-                    <button type="submit" disabled={isLoading}>
-                        Submit
-                    </button>
+                    <div style={{display: 'flex', alignItems: 'end'}}>
+                        <div className={s.formGroup}>
+                            <Field className={s.formField} type="text" name="term" placeholder="Name"/>
+                            <label htmlFor="term" className={s.formLabel}>Name</label>
+                        </div>
+                        <Field className={s.formSelect} name="friend" as={"select"}>
+                            <option value="null">AlL</option>
+                            <option value="true">Followed</option>
+                            <option value="false">Unfollowed</option>
+                        </Field>
+
+                        <Button className={s.submitBtn} htmlType={'submit'} disabled={isLoading}>
+                            Submit
+                        </Button>
+                    </div>
                 </Form>
         </Formik>
     )
