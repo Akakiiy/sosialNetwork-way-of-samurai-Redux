@@ -21,13 +21,11 @@ let ws: WebSocket | null;
 
 export const chatAPI = {
     subscribe<T extends SubscribersKeys>(subscribersTask: T, callback: SubscribersType[T][number]) {
-        console.log('subscribe ', subscribers[subscribersTask])
         subscribers[subscribersTask].push(callback as never);
     },
     unsubscribe<T extends SubscribersKeys>(subscribersTask: T, callback: SubscribersType[T][number]) {
         //@ts-ignore todo fix filter bug with TS
         subscribers[subscribersTask] = subscribers[subscribersTask].filter((s: SubscribersType[T][number]) => s !== callback);
-        console.log('unsubscribe ', subscribers[subscribersTask]);
     },
     sendMessage(message: string) {
         ws?.send(message)
@@ -43,32 +41,11 @@ export const chatAPI = {
 }
 
 function wsCleanListeners () {
-    console.log('clear', subscribers)
     setStatusCreator('pending')
-    ws?.removeEventListener('close', closeHandler);
     ws?.removeEventListener('message', messageHandler);
+    ws?.removeEventListener('close', closeHandler);
     ws?.removeEventListener('open', openHandler);
     ws?.removeEventListener('error', errorHandler);
-}
-
-const closeHandler = () => {
-    console.log('close')
-    setTimeout(createWS, 3000);
-}
-const messageHandler = (e: MessageEvent) => {
-    let newMessages = JSON.parse(e.data);
-    subscribers.messages.forEach(s => s(newMessages))
-}
-const setStatusCreator = (status: 'pending' | 'error' | 'open') => {
-    subscribers["status-changing"].forEach(s => s(status))
-}
-const openHandler = () => {
-    console.log('open')
-    setStatusCreator('open')
-}
-const errorHandler = () => {
-    console.log('error')
-    setStatusCreator('error')
 }
 
 function createWS () {
@@ -78,4 +55,21 @@ function createWS () {
     ws.addEventListener('close', closeHandler);
     ws.addEventListener('open', openHandler);
     ws.addEventListener('error', errorHandler);
+}
+
+function closeHandler () {
+    setTimeout(createWS, 3000);
+}
+function messageHandler (e: MessageEvent) {
+    let newMessages = JSON.parse(e.data);
+    subscribers.messages.forEach(s => s(newMessages))
+}
+function setStatusCreator (status: 'pending' | 'error' | 'open') {
+    subscribers["status-changing"].forEach(s => s(status))
+}
+function openHandler () {
+    setStatusCreator('open')
+}
+function errorHandler () {
+    setStatusCreator('error')
 }

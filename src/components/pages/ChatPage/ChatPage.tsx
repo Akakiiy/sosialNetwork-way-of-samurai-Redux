@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {ChatMessages} from "./ChatMessages";
 import {NewChatMessageForm} from "./NewChatMessageForm";
 import {
@@ -12,6 +12,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../../Redux/store-redux";
 
 const ChatPage = () => {
+    const [autoscrollMode, setAutoscrollMode] = useState(true)
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
 
     useEffect(() => {
@@ -25,8 +26,8 @@ const ChatPage = () => {
 
     return (
         <div>
-            <ChatMessages />
-            <NewChatMessageForm />
+            <ChatMessages autoscrollMode={autoscrollMode}/>
+            <NewChatMessageForm autoscrollMode={autoscrollMode} setAutoscrollMode={setAutoscrollMode}/>
         </div>
     )
 }
