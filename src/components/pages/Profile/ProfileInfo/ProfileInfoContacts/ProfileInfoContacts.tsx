@@ -2,7 +2,7 @@ import s from './ProfileInfoContacts.module.css';
 import React, {useState} from "react";
 import ProfileInfoForm from "../ProfileInfoForm/ProfileInfoForm";
 import ProfileInfoText from "./ProfileTextInfo";
-import {ProfileType} from "../../../Redux/profile-reducer";
+import {ProfileType} from "../../../../Redux/profile-reducer";
 
 type PropsType = {
     profile: ProfileType

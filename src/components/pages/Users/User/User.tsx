@@ -1,5 +1,5 @@
 import s from './User.module.css';
-import profileImgPlug from "../../../assets/img/ryan-gosling.jpeg";
+import profileImgPlug from "../../../../assets/img/ryan-gosling.jpeg";
 import {NavLink} from "react-router-dom";
 import React from "react";
 

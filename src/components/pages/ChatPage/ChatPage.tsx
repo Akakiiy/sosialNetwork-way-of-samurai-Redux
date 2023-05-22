@@ -12,7 +12,8 @@ import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "../../Redux/store-redux";
 
 const ChatPage = () => {
-    const [autoscrollMode, setAutoscrollMode] = useState(true)
+    const [autoscrollMode, setAutoscrollMode] = useState(true);
+    const [fontSize, setFontSize] = useState(12);
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch();
 
     useEffect(() => {
@@ -26,8 +27,12 @@ const ChatPage = () => {
 
     return (
         <div>
-            <ChatMessages autoscrollMode={autoscrollMode}/>
-            <NewChatMessageForm autoscrollMode={autoscrollMode} setAutoscrollMode={setAutoscrollMode}/>
+            <ChatMessages fontSize={fontSize}
+                          autoscrollMode={autoscrollMode}/>
+            <NewChatMessageForm fontSize={fontSize}
+                                setFontSize={setFontSize}
+                                autoscrollMode={autoscrollMode}
+                                setAutoscrollMode={setAutoscrollMode}/>
         </div>
     )
 }

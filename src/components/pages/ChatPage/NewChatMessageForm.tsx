@@ -1,6 +1,7 @@
+import s from './ChatPage.module.css'
 import React from "react";
 import {Field, Form, Formik} from "formik";
-import {Button, Switch} from "antd";
+import {Button, Radio, RadioChangeEvent, Switch} from "antd";
 import {sendMessage} from "../../Redux/chat-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
@@ -11,14 +12,20 @@ type InitialValuesType = {
     newMessageText: string
 }
 type PropsType = {
+    fontSize: number
     autoscrollMode: boolean
     setAutoscrollMode: (autoscrollMode: boolean) => void
+    setFontSize: (fontSize: number) => void
 }
 
-export const NewChatMessageForm: React.FC<PropsType> = ({autoscrollMode ,setAutoscrollMode}) => {
+export const NewChatMessageForm: React.FC<PropsType> = ({autoscrollMode ,setAutoscrollMode, setFontSize, fontSize}) => {
     const dispatch: ThunkDispatch<AppStateType, any, any> = useDispatch()
     const initialValues: InitialValuesType = { newMessageText: '' }
     const chatStatus = useSelector(getChatStatusSelector)
+
+    const changeFontSize = (e: RadioChangeEvent) => {
+        setFontSize(e.target.value);
+    }
 
     return (
         <Formik
@@ -30,15 +37,26 @@ export const NewChatMessageForm: React.FC<PropsType> = ({autoscrollMode ,setAuto
                 resetForm();
             }}
         >
-            <Form>
+            <Form className={s.chatMessageForm}>
+                <Radio.Group onChange={changeFontSize} value={fontSize}>
+                    <Radio value={12}>12</Radio>
+                    <Radio value={13}>13</Radio>
+                    <Radio value={14}>14</Radio>
+                    <Radio value={15}>15</Radio>
+                </Radio.Group>
                 <div>
-                    <Field as={'textarea'} type="text" name="newMessageText" />
+                    <Field style={{fontSize: `${fontSize}px`}}
+                           className={s.chatMessageFormTextarea}
+                           as={'textarea'}
+                           type="text"
+                           name="newMessageText" />
                 </div>
-                <div style={{marginTop: '10px', display: 'flex', alignItems: 'center'}}>
+                <div className={s.chatMessageFormBtns}>
                     <Button disabled={chatStatus === 'pending' || chatStatus === 'error'} type="primary" htmlType="submit">
                         Submit
                     </Button>
-                    <Switch style={{marginLeft: '10px'}} onChange={() => setAutoscrollMode(!autoscrollMode)}
+                    <Switch className={s.chatMessageFormSwitch}
+                            onChange={() => setAutoscrollMode(!autoscrollMode)}
                             checkedChildren="autoscroll"
                             unCheckedChildren="no autoscroll"
                             checked={autoscrollMode}/>

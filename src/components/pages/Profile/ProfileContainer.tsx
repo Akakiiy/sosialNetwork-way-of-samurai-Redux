@@ -8,11 +8,11 @@ import {
     savePhoto,
     setUserStatus,
     uploadUserProfile
-} from "../Redux/profile-reducer";
+} from "../../Redux/profile-reducer";
 import {useParams} from "react-router-dom";
-import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../Redux/selectors/profile-selectors";
-import {getUserIdSelector} from "../Redux/selectors/auth-selectors";
-import {AppStateType} from "../Redux/store-redux";
+import {getIsOwnerSelector, getProfileSelector, getStatusSelector} from "../../Redux/selectors/profile-selectors";
+import {getUserIdSelector} from "../../Redux/selectors/auth-selectors";
+import {AppStateType} from "../../Redux/store-redux";
 import {ThunkDispatch} from "redux-thunk";
 
 type PropsType = {}

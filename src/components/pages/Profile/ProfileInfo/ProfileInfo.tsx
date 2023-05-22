@@ -1,8 +1,8 @@
 import s from './ProfileInfo.module.css';
-import profileImgPlug from '../../../assets/img/ryan-gosling.jpeg'
+import profileImgPlug from '../../../../assets/img/ryan-gosling.jpeg'
 import React, {ChangeEvent, useEffect, useState} from "react";
 import ProfileInfoContacts from "./ProfileInfoContacts/ProfileInfoContacts";
-import {ProfileType} from "../../Redux/profile-reducer";
+import {ProfileType} from "../../../Redux/profile-reducer";
 
 type PropsType = {
     profile: ProfileType

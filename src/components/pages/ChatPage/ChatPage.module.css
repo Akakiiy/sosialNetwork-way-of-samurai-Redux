@@ -1,0 +1,22 @@
+.chatMessagesList {
+    height: 60vh;
+    overflow-y: scroll;
+}
+.chatMessageForm {
+    padding: 20px 10px 10px;
+}
+.chatMessageFormTextarea {
+    margin-top: 10px;
+    padding: 10px;
+    width: 30%;
+    height: 80px;
+    resize: none;
+}
+.chatMessageFormBtns {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.chatMessageFormSwitch {
+    margin-left: 10px;
+}

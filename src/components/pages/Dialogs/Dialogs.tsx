@@ -1,10 +1,10 @@
 import React from "react";
 import {Navigate, NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getDialogsSelector, getMessagesSelector} from "../Redux/selectors/dialogs-selectors";
+import {getDialogsSelector, getMessagesSelector} from "../../Redux/selectors/dialogs-selectors";
 import {compose} from "redux";
-import {WithAuthLogged} from "../hoc/withAuthLogged";
-import {dialogsActions} from "../Redux/dialogs-reducer";
+import {WithAuthLogged} from "../../hoc/withAuthLogged";
+import {dialogsActions} from "../../Redux/dialogs-reducer";
 import { Tabs } from 'antd';
 
 import { List, Typography, Col, Row } from 'antd';
@@ -34,6 +34,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
 
     return (
         <>
+            <h2>Dialogs are coming soon!</h2>
             {
                 props.isLogged
                     ?<Row>

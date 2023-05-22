@@ -31,9 +31,9 @@ const Navbar = () => {
                   items={[
                       { label: 'Profile', key: '/profile', icon: <UserOutlined />},
                       { label: 'Users', key: '/users', icon: <TeamOutlined />},
-                      { label: 'Messages', key: '/dialogs', icon: <SendOutlined />},
+                      { label: 'Messages *betta', key: '/dialogs', icon: <SendOutlined />},
                       { label: 'Chat', key: '/chat', icon: <SendOutlined />},
-                      { label: 'Settings', key: '/settings', icon: <SettingOutlined />},
+                      { label: 'Settings *betta', key: '/settings', icon: <SettingOutlined />},
                   ]}
             />
         </Sider>

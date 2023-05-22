@@ -4,11 +4,11 @@ import * as Yup from "yup";
 import React from "react";
 import FieldForProfileForm from "./FieldForProfileForm";
 import {connect} from "react-redux";
-import {ProfileType, putUserProfileInfo} from "../../../Redux/profile-reducer";
-import {getUserIdSelector} from "../../../Redux/selectors/auth-selectors";
-import {getFullName} from "../../../Redux/selectors/profile-selectors";
+import {ProfileType, putUserProfileInfo} from "../../../../Redux/profile-reducer";
+import {getUserIdSelector} from "../../../../Redux/selectors/auth-selectors";
+import {getFullName} from "../../../../Redux/selectors/profile-selectors";
 import {ContactsType} from "../ProfileInfoContacts/ProfileTextInfo";
-import {AppStateType} from "../../../Redux/store-redux";
+import {AppStateType} from "../../../../Redux/store-redux";
 
 type PropsType = MDSPType & MDTPType & OwnPropsType; //& FormikProps<FormValuesType>
 

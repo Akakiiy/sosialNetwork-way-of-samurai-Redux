@@ -7,19 +7,19 @@ import {
     uploadUsers,
     usersActions,
     UserType
-} from "../Redux/users-reducer";
+} from "../../Redux/users-reducer";
 import React, {useEffect} from "react";
 import UsersSearchForm from "./UsersSearchForm";
-import Preloader from "../common/Preloader/Preloader";
+import Preloader from "../../common/Preloader/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getAreFollowing, getCurrentPage, getFriendSelector, getIsLoadingSelector, getTermSelector,
     getTotalUsersCount,
     getUploadingUsersCount,
     getUsers
-} from "../Redux/selectors/users-selectors";
+} from "../../Redux/selectors/users-selectors";
 import {ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "../Redux/store-redux";
+import {AppStateType} from "../../Redux/store-redux";
 import {useSearchParams} from "react-router-dom";
 import * as queryString from "querystring";
 
