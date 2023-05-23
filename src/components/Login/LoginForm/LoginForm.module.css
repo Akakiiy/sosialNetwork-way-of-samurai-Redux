@@ -1,9 +1,0 @@
-.captcha {
-    display: flex;
-    flex-direction: column;
-}
-.loginForm input {
-    margin: 10px 5px;
-    border-radius: 4px;
-    padding: 2px;
-}

@@ -1,16 +1,24 @@
+.loginWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
 .login {
     display: flex;
     align-items: center;
     padding: 20px;
 }
 .loginErrorMessage {
+    text-align: end;
     visibility: hidden;
     opacity: 0;
-    margin: 20px 0 10px 0;
+    margin-top: 20px;
     border-radius: 10px;
     display: inline-block;
-    background-color: rgba(255, 0, 0, 0.68);
     padding: 5px;
-    color: gold;
-    transition: all .3s;
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: all .4s;
 }

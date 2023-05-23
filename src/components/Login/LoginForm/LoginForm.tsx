@@ -1,7 +1,7 @@
-import s from './LoginForm.module.css'
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {useFormik} from "formik";
 import React from "react";
 import * as Yup from "yup";
+import { Button, Checkbox, Form, Input } from 'antd';
 
 type PropsType = {
     captchaUrl: string | null
@@ -15,55 +15,80 @@ export type ValuesType = {
 }
 
 const LoginForm: React.FC<PropsType> = (props) => {
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false,
+            captcha: '',
+        },
+        onSubmit: (values: ValuesType) => {
+            props.login(values);
+        },
+    });
+    const [form] = Form.useForm();
+    const onReset = () => {
+        formik.resetForm();
+        form.resetFields();
+    };
+    let schema = Yup.object().shape({
+        email: Yup.string().email('Invalid email').required('Please input your username!'),
+        password: Yup.string().required('Please input your password!'),
+    });
+    const yupSync = {
+        async validator({field}: any, value: any) {
+            await schema.validateSyncAt(field, {[field]: value});
+        },
+    };
 
     return (
-        <Formik
-            initialValues={{ email: '', password: '', rememberMe: false, captcha: ''}}
-            validationSchema={Yup.object().shape({
-                email: Yup.string().email('Invalid email').required('Required'),
-                password: Yup.string().required('Required'),
-            })}
-            onSubmit={(values: ValuesType) => {
-                props.login(values);
-            }}
-            validateOnBlur={true}
+        <Form
+            form={form}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={formik.initialValues}
+            onFinish={formik.handleSubmit}
         >
-            <Form className={s.loginForm}>
-                <div>
-                    <Field type="text"
-                           name="email"
-                           placeholder={'Login'} />
-                    <ErrorMessage name="email"
-                                  component="div" />
-                </div>
-                <div>
-                    <Field type="password"
-                           name="password"
-                           placeholder={'Password'} />
-                    <ErrorMessage name="password"
-                                  component="div" />
-                </div>
-                <div>
-                    <Field type="checkbox"
-                           name="rememberMe"/>
-                    <span>запомнить меня</span>
-                </div>
-                <div className={s.captcha}>
-                    {
-                        props.captchaUrl && <>
-                            <img src={props.captchaUrl} alt="captcha"/>
-                            <Field type="text"
-                                   name="captcha"/>
-                            <ErrorMessage name="password"
-                                          component="div" />
-                        </>
-                    }
-                </div>
-                <div>
-                    <button type="submit">Log IN</button>
-                </div>
-            </Form>
-        </Formik>
+            <Form.Item
+                label="Username"
+                name="email"
+                rules={[yupSync]}
+            >
+                <Input onChange={formik.handleChange} value={formik.values.email}/>
+            </Form.Item>
+
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[yupSync]}
+            >
+                <Input.Password onChange={formik.handleChange}/>
+            </Form.Item>
+
+            <Form.Item name="rememberMe" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+                <Checkbox onChange={formik.handleChange}>Remember me</Checkbox>
+            </Form.Item>
+            {
+                props.captchaUrl && <>
+                    <img src={props.captchaUrl} alt="captcha"/>
+                    <Form.Item
+                      label="Captcha"
+                      name="captcha"
+                      rules={[{required: true, message: 'Please input captcha' }]}
+                    >
+                      <Input onChange={formik.handleChange}/>
+                    </Form.Item>
+                </>
+            }
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+                <Button style={{marginLeft: '25px'}} htmlType="button" onClick={onReset}>
+                    Reset
+                </Button>
+            </Form.Item>
+        </Form>
     );
 }
 

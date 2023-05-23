@@ -1,7 +1,7 @@
 import './App.css';
 import React, {Suspense, useEffect} from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import Settings from "./components/pages/Settings/Settings";
 import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./components/Redux/app-reducer";
@@ -50,6 +50,7 @@ export const App: React.FC<PropsType> = () => {
                         <Suspense fallback={<Preloader />}>
                             <Routes>
                                 {/*todo welcome page with path={'/'}*/}
+                                <Route path={'/'} element={<Navigate to={'/profile'} replace/>}/>
                                 <Route path={'/profile/:userId?'} element={<ProfileContainerWithAuth/>}/>
                                 <Route path={'/dialogs'} element={<Dialogs/>}/>
                                 <Route path={'/users'} element={<Users/>}/>

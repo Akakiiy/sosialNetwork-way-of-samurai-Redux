@@ -33,7 +33,7 @@ const LoginPage: React.FC<PropsType> = () => {
     }
     return (
         <div className={s.login}>
-            <div>
+            <div className={s.loginWrapper}>
                 <h2>LOGIN</h2>
                 <LoginForm login={loginFunc}
                            captchaUrl={captchaUrl}/>
